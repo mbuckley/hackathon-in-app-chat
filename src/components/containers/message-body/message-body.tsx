@@ -2,6 +2,7 @@ import { Component, Prop, h } from '@stencil/core';
 
 @Component({
   tag: 'iac-message-body',
+  styleUrl: 'message-body.scss',
   shadow: true
 })
 export class MessageBody {

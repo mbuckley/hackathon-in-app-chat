@@ -1,0 +1,26 @@
+@import '../../../global/styles/scss/0_settings/functions&variables.scss';
+@import '../../../global/styles/scss/0_settings/mixins.scss';
+
+:host {
+  width: 100vw;
+  height: 85vh;
+  position: relative;
+  margin-bottom: 0;
+
+  @include breakpoint ($tablet_desktop) {
+      height: 81vh;
+  }
+
+  .grid {
+      display: grid;
+      width: 100%;
+      height: 90%;
+      grid-template-rows: 70px 100% 60px;
+      grid-template-columns: 280px 1fr;
+
+      @include breakpoint ($tablet_desktop) {
+          grid-template-rows: 90px 100% 60px;
+      }
+
+  }
+}

@@ -19,6 +19,7 @@ const channelName = "test-channel";
 
 @Component({
   tag: 'iac-chat',
+  styleUrl: 'chat.scss',
   shadow: true
 })
 export class Chat {
@@ -237,7 +238,7 @@ export class Chat {
 
   render() {
     return (
-      <div>
+      <div class="grid">
         <iac-header
           userProfile={this.userProfile}
           onlineUsersCount={50}
