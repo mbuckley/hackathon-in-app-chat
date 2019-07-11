@@ -37,6 +37,7 @@ export class ChatContainer {
 
     this.userProfile = {
       name: "Demo User",
+      image: this.getUserAvatarUrl(null, null),
       // image: randomUser.profileImage.lgImage
     };
 
@@ -63,7 +64,7 @@ export class ChatContainer {
 
     this.pubnub.subscribe();
 
-    this.pubnub.getPresence(channelName, (presence) => {
+    this.pubnub.getPresence(channelName, (presence: any) => {
       if (presence.action === 'join') {
         let users = this.state.onlineUsers;
 
@@ -133,7 +134,7 @@ export class ChatContainer {
       }
     });
 
-    this.pubnub.getStatus((status) => {
+    this.pubnub.getStatus((status: any) => {
       if (status.category === 'PNConnectedCategory') {
         this.hereNow();
 
@@ -204,14 +205,14 @@ export class ChatContainer {
     this.leaveChat();
   }
 
-  subscribe = () => {
+  subscribe() {
     this.pubnub.subscribe({
       channels: channelName,
       withPresence: true
     });
   };
 
-  hereNow = () => {
+  hereNow() {
     this.pubnub.hereNow({
       channels: channelName,
       includeUUIDs: true,
@@ -226,15 +227,15 @@ export class ChatContainer {
     });
   };
 
-  leaveChat = () => {
+  leaveChat() {
     this.pubnub.unsubscribeAll();
   };
 
-  getTime = (timetoken: any) => {
+  getTime(timetoken: any) {
     return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' })
   };
 
-  getDate = (timetoken: any, messageType: any, index = 0) => {
+  getDate(timetoken: any, messageType: any, index = 0) {
     const messageWeekday = this.getWeekday(timetoken);
     const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
 
@@ -260,12 +261,12 @@ export class ChatContainer {
     return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', {weekday: 'long'});
   };
 
-  getUser = (_uuid: any) => {
+  getUser(_uuid: any) {
     // return users.find( element => element.uuid === uuid);
     return this.uuid;
   };
 
-  getUserName = (_uuid: any) => {
+  getUserName(_uuid: any) {
     // const user = this.getUser(uuid);
 
     // if (user) {
@@ -274,7 +275,7 @@ export class ChatContainer {
     return "Demo User";
   };
 
-  getUserDesignation = (_uuid: any) => {
+  getUserDesignation(_uuid: any) {
     // const user = this.getUser(uuid);
 
     // if (user) {
@@ -283,7 +284,7 @@ export class ChatContainer {
     return;
   };
 
-  getUserAvatarUrl = (_uuid: any, _size: any) => {
+  getUserAvatarUrl (_uuid: any, _size: any) {
     // const user = this.getUser(uuid);
 
     // if (user) {
@@ -292,7 +293,7 @@ export class ChatContainer {
     return "https://vrcmods.com/imgs/ifybI41CGGy8.jpg";
   };
 
-  scrollToBottom = () => {
+  scrollToBottom() {
     const elem = document.querySelector(".messageDialog");
 
     if(elem) {
@@ -303,8 +304,11 @@ export class ChatContainer {
   render() {
     return (
       <div>
-        <p>foo</p>
-        </div>
-      );
+        <iac-header
+          userProfile={this.userProfile}
+          onlineUsersCount={50}
+        ></iac-header>
+      </div>
+    );
   }
 }
