@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, State, h } from '@stencil/core';
 
 @Component({
   tag: 'iac-message-body',
@@ -11,32 +11,32 @@ export class MessageBody {
   @Prop() uuid: any;
   @Prop() channelName: any;
 
+  @State() messageContent;
+
   componentWillLoad() {
-    this.state = {
-      messageContent: '',
-    }
+    this.messageContent = "";
   };
 
   onChange = (e: any) => {
-    this.state.messageContent = e.target.value;
+    this.messageContent = e.target.value;
   };
 
   onSubmit = (e: any) => {
     e.preventDefault();
 
-    if (!this.state.messageContent.length) {
+    if (!this.messageContent.length) {
       return;
     }
 
     this.pubnub.publish({
       message: {
         senderId: this.uuid,
-        text: this.state.messageContent,
+        text: this.messageContent,
       },
       channel: this.channelName
     });
 
-    this.state.messageContent = '';
+    this.messageContent = '';
   };
 
   render() {
@@ -45,7 +45,7 @@ export class MessageBody {
         <form class='messageForm'>
           <input
             class='messageInput'
-            value={this.state.messageContent}
+            value={this.messageContent}
             onChange={this.onChange}
             placeholder='Type your message here . . .'/>
           <button class='submitBtn' onClick={this.onSubmit} type='submit'>Send</button>

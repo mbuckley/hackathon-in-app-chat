@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './chunk-e6966618.js';
+import { r as registerInstance, h } from './chunk-10a5aa2e.js';
 import { a as getDate, b as getUserName, c as getTime, d as getUserAvatarUrl } from './chunk-2ca81062.js';
 
 class MessageList {

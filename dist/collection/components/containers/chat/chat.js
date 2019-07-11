@@ -23,7 +23,7 @@ export class Chat {
             restore: true,
         });
         // this.designation = randomUser.designation;
-        this.state = {
+        // this.state = {
         // sendersInfo: [],
         // lastMessageWeekday: '',
         // messageSentDate: [],
@@ -33,7 +33,7 @@ export class Chat {
         // onlineUsersCount: '',
         // networkErrorStatus: false,
         // networkErrorImg: null,
-        };
+        // };
         this.sendersInfo = [];
         this.lastMessageWeekday = '';
         this.messageSentDate = [];
@@ -91,7 +91,7 @@ export class Chat {
                 const lastMessageWeekday = getWeekday(m.timetoken);
                 this.sendersInfo = sendersInfo;
                 this.lastMessageWeekday = lastMessageWeekday;
-                // this.scrollToBottom();
+                this.scrollToBottom();
             },
             presence: (presence) => {
                 if (presence.action === 'join') {
@@ -153,10 +153,6 @@ export class Chat {
         //   includeUUIDs: true,
         //   includeState: false
         // }, (_status: any, response: any) => {
-        //   // this.setState({
-        //   //   onlineUsers: response.channels[forestChatChannel].occupants,
-        //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
-        //   // });
         //   this.onlineUsers = response.channels[channelName].occupants;
         //   this.onlineUsersCount = response.channels[channelName].occupancy;
         // });
@@ -167,19 +163,18 @@ export class Chat {
     }
     ;
     scrollToBottom() {
-        const elem = document.querySelector(".messageDialog");
-        if (elem) {
-            elem.scrollTop = elem.scrollHeight;
+        // const elem = document.querySelector("iac-message-list");
+        if (this.messageList) {
+            this.messageList.scrollTop = this.messageList.scrollHeight;
         }
     }
     ;
     render() {
         return (h("div", { class: "grid" },
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }),
-            h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }),
-            h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }),
+            h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
-            h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages })));
+            h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' })));
     }
     static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -257,161 +252,18 @@ export class Chat {
             },
             "attribute": "uuid",
             "reflect": false
-        },
-        "sendersInfo": {
-            "type": "unknown",
-            "mutable": false,
-            "complexType": {
-                "original": "Array<any>",
-                "resolved": "any[]",
-                "references": {
-                    "Array": {
-                        "location": "global"
-                    }
-                }
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            }
-        },
-        "lastMessageWeekday": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "last-message-weekday",
-            "reflect": false
-        },
-        "messageSentDate": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "message-sent-date",
-            "reflect": false
-        },
-        "historyLoaded": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "history-loaded",
-            "reflect": false
-        },
-        "historyMessages": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "history-messages",
-            "reflect": false
-        },
-        "onlineUsers": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "online-users",
-            "reflect": false
-        },
-        "onlineUsersCount": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "online-users-count",
-            "reflect": false
-        },
-        "networkErrorStatus": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "network-error-status",
-            "reflect": false
-        },
-        "networkErrorImg": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "network-error-img",
-            "reflect": false
         }
     }; }
+    static get states() { return {
+        "sendersInfo": {},
+        "lastMessageWeekday": {},
+        "messageSentDate": {},
+        "historyLoaded": {},
+        "historyMessages": {},
+        "onlineUsers": {},
+        "onlineUsersCount": {},
+        "networkErrorStatus": {},
+        "networkErrorImg": {}
+    }; }
+    static get elementRef() { return "el"; }
 }

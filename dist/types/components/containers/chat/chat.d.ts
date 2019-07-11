@@ -1,4 +1,6 @@
 export declare class Chat {
+    el: HTMLElement;
+    private messageList?;
     pubnub: any;
     state: any;
     userProfile: any;

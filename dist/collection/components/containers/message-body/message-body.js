@@ -2,33 +2,31 @@ import { h } from '@stencil/core';
 export class MessageBody {
     constructor() {
         this.onChange = (e) => {
-            this.state.messageContent = e.target.value;
+            this.messageContent = e.target.value;
         };
         this.onSubmit = (e) => {
             e.preventDefault();
-            if (!this.state.messageContent.length) {
+            if (!this.messageContent.length) {
                 return;
             }
             this.pubnub.publish({
                 message: {
                     senderId: this.uuid,
-                    text: this.state.messageContent,
+                    text: this.messageContent,
                 },
                 channel: this.channelName
             });
-            this.state.messageContent = '';
+            this.messageContent = '';
         };
     }
     componentWillLoad() {
-        this.state = {
-            messageContent: '',
-        };
+        this.messageContent = "";
     }
     ;
     render() {
         return (h("div", { class: 'messageBody' },
             h("form", { class: 'messageForm' },
-                h("input", { class: 'messageInput', value: this.state.messageContent, onChange: this.onChange, placeholder: 'Type your message here . . .' }),
+                h("input", { class: 'messageInput', value: this.messageContent, onChange: this.onChange, placeholder: 'Type your message here . . .' }),
                 h("button", { class: 'submitBtn', onClick: this.onSubmit, type: 'submit' }, "Send"))));
     }
     static get is() { return "iac-message-body"; }
@@ -108,5 +106,8 @@ export class MessageBody {
             "attribute": "channel-name",
             "reflect": false
         }
+    }; }
+    static get states() { return {
+        "messageContent": {}
     }; }
 }

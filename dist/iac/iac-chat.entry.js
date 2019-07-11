@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './chunk-e6966618.js';
+import { r as registerInstance, h, c as getElement } from './chunk-10a5aa2e.js';
 import { g as getWeekday } from './chunk-2ca81062.js';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -50,7 +50,7 @@ class Chat {
             restore: true,
         });
         // this.designation = randomUser.designation;
-        this.state = {
+        // this.state = {
         // sendersInfo: [],
         // lastMessageWeekday: '',
         // messageSentDate: [],
@@ -60,7 +60,7 @@ class Chat {
         // onlineUsersCount: '',
         // networkErrorStatus: false,
         // networkErrorImg: null,
-        };
+        // };
         this.sendersInfo = [];
         this.lastMessageWeekday = '';
         this.messageSentDate = [];
@@ -118,7 +118,7 @@ class Chat {
                 const lastMessageWeekday = getWeekday(m.timetoken);
                 this.sendersInfo = sendersInfo;
                 this.lastMessageWeekday = lastMessageWeekday;
-                // this.scrollToBottom();
+                this.scrollToBottom();
             },
             presence: (presence) => {
                 if (presence.action === 'join') {
@@ -180,10 +180,6 @@ class Chat {
         //   includeUUIDs: true,
         //   includeState: false
         // }, (_status: any, response: any) => {
-        //   // this.setState({
-        //   //   onlineUsers: response.channels[forestChatChannel].occupants,
-        //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
-        //   // });
         //   this.onlineUsers = response.channels[channelName].occupants;
         //   this.onlineUsersCount = response.channels[channelName].occupancy;
         // });
@@ -194,15 +190,16 @@ class Chat {
     }
     ;
     scrollToBottom() {
-        const elem = document.querySelector(".messageDialog");
-        if (elem) {
-            elem.scrollTop = elem.scrollHeight;
+        // const elem = document.querySelector("iac-message-list");
+        if (this.messageList) {
+            this.messageList.scrollTop = this.messageList.scrollHeight;
         }
     }
     ;
     render() {
-        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages })));
+        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' })));
     }
+    get el() { return getElement(this); }
     static get style() { return ":host {\n  width: 100vw;\n  height: 85vh;\n  position: relative;\n  margin-bottom: 0;\n}\n\@media (max-width: 850px) {\n  :host {\n    height: 81vh;\n  }\n}\n:host .grid {\n  display: grid;\n  width: 100%;\n  height: 90%;\n  grid-template-rows: 70px 100% 60px;\n  grid-template-columns: 280px 1fr;\n}\n\@media (max-width: 850px) {\n  :host .grid {\n    grid-template-rows: 90px 100% 60px;\n  }\n}"; }
 }
 

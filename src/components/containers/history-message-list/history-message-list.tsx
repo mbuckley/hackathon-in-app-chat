@@ -7,13 +7,6 @@ import users from "../../../config/users.js";
   shadow: true
 })
 export class HistoryMessageList {
-  /*
-  const {historyMessages, historyLoaded, networkErrorImg, networkErrorStatus,
-    getUserName, getTime, getDate, getUserAvatarUrl, styleForMessageSender} = this.props; */
-
-
-  // private parsedHistoryMessages: any;
-
   @Prop() historyMessages: any;
   @Prop() historyLoaded: any;
   @Prop() networkErrorImg: any;

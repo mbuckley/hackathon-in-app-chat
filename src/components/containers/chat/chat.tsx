@@ -1,7 +1,7 @@
 // tag::CHT-1.1[]
 // import React from 'react';
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Element, Prop, State, h } from '@stencil/core';
 
 import PubNub from 'pubnub';
 import { getWeekday  } from "../../../utils/utils";
@@ -23,20 +23,24 @@ const channelName = "test-channel";
   shadow: true
 })
 export class Chat {
+  @Element() el: HTMLElement;
+
+  private messageList?: HTMLElement;
+
   @Prop() pubnub: any;
   @Prop({ mutable: true }) state: any;
   @Prop() userProfile: any;
   @Prop() uuid: any;
 
-  @Prop() sendersInfo: Array<any>;
-  @Prop() lastMessageWeekday: any;
-  @Prop() messageSentDate: any;
-  @Prop() historyLoaded: any;
-  @Prop() historyMessages: any;
-  @Prop() onlineUsers: any;
-  @Prop() onlineUsersCount: any;
-  @Prop() networkErrorStatus: any;
-  @Prop() networkErrorImg: any;
+  @State() sendersInfo: Array<any>;
+  @State() lastMessageWeekday: any;
+  @State() messageSentDate: any;
+  @State() historyLoaded: any;
+  @State() historyMessages: any;
+  @State() onlineUsers: any;
+  @State() onlineUsersCount: any;
+  @State() networkErrorStatus: any;
+  @State() networkErrorImg: any;
 
   componentWillLoad() {
     this.pubnub = new PubNub({
@@ -49,7 +53,7 @@ export class Chat {
 
     // this.designation = randomUser.designation;
 
-    this.state = {
+    // this.state = {
       // sendersInfo: [],
       // lastMessageWeekday: '',
       // messageSentDate: [],
@@ -59,7 +63,7 @@ export class Chat {
       // onlineUsersCount: '',
       // networkErrorStatus: false,
       // networkErrorImg: null,
-    };
+    // };
 
     this.sendersInfo = [];
     this.lastMessageWeekday = '';
@@ -127,7 +131,7 @@ export class Chat {
         const lastMessageWeekday = getWeekday(m.timetoken);
         this.sendersInfo = sendersInfo;
         this.lastMessageWeekday = lastMessageWeekday;
-        // this.scrollToBottom();
+        this.scrollToBottom();
       },
       presence: (presence: any) => {
         if (presence.action === 'join') {
@@ -205,10 +209,6 @@ export class Chat {
     //   includeUUIDs: true,
     //   includeState: false
     // }, (_status: any, response: any) => {
-    //   // this.setState({
-    //   //   onlineUsers: response.channels[forestChatChannel].occupants,
-    //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
-    //   // });
     //   this.onlineUsers = response.channels[channelName].occupants;
     //   this.onlineUsersCount = response.channels[channelName].occupancy;
     // });
@@ -218,13 +218,11 @@ export class Chat {
     this.pubnub.unsubscribeAll();
   };
 
-
-
   scrollToBottom() {
-    const elem = document.querySelector(".messageDialog");
+    // const elem = document.querySelector("iac-message-list");
 
-    if(elem) {
-        elem.scrollTop = elem.scrollHeight;
+    if(this.messageList) {
+        this.messageList.scrollTop = this.messageList.scrollHeight;
     }
   };
 
@@ -236,15 +234,12 @@ export class Chat {
           onlineUsersCount={50}
         ></iac-header>
 
-        <iac-user
-          user='{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }'
-          loggedInUser= "123">
-        </iac-user>
-
-        <iac-online-users
-          loggedInUser= {"x9skdkdkslsddkjfsk"}
-          onlineUsers='[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]'
-        ></iac-online-users>
+        <iac-message-list
+          message-sent-date="July 12, 2019"
+          historyLoaded={this.historyLoaded}
+          historyMessages={this.historyMessages}
+          ref={(el) => this.messageList = el as HTMLElement}
+        ></iac-message-list>
 
         <iac-message-body
           pubnub={this.pubnub}
@@ -253,11 +248,10 @@ export class Chat {
           >
         </iac-message-body>
 
-        <iac-message-list
-          message-sent-date="July 12, 2019"
-          historyLoaded={this.historyLoaded}
-          historyMessages={this.historyMessages}
-        ></iac-message-list>
+        <iac-online-users
+          loggedInUser= {"x9skdkdkslsddkjfsk"}
+          onlineUsers='[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]'
+        ></iac-online-users>
       </div>
     );
   }
