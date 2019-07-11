@@ -19,6 +19,7 @@ const channelName = "test-channel";
 
 @Component({
   tag: 'iac-chat',
+  styleUrl: 'chat.scss',
   shadow: true
 })
 export class Chat {
@@ -226,11 +227,22 @@ export class Chat {
 
   render() {
     return (
-      <div>
+      <div class="grid">
         <iac-header
           userProfile={this.userProfile}
           onlineUsersCount={50}
         ></iac-header>
+
+        <iac-user
+          user='{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }'
+          loggedInUser= "123">
+        </iac-user>
+
+        <iac-online-users
+          loggedInUser= {"x9skdkdkslsddkjfsk"}
+          onlineUsers='[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]'
+        ></iac-online-users>
+
         <iac-message-body
           pubnub={this.pubnub}
           uuid={this.uuid}

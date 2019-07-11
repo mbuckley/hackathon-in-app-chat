@@ -19,6 +19,10 @@
 
 ## Dependencies
 
+### Used by
+
+ - [iac-chat](../containers/chat)
+
 ### Depends on
 
 - [iac-history-message-list](../containers/history-message-list)
@@ -29,6 +33,7 @@
 graph TD;
   iac-message-list --> iac-history-message-list
   iac-message-list --> iac-sender-message-list
+  iac-chat --> iac-message-list
   style iac-message-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

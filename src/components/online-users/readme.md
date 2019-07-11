@@ -15,6 +15,10 @@
 
 ## Dependencies
 
+### Used by
+
+ - [iac-chat](../containers/chat)
+
 ### Depends on
 
 - [iac-user](../user)
@@ -23,6 +27,7 @@
 ```mermaid
 graph TD;
   iac-online-users --> iac-user
+  iac-chat --> iac-online-users
   style iac-online-users fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

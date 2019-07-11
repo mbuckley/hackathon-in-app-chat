@@ -17,11 +17,13 @@
 
 ### Used by
 
+ - [iac-chat](../containers/chat)
  - [iac-online-users](../online-users)
 
 ### Graph
 ```mermaid
 graph TD;
+  iac-chat --> iac-user
   iac-online-users --> iac-user
   style iac-user fill:#f9f,stroke:#333,stroke-width:4px
 ```

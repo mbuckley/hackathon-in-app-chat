@@ -1,7 +1,9 @@
 @import '../../global/styles/scss/0_settings/functions&variables.scss';
 @import '../../global/styles/scss/0_settings/mixins.scss';
 
-.header {
+:host {
+  grid-row: 1;
+  grid-column: 1/3;
   @include size (100%);
   position: relative;
   border: 1px solid rgba(128, 128, 128, 0.164);
