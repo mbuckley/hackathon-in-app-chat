@@ -1,3 +1,6 @@
+@import '../../global/styles/scss/0_settings/functions&variables.scss';
+@import '../../global/styles/scss/0_settings/mixins.scss';
+
 .onlineUsers {
   position: relative;
   overflow-y: auto;
