@@ -9,10 +9,17 @@
   }
 }
 :host .messageForm {
-  width: 100%;
-  position: absolute;
-  left: 5px;
-  bottom: 12px;
+  width: calc(100% - 24px);
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  border-top: 1px solid #B0BEC5;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 12px;
+  background: #fff;
+  display: flex;
 }
 @media (max-width: 440px) {
   :host .messageForm {
@@ -20,159 +27,48 @@
   }
 }
 :host .messageForm .messageInput {
-  width: 82%;
   height: 35px;
-  margin-top: 30px;
   border: none;
   font-size: 15px;
+  flex: 1;
+  margin-right: 12px;
 }
 :host .messageForm .messageInput:focus {
   outline: none;
 }
-@media (max-width: 1024px) {
-  :host .messageForm .messageInput {
-    width: 75%;
-  }
-}
-@media (max-width: 770px) {
-  :host .messageForm .messageInput {
-    width: 75%;
-    margin-left: 5px;
-  }
-}
-@media (max-width: 500px) {
-  :host .messageForm .messageInput {
-    width: 72%;
-  }
-}
-@media (max-width: 440px) {
-  :host .messageForm .messageInput {
-    width: 60%;
-  }
-}
-@media (max-width: 240px) {
-  :host .messageForm .messageInput {
-    width: 47%;
-  }
-}
-:host .messageForm .emojiIcon {
-  position: relative;
-  top: 8px;
-  right: 10px;
-  cursor: pointer;
-}
-@media (max-width: 3000px) {
-  :host .messageForm .emojiIcon {
-    right: -100px;
-  }
-}
-@media (max-width: 2000px) {
-  :host .messageForm .emojiIcon {
-    right: -30px;
-  }
-}
-@media (max-width: 1300px) {
-  :host .messageForm .emojiIcon {
-    right: 0;
-  }
-}
-@media (max-width: 1024px) {
-  :host .messageForm .emojiIcon {
-    right: -2px;
-  }
-}
-@media (max-width: 770px) {
-  :host .messageForm .emojiIcon {
-    right: -5px;
-  }
-}
-:host .messageForm .emojisWindow {
-  width: 250px;
-  height: 200px;
-  position: absolute;
-  right: 30px;
-  top: -135px;
-  background-color: white;
-}
-@media (max-width: 1024px) {
-  :host .messageForm .emojisWindow {
-    right: 10px;
-  }
-}
-@media (max-width: 440px) {
-  :host .messageForm .emojisWindow {
-    width: 220px;
-  }
-}
-:host .messageForm .emojisWindow .emoji {
-  margin: 1px 6px -1px 7px;
-  cursor: pointer;
-}
-@media (max-width: 440px) {
-  :host .messageForm .emojisWindow .emoji {
-    margin: 1px 3px 0 5px;
-  }
-}
-:host .messageForm .emojisWindow .closeBtn {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-  background-color: unset;
-  border: none;
-  color: grey;
-  font-size: 1.1em;
-  cursor: pointer;
-}
-:host .messageForm .emojisWindow .closeBtn:focus {
-  outline: none;
-}
 :host .messageForm .submitBtn {
-  width: 12%;
-  height: 30px;
-  background-color: #d32f2f;
-  border: 1px solid #d32f2f;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: bold;
-  position: absolute;
-  top: 35px;
-  right: 38px;
-  z-index: 1;
+  position: relative;
+  display: inline-block;
+  height: 35px;
+  padding: 0px 12px;
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 30px;
+  color: #263238;
+  vertical-align: middle;
   cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 700;
+  color: white;
+  background-color: #1F9EFC;
+  background-image: linear-gradient(-180deg, #4AB2FD 0%, #1E9EFC 100%);
+  border-color: #0075bb;
+}
+:host .messageForm .submitBtn:hover {
+  background-image: linear-gradient(-180deg, #2D9DEF 2%, #007DD9 100%);
+}
+:host .messageForm .submitBtn:active {
+  background-image: none;
+  background-color: #0769B0;
+  border-color: #0769B0;
+  box-shadow: inset 0 1px 3px 0 #004670;
 }
 :host .messageForm .submitBtn:focus {
   outline: none;
-}
-@media (max-width: 3000px) {
-  :host .messageForm .submitBtn {
-    width: 5%;
-  }
-}
-@media (max-width: 2000px) {
-  :host .messageForm .submitBtn {
-    width: 9%;
-  }
-}
-@media (max-width: 1024px) {
-  :host .messageForm .submitBtn {
-    width: 15%;
-    right: 22px;
-  }
-}
-@media (max-width: 770px) {
-  :host .messageForm .submitBtn {
-    width: 12%;
-  }
-}
-@media (max-width: 440px) {
-  :host .messageForm .submitBtn {
-    width: 18%;
-    padding-left: 1px;
-    padding-right: 2px;
-  }
-}
-@media (max-width: 240px) {
-  :host .messageForm .submitBtn {
-    right: 60px;
-  }
 }
