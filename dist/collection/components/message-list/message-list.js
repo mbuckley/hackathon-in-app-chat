@@ -4,15 +4,12 @@ export class MessageList {
     constructor() {
         this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
     }
-    componentWillLoad() {
-        // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
-    }
     render() {
         return (h("div", { class: "messageList" },
             h("ul", { class: "messageDialog" },
                 h("h2", null, "HistoryMessageList goes here"),
                 this.messageSentDate.length > 0 &&
-                    h("iac-history-message-list", { historyMessages: '[{ "entry": {"senderId": "forest-animal-1"}, "timetoken": "15628726763037678" }]', historyLoaded: true, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }),
+                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }),
                 h("h2", null, "SenderMessageList goes here"),
                 h("iac-sender-message-list", { "senders-info": '[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]', styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
     }

@@ -1,14 +1,10 @@
-import { r as registerInstance, h } from './chunk-ec7743cc.js';
+import { r as registerInstance, h } from './chunk-e6966618.js';
 import { a as getDate, b as getUserName, c as getTime, d as getUserAvatarUrl } from './chunk-2ca81062.js';
 
 class MessageList {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
-    }
-    componentWillLoad() {
-        console.log("!!!!", this.historyMessages);
-        // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
     }
     render() {
         return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, h("h2", null, "HistoryMessageList goes here"), this.messageSentDate.length > 0 &&

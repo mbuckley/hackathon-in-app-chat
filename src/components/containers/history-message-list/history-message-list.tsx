@@ -12,7 +12,7 @@ export class HistoryMessageList {
     getUserName, getTime, getDate, getUserAvatarUrl, styleForMessageSender} = this.props; */
 
 
-  private parsedHistoryMessages: any;
+  // private parsedHistoryMessages: any;
 
   @Prop() historyMessages: any;
   @Prop() historyLoaded: any;
@@ -24,19 +24,12 @@ export class HistoryMessageList {
   @Prop() getUserAvatarUrl: any;
   @Prop() styleForMessageSender: any;
 
-  componentWillLoad() {
-    console.log(this.historyMessages);
-    this.parsedHistoryMessages = this.historyMessages;
-    console.log(this.parsedHistoryMessages);
-    // console.log(this.parsedOnlineUsers);
-  }
-
   render() {
     return (
       <div>
         {(this.historyLoaded &&
           <div class='historyMessageDialog'>
-            {this.parsedHistoryMessages.map( (m, index) =>
+            {this.historyMessages.map( (m, index) =>
               <li class={this.styleForMessageSender(m.entry.senderId)} key={m.timetoken}>
                 <div class='messageSentDay'>{this.getDate(m.timetoken, 'historyMessage', index)}</div>
                 <div class='message'>

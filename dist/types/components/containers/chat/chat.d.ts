@@ -3,6 +3,15 @@ export declare class Chat {
     state: any;
     userProfile: any;
     uuid: any;
+    sendersInfo: Array<any>;
+    lastMessageWeekday: any;
+    messageSentDate: any;
+    historyLoaded: any;
+    historyMessages: any;
+    onlineUsers: any;
+    onlineUsersCount: any;
+    networkErrorStatus: any;
+    networkErrorImg: any;
     componentWillLoad(): void;
     componentDidLoad(): void;
     componentWillUnmount(): void;

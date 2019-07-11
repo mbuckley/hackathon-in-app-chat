@@ -24,9 +24,19 @@ const channelName = "test-channel";
 })
 export class Chat {
   @Prop() pubnub: any;
-  @Prop() state: any;
+  @Prop({ mutable: true }) state: any;
   @Prop() userProfile: any;
   @Prop() uuid: any;
+
+  @Prop() sendersInfo: Array<any>;
+  @Prop() lastMessageWeekday: any;
+  @Prop() messageSentDate: any;
+  @Prop() historyLoaded: any;
+  @Prop() historyMessages: any;
+  @Prop() onlineUsers: any;
+  @Prop() onlineUsersCount: any;
+  @Prop() networkErrorStatus: any;
+  @Prop() networkErrorImg: any;
 
   componentWillLoad() {
     this.pubnub = new PubNub({
@@ -40,16 +50,26 @@ export class Chat {
     // this.designation = randomUser.designation;
 
     this.state = {
-      sendersInfo: [],
-      lastMessageWeekday: '',
-      messageSentDate: [],
-      historyLoaded: false,
-      historyMessages: [],
-      onlineUsers: [],
-      onlineUsersCount: '',
-      networkErrorStatus: false,
-      networkErrorImg: null
+      // sendersInfo: [],
+      // lastMessageWeekday: '',
+      // messageSentDate: [],
+      // historyLoaded: false,
+      // historyMessages: [],
+      // onlineUsers: [],
+      // onlineUsersCount: '',
+      // networkErrorStatus: false,
+      // networkErrorImg: null,
     };
+
+    this.sendersInfo = [];
+    this.lastMessageWeekday = '';
+    this.messageSentDate = [];
+    this.historyLoaded = false;
+    this.historyMessages = [];
+    this.onlineUsers = [];
+    this.onlineUsersCount = '';
+    this.networkErrorStatus = false;
+    this.networkErrorImg = null;
   }
 
   componentDidLoad() {
@@ -59,58 +79,44 @@ export class Chat {
 
     this.pubnub.subscribe({channels: [channelName], withPresence: true });
 
-    console.log(this.pubnub);
-
     this.pubnub.addListener({
       status: (status) => {
-
-        console.log("STATUS called", status);
         if (status.category === 'PNConnectedCategory') {
           this.hereNow();
 
-          console.log("GETTING HISTORY");
-
           this.pubnub.history({
             channel: "test-channel",
-            count: 1,
-            // reverse: false,
-            // stringifiedTimeToken: true,
-          }, (status: any, response: any) => {
-            console.log("STATUS", status);
-            console.log("RESPONSE", response);
-            // const lastMessageWeekday = getWeekday(response.endTimeToken);
+            count: 50,
+            reverse: false,
+            stringifiedTimeToken: true,
+          }).then((response) => {
+            const lastMessageWeekday = getWeekday(response.endTimeToken);
+            this.historyLoaded = true;
+            this.historyMessages = response.messages;
+            this.lastMessageWeekday = lastMessageWeekday;
 
-          //   // // this.setState({
-          //   // //   historyLoaded: true,
-          //   // //   historyMessages: response.messages,
-          //   // //   lastMessageWeekday
-          //   // // });
-          //   // this.state.historyLoaded = true;
-          //   // this.state.historyMessages = response.messages;
-          //   // this.state.lastMessageWeekday = lastMessageWeekday;
-
-          //   // let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
-          //   // // this.setState({messageSentDate});
-          //   // this.state.messageSentDate = messageSentDate;
-          //   // this.scrollToBottom();
+            let messageSentDate = this.historyMessages.map(message => getWeekday(message.timetoken));
+            this.messageSentDate = messageSentDate;
+            this.scrollToBottom();
+          }).catch((error) => {
+            console.log(error)
           });
         }
 
         if (status.category === 'PNNetworkDownCategory') {
           // this.setState({networkErrorStatus: true});
-          this.state.networkErrorStatus = true;
+          this.networkErrorStatus = true;
         }
 
         if (status.category === 'PNNetworkUpCategory') {
           // this.setState({networkErrorStatus: false});
-          this.state.networkErrorStatus = false;
+          this.networkErrorStatus = false;
           this.pubnub.reconnect();
           this.scrollToBottom();
         }
       },
       message: (m: any) => {
-        console.log("MESSAGE called");
-        const sendersInfo = this.state.sendersInfo;
+        const sendersInfo = this.sendersInfo;
 
         sendersInfo.push({
           senderId: m.message.senderId,
@@ -118,40 +124,37 @@ export class Chat {
           timetoken: m.timetoken,
         });
 
-        this.state = this.state;
-
         const lastMessageWeekday = getWeekday(m.timetoken);
-        this.state.sendersInfo = sendersInfo;
-        this.state.lastMessageWeekday = lastMessageWeekday;
+        this.sendersInfo = sendersInfo;
+        this.lastMessageWeekday = lastMessageWeekday;
         // this.scrollToBottom();
       },
       presence: (presence: any) => {
-        console.log("PRESENCE called");
         if (presence.action === 'join') {
-          let users = this.state.onlineUsers;
+          let users = this.onlineUsers;
 
           users.push({
             state: presence.state,
             uuid: presence.uuid
           });
 
-          this.state.onlineUsers = users,
-          this.state.onlineUsersCount = this.state.onlineUsersCount + 1
+          this.onlineUsers = users,
+          this.onlineUsersCount = this.onlineUsersCount + 1
         }
 
         if ((presence.action === 'leave') || (presence.action === 'timeout')) {
-          let leftUsers = this.state.onlineUsers.filter(users => users.uuid !== presence.uuid);
-          this.state.onlineUsers = leftUsers;
+          let leftUsers = this.onlineUsers.filter(users => users.uuid !== presence.uuid);
+          this.onlineUsers = leftUsers;
 
-          const length = this.state.onlineUsers.length;
-          this.state.onlineUsersCount = length;
+          const length = this.onlineUsers.length;
+          this.onlineUsersCount = length;
 
         }
 
         if (presence.action === 'interval') {
           if (presence.join || presence.leave || presence.timeout) {
-            let onlineUsers = this.state.onlineUsers;
-            let onlineUsersCount = this.state.onlineUsersCount;
+            let onlineUsers = this.onlineUsers;
+            let onlineUsersCount = this.onlineUsersCount;
 
             if (presence.join) {
               presence.join.map(user => (
@@ -175,8 +178,8 @@ export class Chat {
               onlineUsersCount -= presence.timeout.length;
             }
 
-            this.state.onlineUsers = onlineUsers;
-            this.state.onlineUsersCount = onlineUsersCount
+            this.onlineUsers = onlineUsers;
+            this.onlineUsersCount = onlineUsersCount
           }
         }
       }
@@ -206,8 +209,8 @@ export class Chat {
     //   //   onlineUsers: response.channels[forestChatChannel].occupants,
     //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
     //   // });
-    //   this.state.onlineUsers = response.channels[channelName].occupants;
-    //   this.state.onlineUsersCount = response.channels[channelName].occupancy;
+    //   this.onlineUsers = response.channels[channelName].occupants;
+    //   this.onlineUsersCount = response.channels[channelName].occupancy;
     // });
   };
 
@@ -249,10 +252,11 @@ export class Chat {
           channelName={channelName}
           >
         </iac-message-body>
+
         <iac-message-list
           message-sent-date="July 12, 2019"
-          historyLoaded={this.state.historyLoaded}
-          historyMessages={this.state.historyMessages}
+          historyLoaded={this.historyLoaded}
+          historyMessages={this.historyMessages}
         ></iac-message-list>
       </div>
     );

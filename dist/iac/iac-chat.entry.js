@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './chunk-ec7743cc.js';
+import { r as registerInstance, h } from './chunk-e6966618.js';
 import { g as getWeekday } from './chunk-2ca81062.js';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -51,96 +51,95 @@ class Chat {
         });
         // this.designation = randomUser.designation;
         this.state = {
-            sendersInfo: [],
-            lastMessageWeekday: '',
-            messageSentDate: [],
-            historyLoaded: false,
-            historyMessages: [],
-            onlineUsers: [],
-            onlineUsersCount: '',
-            networkErrorStatus: false,
-            networkErrorImg: null
+        // sendersInfo: [],
+        // lastMessageWeekday: '',
+        // messageSentDate: [],
+        // historyLoaded: false,
+        // historyMessages: [],
+        // onlineUsers: [],
+        // onlineUsersCount: '',
+        // networkErrorStatus: false,
+        // networkErrorImg: null,
         };
+        this.sendersInfo = [];
+        this.lastMessageWeekday = '';
+        this.messageSentDate = [];
+        this.historyLoaded = false;
+        this.historyMessages = [];
+        this.onlineUsers = [];
+        this.onlineUsersCount = '';
+        this.networkErrorStatus = false;
+        this.networkErrorImg = null;
     }
     componentDidLoad() {
         // const networkError = new Image();
         // networkError.src = networkErrorImg;
         // this.setState({networkErrorImg: networkError});
         this.pubnub.subscribe({ channels: [channelName], withPresence: true });
-        console.log(this.pubnub);
         this.pubnub.addListener({
             status: (status) => {
-                console.log("STATUS called", status);
                 if (status.category === 'PNConnectedCategory') {
                     this.hereNow();
-                    console.log("GETTING HISTORY");
                     this.pubnub.history({
                         channel: "test-channel",
-                        count: 1,
-                    }, (status, response) => {
-                        console.log("STATUS", status);
-                        console.log("RESPONSE", response);
-                        // const lastMessageWeekday = getWeekday(response.endTimeToken);
-                        //   // // this.setState({
-                        //   // //   historyLoaded: true,
-                        //   // //   historyMessages: response.messages,
-                        //   // //   lastMessageWeekday
-                        //   // // });
-                        //   // this.state.historyLoaded = true;
-                        //   // this.state.historyMessages = response.messages;
-                        //   // this.state.lastMessageWeekday = lastMessageWeekday;
-                        //   // let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
-                        //   // // this.setState({messageSentDate});
-                        //   // this.state.messageSentDate = messageSentDate;
-                        //   // this.scrollToBottom();
+                        count: 50,
+                        reverse: false,
+                        stringifiedTimeToken: true,
+                    }).then((response) => {
+                        const lastMessageWeekday = getWeekday(response.endTimeToken);
+                        this.historyLoaded = true;
+                        this.historyMessages = response.messages;
+                        this.lastMessageWeekday = lastMessageWeekday;
+                        let messageSentDate = this.historyMessages.map(message => getWeekday(message.timetoken));
+                        this.messageSentDate = messageSentDate;
+                        this.scrollToBottom();
+                    }).catch((error) => {
+                        console.log(error);
                     });
                 }
                 if (status.category === 'PNNetworkDownCategory') {
                     // this.setState({networkErrorStatus: true});
-                    this.state.networkErrorStatus = true;
+                    this.networkErrorStatus = true;
                 }
                 if (status.category === 'PNNetworkUpCategory') {
                     // this.setState({networkErrorStatus: false});
-                    this.state.networkErrorStatus = false;
+                    this.networkErrorStatus = false;
                     this.pubnub.reconnect();
                     this.scrollToBottom();
                 }
             },
             message: (m) => {
-                console.log("MESSAGE called");
-                const sendersInfo = this.state.sendersInfo;
+                const sendersInfo = this.sendersInfo;
                 sendersInfo.push({
                     senderId: m.message.senderId,
                     text: m.message.text,
                     timetoken: m.timetoken,
                 });
-                this.state = this.state;
                 const lastMessageWeekday = getWeekday(m.timetoken);
-                this.state.sendersInfo = sendersInfo;
-                this.state.lastMessageWeekday = lastMessageWeekday;
+                this.sendersInfo = sendersInfo;
+                this.lastMessageWeekday = lastMessageWeekday;
                 // this.scrollToBottom();
             },
             presence: (presence) => {
-                console.log("PRESENCE called");
                 if (presence.action === 'join') {
-                    let users = this.state.onlineUsers;
+                    let users = this.onlineUsers;
                     users.push({
                         state: presence.state,
                         uuid: presence.uuid
                     });
-                    this.state.onlineUsers = users,
-                        this.state.onlineUsersCount = this.state.onlineUsersCount + 1;
+                    this.onlineUsers = users,
+                        this.onlineUsersCount = this.onlineUsersCount + 1;
                 }
                 if ((presence.action === 'leave') || (presence.action === 'timeout')) {
-                    let leftUsers = this.state.onlineUsers.filter(users => users.uuid !== presence.uuid);
-                    this.state.onlineUsers = leftUsers;
-                    const length = this.state.onlineUsers.length;
-                    this.state.onlineUsersCount = length;
+                    let leftUsers = this.onlineUsers.filter(users => users.uuid !== presence.uuid);
+                    this.onlineUsers = leftUsers;
+                    const length = this.onlineUsers.length;
+                    this.onlineUsersCount = length;
                 }
                 if (presence.action === 'interval') {
                     if (presence.join || presence.leave || presence.timeout) {
-                        let onlineUsers = this.state.onlineUsers;
-                        let onlineUsersCount = this.state.onlineUsersCount;
+                        let onlineUsers = this.onlineUsers;
+                        let onlineUsersCount = this.onlineUsersCount;
                         if (presence.join) {
                             presence.join.map(user => (user !== this.uuid &&
                                 onlineUsers.push({
@@ -157,8 +156,8 @@ class Chat {
                             presence.timeout.map(timeoutUser => onlineUsers.splice(onlineUsers.indexOf(timeoutUser), 1));
                             onlineUsersCount -= presence.timeout.length;
                         }
-                        this.state.onlineUsers = onlineUsers;
-                        this.state.onlineUsersCount = onlineUsersCount;
+                        this.onlineUsers = onlineUsers;
+                        this.onlineUsersCount = onlineUsersCount;
                     }
                 }
             }
@@ -185,8 +184,8 @@ class Chat {
         //   //   onlineUsers: response.channels[forestChatChannel].occupants,
         //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
         //   // });
-        //   this.state.onlineUsers = response.channels[channelName].occupants;
-        //   this.state.onlineUsersCount = response.channels[channelName].occupancy;
+        //   this.onlineUsers = response.channels[channelName].occupants;
+        //   this.onlineUsersCount = response.channels[channelName].occupancy;
         // });
     }
     ;
@@ -202,7 +201,7 @@ class Chat {
     }
     ;
     render() {
-        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.state.historyLoaded, historyMessages: this.state.historyMessages })));
+        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages })));
     }
     static get style() { return ":host {\n  width: 100vw;\n  height: 85vh;\n  position: relative;\n  margin-bottom: 0;\n}\n\@media (max-width: 850px) {\n  :host {\n    height: 81vh;\n  }\n}\n:host .grid {\n  display: grid;\n  width: 100%;\n  height: 90%;\n  grid-template-rows: 70px 100% 60px;\n  grid-template-columns: 280px 1fr;\n}\n\@media (max-width: 850px) {\n  :host .grid {\n    grid-template-rows: 90px 100% 60px;\n  }\n}"; }
 }

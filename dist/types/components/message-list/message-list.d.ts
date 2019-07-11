@@ -25,6 +25,5 @@ export declare class MessageList {
      */
     messageSentDate: any;
     private styleForMessageSender;
-    componentWillLoad(): void;
     render(): any;
 }

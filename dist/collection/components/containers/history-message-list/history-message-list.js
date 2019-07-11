@@ -1,15 +1,9 @@
 import { h } from '@stencil/core';
 import users from "../../../config/users.js";
 export class HistoryMessageList {
-    componentWillLoad() {
-        console.log(this.historyMessages);
-        this.parsedHistoryMessages = JSON.parse(this.historyMessages);
-        console.log(this.parsedHistoryMessages);
-        // console.log(this.parsedOnlineUsers);
-    }
     render() {
         return (h("div", null, (this.historyLoaded &&
-            h("div", { class: 'historyMessageDialog' }, this.parsedHistoryMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken },
+            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken },
                 h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'historyMessage', index)),
                 h("div", { class: 'message' },
                     h("div", { class: 'name' }, this.getUserName(users, m.entry.senderId)),

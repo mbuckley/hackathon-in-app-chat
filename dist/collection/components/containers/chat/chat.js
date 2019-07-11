@@ -24,96 +24,95 @@ export class Chat {
         });
         // this.designation = randomUser.designation;
         this.state = {
-            sendersInfo: [],
-            lastMessageWeekday: '',
-            messageSentDate: [],
-            historyLoaded: false,
-            historyMessages: [],
-            onlineUsers: [],
-            onlineUsersCount: '',
-            networkErrorStatus: false,
-            networkErrorImg: null
+        // sendersInfo: [],
+        // lastMessageWeekday: '',
+        // messageSentDate: [],
+        // historyLoaded: false,
+        // historyMessages: [],
+        // onlineUsers: [],
+        // onlineUsersCount: '',
+        // networkErrorStatus: false,
+        // networkErrorImg: null,
         };
+        this.sendersInfo = [];
+        this.lastMessageWeekday = '';
+        this.messageSentDate = [];
+        this.historyLoaded = false;
+        this.historyMessages = [];
+        this.onlineUsers = [];
+        this.onlineUsersCount = '';
+        this.networkErrorStatus = false;
+        this.networkErrorImg = null;
     }
     componentDidLoad() {
         // const networkError = new Image();
         // networkError.src = networkErrorImg;
         // this.setState({networkErrorImg: networkError});
         this.pubnub.subscribe({ channels: [channelName], withPresence: true });
-        console.log(this.pubnub);
         this.pubnub.addListener({
             status: (status) => {
-                console.log("STATUS called", status);
                 if (status.category === 'PNConnectedCategory') {
                     this.hereNow();
-                    console.log("GETTING HISTORY");
                     this.pubnub.history({
                         channel: "test-channel",
-                        count: 1,
-                    }, (status, response) => {
-                        console.log("STATUS", status);
-                        console.log("RESPONSE", response);
-                        // const lastMessageWeekday = getWeekday(response.endTimeToken);
-                        //   // // this.setState({
-                        //   // //   historyLoaded: true,
-                        //   // //   historyMessages: response.messages,
-                        //   // //   lastMessageWeekday
-                        //   // // });
-                        //   // this.state.historyLoaded = true;
-                        //   // this.state.historyMessages = response.messages;
-                        //   // this.state.lastMessageWeekday = lastMessageWeekday;
-                        //   // let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
-                        //   // // this.setState({messageSentDate});
-                        //   // this.state.messageSentDate = messageSentDate;
-                        //   // this.scrollToBottom();
+                        count: 50,
+                        reverse: false,
+                        stringifiedTimeToken: true,
+                    }).then((response) => {
+                        const lastMessageWeekday = getWeekday(response.endTimeToken);
+                        this.historyLoaded = true;
+                        this.historyMessages = response.messages;
+                        this.lastMessageWeekday = lastMessageWeekday;
+                        let messageSentDate = this.historyMessages.map(message => getWeekday(message.timetoken));
+                        this.messageSentDate = messageSentDate;
+                        this.scrollToBottom();
+                    }).catch((error) => {
+                        console.log(error);
                     });
                 }
                 if (status.category === 'PNNetworkDownCategory') {
                     // this.setState({networkErrorStatus: true});
-                    this.state.networkErrorStatus = true;
+                    this.networkErrorStatus = true;
                 }
                 if (status.category === 'PNNetworkUpCategory') {
                     // this.setState({networkErrorStatus: false});
-                    this.state.networkErrorStatus = false;
+                    this.networkErrorStatus = false;
                     this.pubnub.reconnect();
                     this.scrollToBottom();
                 }
             },
             message: (m) => {
-                console.log("MESSAGE called");
-                const sendersInfo = this.state.sendersInfo;
+                const sendersInfo = this.sendersInfo;
                 sendersInfo.push({
                     senderId: m.message.senderId,
                     text: m.message.text,
                     timetoken: m.timetoken,
                 });
-                this.state = this.state;
                 const lastMessageWeekday = getWeekday(m.timetoken);
-                this.state.sendersInfo = sendersInfo;
-                this.state.lastMessageWeekday = lastMessageWeekday;
+                this.sendersInfo = sendersInfo;
+                this.lastMessageWeekday = lastMessageWeekday;
                 // this.scrollToBottom();
             },
             presence: (presence) => {
-                console.log("PRESENCE called");
                 if (presence.action === 'join') {
-                    let users = this.state.onlineUsers;
+                    let users = this.onlineUsers;
                     users.push({
                         state: presence.state,
                         uuid: presence.uuid
                     });
-                    this.state.onlineUsers = users,
-                        this.state.onlineUsersCount = this.state.onlineUsersCount + 1;
+                    this.onlineUsers = users,
+                        this.onlineUsersCount = this.onlineUsersCount + 1;
                 }
                 if ((presence.action === 'leave') || (presence.action === 'timeout')) {
-                    let leftUsers = this.state.onlineUsers.filter(users => users.uuid !== presence.uuid);
-                    this.state.onlineUsers = leftUsers;
-                    const length = this.state.onlineUsers.length;
-                    this.state.onlineUsersCount = length;
+                    let leftUsers = this.onlineUsers.filter(users => users.uuid !== presence.uuid);
+                    this.onlineUsers = leftUsers;
+                    const length = this.onlineUsers.length;
+                    this.onlineUsersCount = length;
                 }
                 if (presence.action === 'interval') {
                     if (presence.join || presence.leave || presence.timeout) {
-                        let onlineUsers = this.state.onlineUsers;
-                        let onlineUsersCount = this.state.onlineUsersCount;
+                        let onlineUsers = this.onlineUsers;
+                        let onlineUsersCount = this.onlineUsersCount;
                         if (presence.join) {
                             presence.join.map(user => (user !== this.uuid &&
                                 onlineUsers.push({
@@ -130,8 +129,8 @@ export class Chat {
                             presence.timeout.map(timeoutUser => onlineUsers.splice(onlineUsers.indexOf(timeoutUser), 1));
                             onlineUsersCount -= presence.timeout.length;
                         }
-                        this.state.onlineUsers = onlineUsers;
-                        this.state.onlineUsersCount = onlineUsersCount;
+                        this.onlineUsers = onlineUsers;
+                        this.onlineUsersCount = onlineUsersCount;
                     }
                 }
             }
@@ -158,8 +157,8 @@ export class Chat {
         //   //   onlineUsers: response.channels[forestChatChannel].occupants,
         //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
         //   // });
-        //   this.state.onlineUsers = response.channels[channelName].occupants;
-        //   this.state.onlineUsersCount = response.channels[channelName].occupancy;
+        //   this.onlineUsers = response.channels[channelName].occupants;
+        //   this.onlineUsersCount = response.channels[channelName].occupancy;
         // });
     }
     ;
@@ -180,7 +179,7 @@ export class Chat {
             h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }),
             h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
-            h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.state.historyLoaded, historyMessages: this.state.historyMessages })));
+            h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages })));
     }
     static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }
@@ -210,7 +209,7 @@ export class Chat {
         },
         "state": {
             "type": "any",
-            "mutable": false,
+            "mutable": true,
             "complexType": {
                 "original": "any",
                 "resolved": "any",
@@ -257,6 +256,161 @@ export class Chat {
                 "text": ""
             },
             "attribute": "uuid",
+            "reflect": false
+        },
+        "sendersInfo": {
+            "type": "unknown",
+            "mutable": false,
+            "complexType": {
+                "original": "Array<any>",
+                "resolved": "any[]",
+                "references": {
+                    "Array": {
+                        "location": "global"
+                    }
+                }
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            }
+        },
+        "lastMessageWeekday": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "last-message-weekday",
+            "reflect": false
+        },
+        "messageSentDate": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "message-sent-date",
+            "reflect": false
+        },
+        "historyLoaded": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "history-loaded",
+            "reflect": false
+        },
+        "historyMessages": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "history-messages",
+            "reflect": false
+        },
+        "onlineUsers": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "online-users",
+            "reflect": false
+        },
+        "onlineUsersCount": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "online-users-count",
+            "reflect": false
+        },
+        "networkErrorStatus": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "network-error-status",
+            "reflect": false
+        },
+        "networkErrorImg": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "network-error-img",
             "reflect": false
         }
     }; }

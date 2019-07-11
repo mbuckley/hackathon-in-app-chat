@@ -9,7 +9,6 @@ import { getDate, getTime, getUserAvatarUrl, getUserName } from '../../utils/uti
   shadow: true
 })
 export class MessageList {
-
   /**
    * User uuid
    */
@@ -41,11 +40,6 @@ export class MessageList {
   @Prop() messageSentDate: any;
 
   private styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
-
-  componentWillLoad() {
-    console.log("!!!!", this.historyMessages);
-    // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
-  }
 
   render() {
     return (

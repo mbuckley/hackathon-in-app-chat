@@ -1,5 +1,4 @@
 export declare class HistoryMessageList {
-    private parsedHistoryMessages;
     historyMessages: any;
     historyLoaded: any;
     networkErrorImg: any;
@@ -9,6 +8,5 @@ export declare class HistoryMessageList {
     getDate: any;
     getUserAvatarUrl: any;
     styleForMessageSender: any;
-    componentWillLoad(): void;
     render(): any;
 }
