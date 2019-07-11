@@ -19,13 +19,6 @@ export class User {
   componentWillLoad() {
     this.parsedUser = JSON.parse(this.user);
     console.log(this.parsedUser);
-    /*
-    this.user = {
-      uuid: "123",
-      name: "Demo User",
-      designation: "Admin",
-      avatarUrl: "https://picsum.photos/id/95/200/300",
-    } */
   }
 
   render() {
@@ -34,8 +27,8 @@ export class User {
         <li>
           <div class='userName'>{this.parsedUser.name} {this.parsedUser.uuid === this.loggedInUser && <div class='youSign'>(You)</div>}
           </div>
-          <div class='designation'>{this.parsedUser.designation}</div>
-          <img width='45' height='45' alt='Online users' src={this.parsedUser.avatarUrl}/>
+
+          <img width='45' height='45' alt='Online users' src={this.parsedUser.image}/>
         </li>
       </ul>
     );

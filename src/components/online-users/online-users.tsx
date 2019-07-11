@@ -30,6 +30,7 @@ export class Header {
 
   componentWillLoad() {
     this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
+    console.log(this.parsedOnlineUsers);
   }
 
   render() {
@@ -38,14 +39,10 @@ export class Header {
         {this.putLoggedInUserFirst(this.parsedOnlineUsers)}
         <ul class='onlineUserList'>
           {this.parsedOnlineUsers.map((user, _index) =>
-            <p>Uncomment user component below {user.uuid}</p>
-            // <User
-            //   key={index}
-            //   user={user}
-            //   getUserName={getUserName}
-            //   loggedInUser={loggedInUser}
-            //   getUserDesignation={getUserDesignation}
-            //   getUserAvatarUrl={getUserAvatarUrl}/>
+            <iac-user
+              user={JSON.stringify(user)}
+              loggedInUser= {this.loggedInUser}>
+            </iac-user>
           )}
         </ul>
       </div>
