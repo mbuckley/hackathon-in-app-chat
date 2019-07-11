@@ -1,0 +1,205 @@
+.header {
+  width: 100%;
+  position: relative;
+  border: 1px solid rgba(128, 128, 128, 0.164);
+}
+.header .onlineUsersInfo {
+  width: 278px;
+  height: 70px;
+  position: relative;
+  font-size: 17px;
+  font-weight: bold;
+  border-right: 1px solid rgba(128, 128, 128, 0.164);
+}
+@media (max-width: 770px) {
+  .header .onlineUsersInfo {
+    display: none;
+  }
+}
+.header .onlineUsersInfo .onlineUsersLogo {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+@media (max-width: 850px) {
+  .header .onlineUsersInfo .onlineUsersLogo {
+    top: 20px;
+  }
+}
+.header .onlineUsersInfo .onlineUsersCount {
+  position: relative;
+  top: 14px;
+  left: 70px;
+}
+@media (max-width: 850px) {
+  .header .onlineUsersInfo .onlineUsersCount {
+    top: 20px;
+  }
+}
+.header .onlineUsersInfo span {
+  position: absolute;
+  top: 30px;
+  left: 86px;
+  color: grey;
+  font-weight: normal;
+  display: block;
+}
+@media (max-width: 850px) {
+  .header .onlineUsersInfo span {
+    top: 40px;
+  }
+}
+.header .onlineUsersInfo .onlineIndicator {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 38px;
+  left: 72px;
+  border-radius: 50%;
+  background-color: #0ccc0c;
+}
+@media (max-width: 850px) {
+  .header .onlineUsersInfo .onlineIndicator {
+    top: 50px;
+  }
+}
+.header .animalForestChatLogo {
+  position: absolute;
+  top: 12px;
+  left: 290px;
+}
+@media (max-width: 850px) {
+  .header .animalForestChatLogo {
+    top: 20px;
+  }
+}
+@media (max-width: 770px) {
+  .header .animalForestChatLogo {
+    left: 10px;
+  }
+}
+@media (max-width: 440px) {
+  .header .animalForestChatLogo {
+    top: 18px;
+    left: 2px;
+  }
+}
+.header h1 {
+  position: absolute;
+  font-weight: bold;
+  font-size: 17px;
+  top: 2px;
+  left: 345px;
+}
+@media (max-width: 850px) {
+  .header h1 {
+    top: 10px;
+  }
+}
+@media (max-width: 770px) {
+  .header h1 {
+    left: 70px;
+  }
+}
+@media (max-width: 440px) {
+  .header h1 {
+    font-size: 1em;
+    top: 5px;
+    left: 50px;
+  }
+}
+@media (max-width: 350px) {
+  .header h1 {
+    top: 15px;
+    width: 50px;
+    font-size: 13px;
+  }
+}
+.header h2 {
+  font-weight: normal;
+  font-size: 15px;
+  position: absolute;
+  top: 20px;
+  left: 345px;
+}
+@media (max-width: 850px) {
+  .header h2 {
+    top: 30px;
+    line-height: 0.9em;
+    width: 150px;
+  }
+}
+@media (max-width: 770px) {
+  .header h2 {
+    width: 550px;
+    left: 70px;
+  }
+}
+@media (max-width: 586px) {
+  .header h2 {
+    width: 150px;
+  }
+}
+@media (max-width: 440px) {
+  .header h2 {
+    width: 130px;
+    font-size: 13px;
+    top: 23px;
+    left: 50px;
+  }
+}
+@media (max-width: 350px) {
+  .header h2 {
+    display: none;
+  }
+}
+.header .loggedInUser {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  color: grey;
+}
+@media (max-width: 850px) {
+  .header .loggedInUser {
+    top: 20px;
+  }
+}
+@media (max-width: 440px) {
+  .header .loggedInUser {
+    top: 25px;
+    right: 7px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 350px) {
+  .header .loggedInUser {
+    top: 25px;
+    height: 50px;
+    letter-spacing: -1px;
+  }
+}
+@media (max-width: 240px) {
+  .header .loggedInUser {
+    right: 50px;
+  }
+}
+.header .loggedInUser .userWelcome .user {
+  display: block;
+  color: #000;
+  font-weight: bold;
+}
+@media (max-width: 240px) {
+  .header .loggedInUser .userWelcome {
+    width: 55px;
+  }
+}
+.header .loggedInUser img {
+  position: absolute;
+  top: 0;
+  left: -50px;
+}
+@media (max-width: 440px) {
+  .header .loggedInUser img {
+    top: -5px;
+  }
+}

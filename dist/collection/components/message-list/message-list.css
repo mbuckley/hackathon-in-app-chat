@@ -1,0 +1,147 @@
+.messageList {
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid rgba(128, 128, 128, 0.164);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.164);
+}
+.messageList .networkErrorImg {
+  width: 80%;
+  height: 100%;
+  position: relative;
+  left: 100px;
+}
+@media (max-width: 1024px) {
+  .messageList .networkErrorImg {
+    width: 100%;
+    height: 70%;
+    left: 20px;
+    bottom: -100px;
+  }
+}
+@media (max-width: 440px) {
+  .messageList .networkErrorImg {
+    width: 120%;
+    left: -20px;
+  }
+}
+.messageList .messageDialog {
+  height: inherit;
+  position: relative;
+  margin-top: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  list-style: none;
+}
+.messageList .messageDialog .text {
+  max-width: 270px;
+  padding: 15px;
+  display: inline-block;
+  border-radius: 10px;
+}
+@media (max-width: 240px) {
+  .messageList .messageDialog .text {
+    max-width: 80px;
+  }
+}
+.messageList .messageDialog .name, .messageList .messageDialog .time {
+  font-size: 15px;
+  color: #808080;
+  font-weight: bold;
+  position: absolute;
+}
+.messageList .messageDialog li {
+  width: 300px;
+  position: relative;
+  margin-top: 40px;
+  margin-left: 8px;
+}
+@media (max-width: 440px) {
+  .messageList .messageDialog li {
+    width: 150px;
+  }
+}
+.messageList .messageDialog li .messageSentDay {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 60vw;
+  top: -20px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  color: grey;
+  font-size: 1.2em;
+}
+@media (max-width: 770px) {
+  .messageList .messageDialog li .messageSentDay {
+    width: 90vw;
+  }
+}
+@media (max-width: 440px) {
+  .messageList .messageDialog li .messageSentDay {
+    width: 75vw;
+    font-size: 1.1em;
+  }
+}
+@media (max-width: 240px) {
+  .messageList .messageDialog li .messageSentDay {
+    width: 100vw;
+    left: -45px;
+  }
+}
+.messageList .messageDialog li .messageSentDay:empty {
+  display: none;
+}
+.messageList .messageDialog li img {
+  position: absolute;
+  bottom: 0;
+  left: -30px;
+}
+.messageList .messageDialog li .message {
+  position: relative;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+.messageList .messageDialog li .name, .messageList .messageDialog li .time {
+  left: 5px;
+}
+.messageList .messageDialog li .name {
+  top: -18px;
+}
+.messageList .messageDialog li .time {
+  bottom: -18px;
+}
+.messageList .messageDialog li .text {
+  background-color: rgba(128, 128, 128, 0.164);
+}
+.messageList .messageDialog .senderMessageDialog, .messageList .messageDialog .historyMessageDialog {
+  display: flex;
+  flex-direction: column;
+}
+.messageList .messageDialog .senderMessageDialog .senderMessage, .messageList .messageDialog .historyMessageDialog .senderMessage {
+  align-self: flex-end;
+  margin-right: 50px;
+  color: #fff;
+  text-align: right;
+}
+@media (max-width: 240px) {
+  .messageList .messageDialog .senderMessageDialog .senderMessage, .messageList .messageDialog .historyMessageDialog .senderMessage {
+    margin-right: 95px;
+  }
+}
+.messageList .messageDialog .senderMessageDialog .senderMessage img, .messageList .messageDialog .historyMessageDialog .senderMessage img {
+  left: 305px;
+}
+@media (max-width: 440px) {
+  .messageList .messageDialog .senderMessageDialog .senderMessage img, .messageList .messageDialog .historyMessageDialog .senderMessage img {
+    left: 155px;
+  }
+}
+.messageList .messageDialog .senderMessageDialog .senderMessage .text, .messageList .messageDialog .historyMessageDialog .senderMessage .text {
+  background-color: #d32f2f;
+  text-align: left;
+}
+.messageList .messageDialog .senderMessageDialog .senderMessage .name, .messageList .messageDialog .senderMessageDialog .senderMessage .time, .messageList .messageDialog .historyMessageDialog .senderMessage .name, .messageList .messageDialog .historyMessageDialog .senderMessage .time {
+  left: unset;
+  right: 5px;
+}

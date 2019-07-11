@@ -1,0 +1,17 @@
+{
+  "entries": [
+    "components/containers/message-body/message-body.js",
+    "components/containers/chat/chat.js",
+    "components/header/header.js",
+    "components/online-users/online-users.js",
+    "components/message-list/message-list.js",
+    "components/user/user.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "1.0.7",
+    "typescriptVersion": "3.5.2"
+  },
+  "collections": [],
+  "bundles": []
+}

@@ -1,4 +1,4 @@
-# iac-chat-container
+# iac-message-body
 
 
 
@@ -9,25 +9,23 @@
 
 | Property      | Attribute      | Description | Type  | Default     |
 | ------------- | -------------- | ----------- | ----- | ----------- |
+| `channelName` | `channel-name` |             | `any` | `undefined` |
 | `pubnub`      | `pubnub`       |             | `any` | `undefined` |
 | `state`       | `state`        |             | `any` | `undefined` |
-| `userProfile` | `user-profile` |             | `any` | `undefined` |
 | `uuid`        | `uuid`         |             | `any` | `undefined` |
 
 
 ## Dependencies
 
-### Depends on
+### Used by
 
-- [iac-header](../../header)
-- [iac-message-body](../message-body)
+ - [iac-chat-container](../chat)
 
 ### Graph
 ```mermaid
 graph TD;
-  iac-chat-container --> iac-header
   iac-chat-container --> iac-message-body
-  style iac-chat-container fill:#f9f,stroke:#333,stroke-width:4px
+  style iac-message-body fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
