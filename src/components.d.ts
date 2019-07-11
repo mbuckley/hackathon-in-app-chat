@@ -25,6 +25,13 @@ export namespace Components {
     */
     'userProfile': any;
   }
+  interface IacUser {
+    'loggedInUser': any;
+    /**
+    * User object
+    */
+    'user': any;
+  }
 }
 
 declare global {
@@ -41,9 +48,16 @@ declare global {
     prototype: HTMLIacHeaderElement;
     new (): HTMLIacHeaderElement;
   };
+
+  interface HTMLIacUserElement extends Components.IacUser, HTMLStencilElement {}
+  var HTMLIacUserElement: {
+    prototype: HTMLIacUserElement;
+    new (): HTMLIacUserElement;
+  };
   interface HTMLElementTagNameMap {
     'chat-container': HTMLChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
+    'iac-user': HTMLIacUserElement;
   }
 }
 
@@ -64,10 +78,18 @@ declare namespace LocalJSX {
     */
     'userProfile'?: any;
   }
+  interface IacUser extends JSXBase.HTMLAttributes<HTMLIacUserElement> {
+    'loggedInUser'?: any;
+    /**
+    * User object
+    */
+    'user'?: any;
+  }
 
   interface IntrinsicElements {
     'chat-container': ChatContainer;
     'iac-header': IacHeader;
+    'iac-user': IacUser;
   }
 }
 
