@@ -6,7 +6,9 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  User,
+} from './global/types';
 
 export namespace Components {
   interface IacChatContainer {
@@ -30,6 +32,40 @@ export namespace Components {
     'pubnub': any;
     'state': any;
     'uuid': any;
+  }
+  interface IacMessageList {
+    /**
+    * Is History Loaded?
+    */
+    'historyLoaded': boolean;
+    /**
+    * History Messages
+    */
+    'historyMessages': any;
+    /**
+    * Message Send Date
+    */
+    'messageSentDate': any;
+    /**
+    * Network error image
+    */
+    'networkErrorImage': any;
+    /**
+    * Network error status
+    */
+    'networkErrorStatus': any;
+    /**
+    * Senders Info
+    */
+    'sendersInfo': any;
+    /**
+    * user
+    */
+    'user': User;
+    /**
+    * User uuid
+    */
+    'uuid': string;
   }
   interface IacOnlineUsers {
     /**
@@ -71,6 +107,12 @@ declare global {
     new (): HTMLIacMessageBodyElement;
   };
 
+  interface HTMLIacMessageListElement extends Components.IacMessageList, HTMLStencilElement {}
+  var HTMLIacMessageListElement: {
+    prototype: HTMLIacMessageListElement;
+    new (): HTMLIacMessageListElement;
+  };
+
   interface HTMLIacOnlineUsersElement extends Components.IacOnlineUsers, HTMLStencilElement {}
   var HTMLIacOnlineUsersElement: {
     prototype: HTMLIacOnlineUsersElement;
@@ -86,6 +128,7 @@ declare global {
     'iac-chat-container': HTMLIacChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
     'iac-message-body': HTMLIacMessageBodyElement;
+    'iac-message-list': HTMLIacMessageListElement;
     'iac-online-users': HTMLIacOnlineUsersElement;
     'iac-user': HTMLIacUserElement;
   }
@@ -114,6 +157,40 @@ declare namespace LocalJSX {
     'state'?: any;
     'uuid'?: any;
   }
+  interface IacMessageList extends JSXBase.HTMLAttributes<HTMLIacMessageListElement> {
+    /**
+    * Is History Loaded?
+    */
+    'historyLoaded'?: boolean;
+    /**
+    * History Messages
+    */
+    'historyMessages'?: any;
+    /**
+    * Message Send Date
+    */
+    'messageSentDate'?: any;
+    /**
+    * Network error image
+    */
+    'networkErrorImage'?: any;
+    /**
+    * Network error status
+    */
+    'networkErrorStatus'?: any;
+    /**
+    * Senders Info
+    */
+    'sendersInfo'?: any;
+    /**
+    * user
+    */
+    'user'?: User;
+    /**
+    * User uuid
+    */
+    'uuid'?: string;
+  }
   interface IacOnlineUsers extends JSXBase.HTMLAttributes<HTMLIacOnlineUsersElement> {
     /**
     * The logged in user uuid
@@ -136,6 +213,7 @@ declare namespace LocalJSX {
     'iac-chat-container': IacChatContainer;
     'iac-header': IacHeader;
     'iac-message-body': IacMessageBody;
+    'iac-message-list': IacMessageList;
     'iac-online-users': IacOnlineUsers;
     'iac-user': IacUser;
   }

@@ -7,7 +7,6 @@ import { Component, Prop, h } from '@stencil/core';
 })
 export class User {
   private parsedUser: any;
-  // const {user, getUserName, loggedInUser, getUserDesignation, getUserAvatarUrl} = props;
   /**
    * User object
    */
