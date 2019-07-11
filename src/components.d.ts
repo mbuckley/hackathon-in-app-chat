@@ -9,6 +9,7 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
+  interface ChatContainer {}
   interface MyComponent {
     /**
     * The first name
@@ -28,17 +29,25 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLChatContainerElement extends Components.ChatContainer, HTMLStencilElement {}
+  var HTMLChatContainerElement: {
+    prototype: HTMLChatContainerElement;
+    new (): HTMLChatContainerElement;
+  };
+
   interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
   var HTMLMyComponentElement: {
     prototype: HTMLMyComponentElement;
     new (): HTMLMyComponentElement;
   };
   interface HTMLElementTagNameMap {
+    'chat-container': HTMLChatContainerElement;
     'my-component': HTMLMyComponentElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface ChatContainer extends JSXBase.HTMLAttributes<HTMLChatContainerElement> {}
   interface MyComponent extends JSXBase.HTMLAttributes<HTMLMyComponentElement> {
     /**
     * The first name
@@ -55,6 +64,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
+    'chat-container': ChatContainer;
     'my-component': MyComponent;
   }
 }

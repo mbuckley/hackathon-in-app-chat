@@ -1,6 +1,7 @@
 // tag::CHT-1.1[]
-import React from 'react';
-import { h } from '@stencil/core';
+// import React from 'react';
+// import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
+import { Component, h } from '@stencil/core';
 
 // import PubNubReact from 'pubnub-react';
 // import OnlineUsers from '../components/OnlineUsers';
@@ -21,9 +22,15 @@ import { h } from '@stencil/core';
 //   public state: any;
 // }
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+@Component({
+  tag: 'chat-container',
+  shadow: true
+})
+export class ChatContainer {
+
+// class App extends React.Component {
+//   constructor(props) {
+//     super(props);
     // const randomUser = this.getRandomUser();
     // this.uuid = randomUser.uuid;
     // this.designation = randomUser.designation;
@@ -50,7 +57,7 @@ class App extends React.Component {
     //   networkErrorImg: null
     // };
     // this.pubnub.init(this);
-  }
+
   // end::CHT-1.1[]
 
   // tag::CHT-2.1[]
@@ -302,5 +309,3 @@ class App extends React.Component {
 // tag::CHT-1.2[]
 }
 // end::CHT-1.2[]
-
-export default App;
