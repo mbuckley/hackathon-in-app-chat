@@ -3,7 +3,7 @@
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { Component, h } from '@stencil/core';
 
-// import PubNubReact from 'pubnub-react';
+import PubNubReact from 'pubnub-react';
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
