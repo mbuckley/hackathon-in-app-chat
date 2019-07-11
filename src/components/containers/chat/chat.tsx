@@ -4,6 +4,7 @@
 import { Component, Prop, h } from '@stencil/core';
 
 import PubNub from 'pubnub';
+import { getUserAvatarUrl, /*getUserDesignation, getUserName, getUser*/ } from "../../../utils/utils";
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
@@ -37,7 +38,7 @@ export class ChatContainer {
 
     this.userProfile = {
       name: "Demo User",
-      image: this.getUserAvatarUrl(null, null),
+      image: getUserAvatarUrl([], null, null),
       // image: randomUser.profileImage.lgImage
     };
 
@@ -235,6 +236,10 @@ export class ChatContainer {
     return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' })
   };
 
+  getWeekday(timetoken: any) {
+    return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
+  };
+
   getDate(timetoken: any, messageType: any, index = 0) {
     const messageWeekday = this.getWeekday(timetoken);
     const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
@@ -257,42 +262,6 @@ export class ChatContainer {
     }
   };
 
-  getWeekday = (timetoken: any) => {
-    return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', {weekday: 'long'});
-  };
-
-  getUser(_uuid: any) {
-    // return users.find( element => element.uuid === uuid);
-    return this.uuid;
-  };
-
-  getUserName(_uuid: any) {
-    // const user = this.getUser(uuid);
-
-    // if (user) {
-    //   return user.firstName + ' ' + user.lastName;
-    // }
-    return "Demo User";
-  };
-
-  getUserDesignation(_uuid: any) {
-    // const user = this.getUser(uuid);
-
-    // if (user) {
-    //   return user.designation;
-    // }
-    return;
-  };
-
-  getUserAvatarUrl (_uuid: any, _size: any) {
-    // const user = this.getUser(uuid);
-
-    // if (user) {
-    //     return user.profileImage[size];
-    // }
-    return "https://vrcmods.com/imgs/ifybI41CGGy8.jpg";
-  };
-
   scrollToBottom() {
     const elem = document.querySelector(".messageDialog");
 
@@ -308,6 +277,19 @@ export class ChatContainer {
           userProfile={this.userProfile}
           onlineUsersCount={50}
         ></iac-header>
+        {/* <iac-message-list
+          uuid={this.uuid}
+          sendersInfo={this.state.sendersInfo}
+          user={this.state.user}
+          // getUserName={this.getUserName}
+          // getUserAvatarUrl={this.getUserAvatarUrl}
+          getTime={this.getTime}
+          messageSentDate={this.state.messageSentDate}
+          getDate={this.getDate}
+          historyLoaded={this.state.historyLoaded}
+          historyMessages={this.state.historyMessages}
+          networkErrorStatus={this.state.networkErrorStatus}
+          networkErrorImg={this.state.networkErrorImg}/> */}
       </div>
     );
   }
