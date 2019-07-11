@@ -1,7 +1,7 @@
 @import '../../../global/styles/scss/0_settings/functions&variables.scss';
 @import '../../../global/styles/scss/0_settings/mixins.scss';
 
-.messageBody {
+:host {
   grid-row: 3;
   grid-column: 2;
 

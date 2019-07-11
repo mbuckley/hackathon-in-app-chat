@@ -189,9 +189,7 @@ export class Chat {
     render() {
         return (h("div", { class: "grid" },
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }),
-            h("h3", null, "User"),
             h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }),
-            h("h3", null, "Online Users"),
             h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
             h("iac-message-list", { "message-sent-date": "July 12, 2019" })));
