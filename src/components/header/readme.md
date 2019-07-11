@@ -17,12 +17,12 @@
 
 ### Used by
 
- - [iac-chat-container](../containers/chat)
+ - [iac-chat](../containers/chat)
 
 ### Graph
 ```mermaid
 graph TD;
-  iac-chat-container --> iac-header
+  iac-chat --> iac-header
   style iac-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -27,6 +27,17 @@ export namespace Components {
     */
     'userProfile': any;
   }
+  interface IacHistoryMessageList {
+    'getDate': any;
+    'getTime': any;
+    'getUserAvatarUrl': any;
+    'getUserName': any;
+    'historyLoaded': any;
+    'historyMessages': any;
+    'networkErrorImg': any;
+    'networkErrorStatus': any;
+    'styleForMessageSender': any;
+  }
   interface IacMessageBody {
     'channelName': any;
     'pubnub': any;
@@ -46,14 +57,6 @@ export namespace Components {
     * Message Send Date
     */
     'messageSentDate': any;
-    /**
-    * Network error image
-    */
-    'networkErrorImage': any;
-    /**
-    * Network error status
-    */
-    'networkErrorStatus': any;
     /**
     * Senders Info
     */
@@ -76,6 +79,14 @@ export namespace Components {
     * Online Users array
     */
     'onlineUsers': any;
+  }
+  interface IacSenderMessageList {
+    'getDate': any;
+    'getTime': any;
+    'getUserAvatarUrl': any;
+    'getUserName': any;
+    'sendersInfo': any;
+    'styleForMessageSender': any;
   }
   interface IacUser {
     'loggedInUser': any;
@@ -101,6 +112,12 @@ declare global {
     new (): HTMLIacHeaderElement;
   };
 
+  interface HTMLIacHistoryMessageListElement extends Components.IacHistoryMessageList, HTMLStencilElement {}
+  var HTMLIacHistoryMessageListElement: {
+    prototype: HTMLIacHistoryMessageListElement;
+    new (): HTMLIacHistoryMessageListElement;
+  };
+
   interface HTMLIacMessageBodyElement extends Components.IacMessageBody, HTMLStencilElement {}
   var HTMLIacMessageBodyElement: {
     prototype: HTMLIacMessageBodyElement;
@@ -119,6 +136,12 @@ declare global {
     new (): HTMLIacOnlineUsersElement;
   };
 
+  interface HTMLIacSenderMessageListElement extends Components.IacSenderMessageList, HTMLStencilElement {}
+  var HTMLIacSenderMessageListElement: {
+    prototype: HTMLIacSenderMessageListElement;
+    new (): HTMLIacSenderMessageListElement;
+  };
+
   interface HTMLIacUserElement extends Components.IacUser, HTMLStencilElement {}
   var HTMLIacUserElement: {
     prototype: HTMLIacUserElement;
@@ -127,9 +150,11 @@ declare global {
   interface HTMLElementTagNameMap {
     'iac-chat': HTMLIacChatElement;
     'iac-header': HTMLIacHeaderElement;
+    'iac-history-message-list': HTMLIacHistoryMessageListElement;
     'iac-message-body': HTMLIacMessageBodyElement;
     'iac-message-list': HTMLIacMessageListElement;
     'iac-online-users': HTMLIacOnlineUsersElement;
+    'iac-sender-message-list': HTMLIacSenderMessageListElement;
     'iac-user': HTMLIacUserElement;
   }
 }
@@ -151,6 +176,17 @@ declare namespace LocalJSX {
     */
     'userProfile'?: any;
   }
+  interface IacHistoryMessageList extends JSXBase.HTMLAttributes<HTMLIacHistoryMessageListElement> {
+    'getDate'?: any;
+    'getTime'?: any;
+    'getUserAvatarUrl'?: any;
+    'getUserName'?: any;
+    'historyLoaded'?: any;
+    'historyMessages'?: any;
+    'networkErrorImg'?: any;
+    'networkErrorStatus'?: any;
+    'styleForMessageSender'?: any;
+  }
   interface IacMessageBody extends JSXBase.HTMLAttributes<HTMLIacMessageBodyElement> {
     'channelName'?: any;
     'pubnub'?: any;
@@ -170,14 +206,6 @@ declare namespace LocalJSX {
     * Message Send Date
     */
     'messageSentDate'?: any;
-    /**
-    * Network error image
-    */
-    'networkErrorImage'?: any;
-    /**
-    * Network error status
-    */
-    'networkErrorStatus'?: any;
     /**
     * Senders Info
     */
@@ -201,6 +229,14 @@ declare namespace LocalJSX {
     */
     'onlineUsers'?: any;
   }
+  interface IacSenderMessageList extends JSXBase.HTMLAttributes<HTMLIacSenderMessageListElement> {
+    'getDate'?: any;
+    'getTime'?: any;
+    'getUserAvatarUrl'?: any;
+    'getUserName'?: any;
+    'sendersInfo'?: any;
+    'styleForMessageSender'?: any;
+  }
   interface IacUser extends JSXBase.HTMLAttributes<HTMLIacUserElement> {
     'loggedInUser'?: any;
     /**
@@ -212,9 +248,11 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'iac-chat': IacChat;
     'iac-header': IacHeader;
+    'iac-history-message-list': IacHistoryMessageList;
     'iac-message-body': IacMessageBody;
     'iac-message-list': IacMessageList;
     'iac-online-users': IacOnlineUsers;
+    'iac-sender-message-list': IacSenderMessageList;
     'iac-user': IacUser;
   }
 }

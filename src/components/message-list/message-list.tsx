@@ -1,6 +1,7 @@
 import { Component, Prop, h } from '@stencil/core';
 
 import { User } from "../../global/types";
+import { getDate, getTime, getUserAvatarUrl, getUserName } from '../../utils/utils';
 
 @Component({
   tag: 'iac-message-list',
@@ -8,10 +9,6 @@ import { User } from "../../global/types";
   shadow: true
 })
 export class MessageList {
-
-  // const {uuid, sendersInfo, getTime, historyLoaded, historyMessages, getUserName,
-  //   getUserAvatarUrl, networkErrorStatus, networkErrorImg, messageSentDate, getDate} = props;
-  // end::MSGS-1.1[]
 
   /**
    * User uuid
@@ -39,22 +36,11 @@ export class MessageList {
   @Prop() user: User;
 
   /**
-   * Network error status
-   */
-  @Prop() networkErrorStatus: any;
-
-  /**
-   * Network error image
-   */
-  @Prop() networkErrorImage: any;
-
-  /**
    * Message Send Date
    */
   @Prop() messageSentDate: any;
 
-
-  // private styleForMessageSender: Function;
+  private styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
 
   componentWillLoad() {
     // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
@@ -64,27 +50,27 @@ export class MessageList {
     return (
       <div class="messageList">
         <ul class="messageDialog">
+        <h2>HistoryMessageList goes here</h2>
           {this.messageSentDate.length > 0 &&
-            <h2>HistoryMessageList goes here</h2>
-            // <HistoryMessageList
-            //   historyMessages={historyMessages}
-            //   historyLoaded={historyLoaded}
-            //   networkErrorImg={networkErrorImg}
-            //   networkErrorStatus={networkErrorStatus}
-            //   getDate={getDate}
-            //   getUserName={getUserName}
-            //   getTime={getTime}
-            //   getUserAvatarUrl={getUserAvatarUrl}
-            //   styleForMessageSender={styleForMessageSender}/>
+            <iac-history-message-list
+              historyMessages='[{ "entry": {"senderId": "forest-animal-1"}, "timetoken": "15628726763037678" }]'
+              historyLoaded={true}
+              getDate={getDate}
+              getUserName={getUserName}
+              getTime={getTime}
+              getUserAvatarUrl={getUserAvatarUrl}
+              styleForMessageSender={this.styleForMessageSender}>
+            </iac-history-message-list>
           }
           <h2>SenderMessageList goes here</h2>
-          {/* <SenderMessageList
-            sendersInfo={sendersInfo}
+          <iac-sender-message-list
+            senders-info='[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]'
+            styleForMessageSender={this.styleForMessageSender}
             getDate={getDate}
             getUserName={getUserName}
             getTime={getTime}
-            getUserAvatarUrl={getUserAvatarUrl}
-            styleForMessageSender={styleForMessageSender}/> */}
+            getUserAvatarUrl={getUserAvatarUrl}>
+          </iac-sender-message-list>
         </ul>
     </div>
     );

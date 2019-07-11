@@ -1,0 +1,36 @@
+@import '../../global/styles/scss/0_settings/functions&variables.scss';
+@import '../../global/styles/scss/0_settings/mixins.scss';
+
+.senderMessageDialog, .historyMessageDialog {
+  display: flex;
+  flex-direction: column;
+
+  .senderMessage {
+      align-self: flex-end;
+      margin-right: 50px;
+      color: #fff;
+      text-align: right;
+
+      @include breakpoint ($Xsmall_screens) {
+          margin-right: 95px;
+      }
+
+      img {
+          left: 305px;
+
+          @include breakpoint ($mobile) {
+              left: 155px;
+          }
+      }
+
+      .text {
+          background-color: color(primary);
+          text-align: left;
+      }
+
+      .name, .time {
+          left: unset;
+          right: 5px;
+      }
+  }
+}

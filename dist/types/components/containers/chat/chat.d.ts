@@ -9,9 +9,6 @@ export declare class Chat {
     subscribe(): void;
     hereNow(): void;
     leaveChat(): void;
-    getTime(timetoken: any): string;
-    getWeekday(timetoken: any): string;
-    getDate(timetoken: any, messageType: any, index?: number): string;
     scrollToBottom(): void;
     render(): any;
 }

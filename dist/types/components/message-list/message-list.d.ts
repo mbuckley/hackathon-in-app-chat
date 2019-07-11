@@ -21,17 +21,10 @@ export declare class MessageList {
      */
     user: User;
     /**
-     * Network error status
-     */
-    networkErrorStatus: any;
-    /**
-     * Network error image
-     */
-    networkErrorImage: any;
-    /**
      * Message Send Date
      */
     messageSentDate: any;
+    private styleForMessageSender;
     componentWillLoad(): void;
     render(): any;
 }

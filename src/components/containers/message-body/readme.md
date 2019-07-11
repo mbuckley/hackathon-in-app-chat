@@ -19,12 +19,12 @@
 
 ### Used by
 
- - [iac-chat-container](../chat)
+ - [iac-chat](../chat)
 
 ### Graph
 ```mermaid
 graph TD;
-  iac-chat-container --> iac-message-body
+  iac-chat --> iac-message-body
   style iac-message-body fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

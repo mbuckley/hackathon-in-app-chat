@@ -3,7 +3,7 @@
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { h } from '@stencil/core';
 import PubNub from 'pubnub';
-// import { getUserAvatarUrl, /*getUserDesignation, getUserName, getUser*/ } from "../../../utils/utils";
+import { getWeekday } from "../../../utils/utils";
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
@@ -104,7 +104,7 @@ export class Chat {
                     reverse: false,
                     stringifiedTimeToken: true
                 }, (_status, response) => {
-                    const lastMessageWeekday = this.getWeekday(response.endTimeToken);
+                    const lastMessageWeekday = getWeekday(response.endTimeToken);
                     // this.setState({
                     //   historyLoaded: true,
                     //   historyMessages: response.messages,
@@ -113,7 +113,7 @@ export class Chat {
                     this.state.historyLoaded = true;
                     this.state.historyMessages = response.messages;
                     this.state.lastMessageWeekday = lastMessageWeekday;
-                    let messageSentDate = this.state.historyMessages.map(message => this.getWeekday(message.timetoken));
+                    let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
                     // this.setState({messageSentDate});
                     this.state.messageSentDate = messageSentDate;
                     this.scrollToBottom();
@@ -139,7 +139,7 @@ export class Chat {
             });
             // this.setState(this.state);
             this.state = this.state;
-            const lastMessageWeekday = this.getWeekday(m.timetoken);
+            const lastMessageWeekday = getWeekday(m.timetoken);
             // this.setState({
             //   sendersInfo,
             //   lastMessageWeekday
@@ -177,33 +177,6 @@ export class Chat {
     ;
     leaveChat() {
         this.pubnub.unsubscribeAll();
-    }
-    ;
-    getTime(timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
-    }
-    ;
-    getWeekday(timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
-    }
-    ;
-    getDate(timetoken, messageType, index = 0) {
-        const messageWeekday = this.getWeekday(timetoken);
-        const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
-        switch (messageType) {
-            case 'historyMessage':
-                if (this.state.messageSentDate[index - 1] !== messageWeekday) {
-                    return `${date}, ${messageWeekday}`;
-                }
-                break;
-            case 'senderMessage':
-                if (this.state.lastMessageWeekday !== messageWeekday) {
-                    return `${date}, ${messageWeekday}`;
-                }
-                break;
-            default:
-                return;
-        }
     }
     ;
     scrollToBottom() {
