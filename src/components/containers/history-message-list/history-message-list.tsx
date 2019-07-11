@@ -26,7 +26,7 @@ export class HistoryMessageList {
 
   componentWillLoad() {
     console.log(this.historyMessages);
-    this.parsedHistoryMessages = JSON.parse(this.historyMessages);
+    this.parsedHistoryMessages = this.historyMessages;
     console.log(this.parsedHistoryMessages);
     // console.log(this.parsedOnlineUsers);
   }

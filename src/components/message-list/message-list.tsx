@@ -43,6 +43,7 @@ export class MessageList {
   private styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
 
   componentWillLoad() {
+    console.log("!!!!", this.historyMessages);
     // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
   }
 
@@ -53,8 +54,8 @@ export class MessageList {
         <h2>HistoryMessageList goes here</h2>
           {this.messageSentDate.length > 0 &&
             <iac-history-message-list
-              historyMessages='[{ "entry": {"senderId": "forest-animal-1"}, "timetoken": "15628726763037678" }]'
-              historyLoaded={true}
+              historyMessages={this.historyMessages}
+              historyLoaded={this.historyMessages}
               getDate={getDate}
               getUserName={getUserName}
               getTime={getTime}

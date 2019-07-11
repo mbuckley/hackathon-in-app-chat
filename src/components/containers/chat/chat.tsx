@@ -31,7 +31,7 @@ export class Chat {
     this.pubnub = new PubNub({
       publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
       subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
-      uuid: this.uuid, //Get from Mange
+      // uuid: this.uuid, //Get from Mange
       autoNetworkDetection: true,
       restore: true,
     });
@@ -51,148 +51,137 @@ export class Chat {
     };
   }
 
-  componentWillMount() {
+  componentDidLoad() {
     // const networkError = new Image();
     // networkError.src = networkErrorImg;
     // this.setState({networkErrorImg: networkError});
 
-    this.pubnub.subscribe();
+    this.pubnub.subscribe({channels: [channelName], withPresence: true });
 
-    this.pubnub.getPresence(channelName, (presence: any) => {
-      if (presence.action === 'join') {
-        let users = this.state.onlineUsers;
+    console.log(this.pubnub);
 
-        users.push({
-          state: presence.state,
-          uuid: presence.uuid
+    this.pubnub.addListener({
+      status: (status) => {
+
+        console.log("STATUS called", status);
+        if (status.category === 'PNConnectedCategory') {
+          this.hereNow();
+
+          console.log("GETTING HISTORY");
+
+          this.pubnub.history({
+            channel: "test-channel",
+            count: 1,
+            // reverse: false,
+            // stringifiedTimeToken: true,
+          }, (status: any, response: any) => {
+            console.log("STATUS", status);
+            console.log("RESPONSE", response);
+            // const lastMessageWeekday = getWeekday(response.endTimeToken);
+
+          //   // // this.setState({
+          //   // //   historyLoaded: true,
+          //   // //   historyMessages: response.messages,
+          //   // //   lastMessageWeekday
+          //   // // });
+          //   // this.state.historyLoaded = true;
+          //   // this.state.historyMessages = response.messages;
+          //   // this.state.lastMessageWeekday = lastMessageWeekday;
+
+          //   // let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
+          //   // // this.setState({messageSentDate});
+          //   // this.state.messageSentDate = messageSentDate;
+          //   // this.scrollToBottom();
+          });
+        }
+
+        if (status.category === 'PNNetworkDownCategory') {
+          // this.setState({networkErrorStatus: true});
+          this.state.networkErrorStatus = true;
+        }
+
+        if (status.category === 'PNNetworkUpCategory') {
+          // this.setState({networkErrorStatus: false});
+          this.state.networkErrorStatus = false;
+          this.pubnub.reconnect();
+          this.scrollToBottom();
+        }
+      },
+      message: (m: any) => {
+        console.log("MESSAGE called");
+        const sendersInfo = this.state.sendersInfo;
+
+        sendersInfo.push({
+          senderId: m.message.senderId,
+          text: m.message.text,
+          timetoken: m.timetoken,
         });
 
-        // this.setState({
-        //   onlineUsers: users,
-        //   onlineUsersCount: this.state.onlineUsersCount + 1
-        // });
-        this.state.onlineUsers = users,
-        this.state.onlineUsersCount = this.state.onlineUsersCount + 1
-      }
+        this.state = this.state;
 
-      if ((presence.action === 'leave') || (presence.action === 'timeout')) {
-        let leftUsers = this.state.onlineUsers.filter(users => users.uuid !== presence.uuid);
+        const lastMessageWeekday = getWeekday(m.timetoken);
+        this.state.sendersInfo = sendersInfo;
+        this.state.lastMessageWeekday = lastMessageWeekday;
+        // this.scrollToBottom();
+      },
+      presence: (presence: any) => {
+        console.log("PRESENCE called");
+        if (presence.action === 'join') {
+          let users = this.state.onlineUsers;
 
-        // this.setState({
-        //   onlineUsers: leftUsers,
-        // });
-        this.state.onlineUsers = leftUsers;
+          users.push({
+            state: presence.state,
+            uuid: presence.uuid
+          });
 
-        const length = this.state.onlineUsers.length;
-        // this.setState({
-        //   onlineUsersCount: length
-        // });
-        this.state.onlineUsersCount = length;
+          this.state.onlineUsers = users,
+          this.state.onlineUsersCount = this.state.onlineUsersCount + 1
+        }
 
-      }
+        if ((presence.action === 'leave') || (presence.action === 'timeout')) {
+          let leftUsers = this.state.onlineUsers.filter(users => users.uuid !== presence.uuid);
+          this.state.onlineUsers = leftUsers;
 
-      if (presence.action === 'interval') {
-        if (presence.join || presence.leave || presence.timeout) {
-          let onlineUsers = this.state.onlineUsers;
-          let onlineUsersCount = this.state.onlineUsersCount;
+          const length = this.state.onlineUsers.length;
+          this.state.onlineUsersCount = length;
 
-          if (presence.join) {
-            presence.join.map(user => (
-              user !== this.uuid &&
-              onlineUsers.push({
-                state: presence.state,
-                uuid: user
-              })
-            ));
+        }
 
-            onlineUsersCount += presence.join.length;
+        if (presence.action === 'interval') {
+          if (presence.join || presence.leave || presence.timeout) {
+            let onlineUsers = this.state.onlineUsers;
+            let onlineUsersCount = this.state.onlineUsersCount;
+
+            if (presence.join) {
+              presence.join.map(user => (
+                user !== this.uuid &&
+                onlineUsers.push({
+                  state: presence.state,
+                  uuid: user
+                })
+              ));
+
+              onlineUsersCount += presence.join.length;
+            }
+
+            if (presence.leave) {
+              presence.leave.map(leftUser => onlineUsers.splice(onlineUsers.indexOf(leftUser), 1));
+              onlineUsersCount -= presence.leave.length;
+            }
+
+            if (presence.timeout) {
+              presence.timeout.map(timeoutUser => onlineUsers.splice(onlineUsers.indexOf(timeoutUser), 1));
+              onlineUsersCount -= presence.timeout.length;
+            }
+
+            this.state.onlineUsers = onlineUsers;
+            this.state.onlineUsersCount = onlineUsersCount
           }
-
-          if (presence.leave) {
-            presence.leave.map(leftUser => onlineUsers.splice(onlineUsers.indexOf(leftUser), 1));
-            onlineUsersCount -= presence.leave.length;
-          }
-
-          if (presence.timeout) {
-            presence.timeout.map(timeoutUser => onlineUsers.splice(onlineUsers.indexOf(timeoutUser), 1));
-            onlineUsersCount -= presence.timeout.length;
-          }
-
-          // this.setState({
-          //   onlineUsers,
-          //   onlineUsersCount
-          // });
-          this.state.onlineUsers = onlineUsers;
-          this.state.onlineUsersCount = onlineUsersCount
         }
       }
     });
 
-    this.pubnub.getStatus((status: any) => {
-      if (status.category === 'PNConnectedCategory') {
-        this.hereNow();
-
-        this.pubnub.history({
-          channel: channelName,
-          count:25,
-          reverse: false,
-          stringifiedTimeToken: true
-        }, (_status: any, response: any) => {
-          const lastMessageWeekday = getWeekday(response.endTimeToken);
-
-          // this.setState({
-          //   historyLoaded: true,
-          //   historyMessages: response.messages,
-          //   lastMessageWeekday
-          // });
-          this.state.historyLoaded = true;
-          this.state.historyMessages = response.messages;
-          this.state.lastMessageWeekday = lastMessageWeekday;
-
-          let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
-          // this.setState({messageSentDate});
-          this.state.messageSentDate = messageSentDate;
-          this.scrollToBottom();
-        });
-      }
-
-      if (status.category === 'PNNetworkDownCategory') {
-        // this.setState({networkErrorStatus: true});
-        this.state.networkErrorStatus = true;
-      }
-
-      if (status.category === 'PNNetworkUpCategory') {
-        // this.setState({networkErrorStatus: false});
-        this.state.networkErrorStatus = false;
-        this.pubnub.reconnect();
-        this.scrollToBottom();
-      }
-    });
-
-    this.pubnub.getMessage(channelName, (m: any) => {
-      const sendersInfo = this.state.sendersInfo;
-
-      sendersInfo.push({
-        senderId: m.message.senderId,
-        text: m.message.text,
-        timetoken: m.timetoken,
-      });
-
-      // this.setState(this.state);
-      this.state = this.state;
-
-      const lastMessageWeekday = getWeekday(m.timetoken);
-      // this.setState({
-      //   sendersInfo,
-      //   lastMessageWeekday
-      // });
-      this.state.sendersInfo = sendersInfo;
-      this.state.lastMessageWeekday = lastMessageWeekday;
-
-      this.scrollToBottom();
-    });
-
-    window.addEventListener('beforeunload', this.leaveChat);
+    // window.addEventListener('beforeunload', this.leaveChat);
   }
 
   componentWillUnmount() {
@@ -207,18 +196,18 @@ export class Chat {
   };
 
   hereNow() {
-    this.pubnub.hereNow({
-      channels: channelName,
-      includeUUIDs: true,
-      includeState: false
-    }, (_status: any, response: any) => {
-      // this.setState({
-      //   onlineUsers: response.channels[forestChatChannel].occupants,
-      //   onlineUsersCount: response.channels[forestChatChannel].occupancy
-      // });
-      this.state.onlineUsers = response.channels[channelName].occupants;
-      this.state.onlineUsersCount = response.channels[channelName].occupancy;
-    });
+    // this.pubnub.hereNow({
+    //   channels: channelName,
+    //   includeUUIDs: true,
+    //   includeState: false
+    // }, (_status: any, response: any) => {
+    //   // this.setState({
+    //   //   onlineUsers: response.channels[forestChatChannel].occupants,
+    //   //   onlineUsersCount: response.channels[forestChatChannel].occupancy
+    //   // });
+    //   this.state.onlineUsers = response.channels[channelName].occupants;
+    //   this.state.onlineUsersCount = response.channels[channelName].occupancy;
+    // });
   };
 
   leaveChat() {
@@ -250,6 +239,8 @@ export class Chat {
         </iac-message-body>
         <iac-message-list
           message-sent-date="July 12, 2019"
+          historyLoaded={this.state.historyLoaded}
+          historyMessages={this.state.historyMessages}
         ></iac-message-list>
       </div>
     );

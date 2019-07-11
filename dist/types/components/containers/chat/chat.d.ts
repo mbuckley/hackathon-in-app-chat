@@ -4,7 +4,7 @@ export declare class Chat {
     userProfile: any;
     uuid: any;
     componentWillLoad(): void;
-    componentWillMount(): void;
+    componentDidLoad(): void;
     componentWillUnmount(): void;
     subscribe(): void;
     hereNow(): void;
