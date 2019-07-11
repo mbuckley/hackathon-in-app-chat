@@ -25,6 +25,16 @@ export namespace Components {
     */
     'userProfile': any;
   }
+  interface IacOnlineUsers {
+    /**
+    * The logged in user uuid
+    */
+    'loggedInUser': string;
+    /**
+    * Online Users array
+    */
+    'onlineUsers': any;
+  }
 }
 
 declare global {
@@ -41,9 +51,16 @@ declare global {
     prototype: HTMLIacHeaderElement;
     new (): HTMLIacHeaderElement;
   };
+
+  interface HTMLIacOnlineUsersElement extends Components.IacOnlineUsers, HTMLStencilElement {}
+  var HTMLIacOnlineUsersElement: {
+    prototype: HTMLIacOnlineUsersElement;
+    new (): HTMLIacOnlineUsersElement;
+  };
   interface HTMLElementTagNameMap {
     'iac-chat-container': HTMLIacChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
+    'iac-online-users': HTMLIacOnlineUsersElement;
   }
 }
 
@@ -64,10 +81,21 @@ declare namespace LocalJSX {
     */
     'userProfile'?: any;
   }
+  interface IacOnlineUsers extends JSXBase.HTMLAttributes<HTMLIacOnlineUsersElement> {
+    /**
+    * The logged in user uuid
+    */
+    'loggedInUser'?: string;
+    /**
+    * Online Users array
+    */
+    'onlineUsers'?: any;
+  }
 
   interface IntrinsicElements {
     'iac-chat-container': IacChatContainer;
     'iac-header': IacHeader;
+    'iac-online-users': IacOnlineUsers;
   }
 }
 
