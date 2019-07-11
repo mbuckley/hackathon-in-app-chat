@@ -20,7 +20,7 @@ export class Header {
   @Prop() onlineUsersCount: number;
 
   componentWillLoad() {
-    this.parsedUserProfile = this.userProfile;
+    this.parsedUserProfile = JSON.parse(this.userProfile);
   }
 
   render() {

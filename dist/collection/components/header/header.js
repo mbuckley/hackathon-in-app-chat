@@ -3,7 +3,7 @@ import { h } from '@stencil/core';
 // import onlineUsersLogo from '../../global/styles/avatars/45px/onlineUsersLogo.png';
 export class Header {
     componentWillLoad() {
-        this.parsedUserProfile = this.userProfile;
+        this.parsedUserProfile = JSON.parse(this.userProfile);
     }
     render() {
         return (h("div", { class: 'header' },

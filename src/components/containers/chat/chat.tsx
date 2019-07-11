@@ -4,7 +4,7 @@
 import { Component, Prop, h } from '@stencil/core';
 
 import PubNub from 'pubnub';
-import { getUserAvatarUrl, /*getUserDesignation, getUserName, getUser*/ } from "../../../utils/utils";
+// import { getUserAvatarUrl, /*getUserDesignation, getUserName, getUser*/ } from "../../../utils/utils";
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
@@ -18,10 +18,10 @@ import { getUserAvatarUrl, /*getUserDesignation, getUserName, getUser*/ } from "
 const channelName = "test-channel";
 
 @Component({
-  tag: 'iac-chat-container',
+  tag: 'iac-chat',
   shadow: true
 })
-export class ChatContainer {
+export class Chat {
   @Prop() pubnub: any;
   @Prop() state: any;
   @Prop() userProfile: any;
@@ -31,18 +31,11 @@ export class ChatContainer {
     this.pubnub = new PubNub({
       publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
       subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
-      uuid: "dfsgsdfgdsfgdsfgdsf", //Get from Mange
+      uuid: this.uuid, //Get from Mange
       autoNetworkDetection: true,
       restore: true,
     });
 
-    this.userProfile = {
-      name: "Demo User",
-      image: getUserAvatarUrl([], null, null),
-      // image: randomUser.profileImage.lgImage
-    };
-
-    this.uuid = "34634634563546543";
     // this.designation = randomUser.designation;
 
     this.state = {

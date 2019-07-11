@@ -1,4 +1,4 @@
-export declare class ChatContainer {
+export declare class Chat {
     pubnub: any;
     state: any;
     userProfile: any;

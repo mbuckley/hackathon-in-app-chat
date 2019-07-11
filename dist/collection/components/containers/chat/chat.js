@@ -3,7 +3,7 @@
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { h } from '@stencil/core';
 import PubNub from 'pubnub';
-import { getUserAvatarUrl, } from "../../../utils/utils";
+// import { getUserAvatarUrl, /*getUserDesignation, getUserName, getUser*/ } from "../../../utils/utils";
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
@@ -13,20 +13,15 @@ import { getUserAvatarUrl, } from "../../../utils/utils";
 // import {forestChatChannel} from '../config/chat';
 // import networkErrorImg from '../styles/networkError.png';
 const channelName = "test-channel";
-export class ChatContainer {
+export class Chat {
     componentWillLoad() {
         this.pubnub = new PubNub({
             publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
             subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
-            uuid: "dfsgsdfgdsfgdsfgdsf",
+            uuid: this.uuid,
             autoNetworkDetection: true,
             restore: true,
         });
-        this.userProfile = {
-            name: "Demo User",
-            image: getUserAvatarUrl([], null, null),
-        };
-        this.uuid = "34634634563546543";
         // this.designation = randomUser.designation;
         this.state = {
             sendersInfo: [],
@@ -223,7 +218,7 @@ export class ChatContainer {
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
     }
-    static get is() { return "iac-chat-container"; }
+    static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }
     static get properties() { return {
         "pubnub": {
