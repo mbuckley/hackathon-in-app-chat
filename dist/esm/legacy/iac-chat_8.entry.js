@@ -479,8 +479,41 @@ function getUserAvatarUrl(users, uuid, size) {
         return user.profileImage[size];
     }
 }
+function getUserName(users, uuid) {
+    var user = getUser(users, uuid);
+    if (user) {
+        return user.firstName + ' ' + user.lastName;
+    }
+}
 function getUser(users, uuid) {
     return users.find(function (element) { return element.uuid === uuid; });
+}
+function getTime(timetoken) {
+    return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
+}
+function getWeekday(timetoken) {
+    return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
+}
+function getDate(timetoken, messageType, index) {
+    if (index === void 0) { index = 0; }
+    var messageWeekday = getWeekday(timetoken);
+    var date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
+    switch (messageType) {
+        case 'historyMessage':
+            console.log(index);
+            // TODO commented until we have a state
+            // if (this.state.messageSentDate[index - 1] !== messageWeekday) {
+            return date + ", " + messageWeekday;
+        // }
+        // break;
+        case 'senderMessage':
+            // if (this.state.lastMessageWeekday !== messageWeekday) {
+            return date + ", " + messageWeekday;
+        // }
+        // break;
+        default:
+            return;
+    }
 }
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
@@ -491,23 +524,18 @@ function getUser(users, uuid) {
 // import {forestChatChannel} from '../config/chat';
 // import networkErrorImg from '../styles/networkError.png';
 var channelName = "test-channel";
-var ChatContainer = /** @class */ (function () {
-    function ChatContainer(hostRef) {
+var Chat = /** @class */ (function () {
+    function Chat(hostRef) {
         registerInstance(this, hostRef);
     }
-    ChatContainer.prototype.componentWillLoad = function () {
+    Chat.prototype.componentWillLoad = function () {
         this.pubnub = new PubNub({
             publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
             subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
-            uuid: "dfsgsdfgdsfgdsfgdsf",
+            uuid: this.uuid,
             autoNetworkDetection: true,
             restore: true,
         });
-        this.userProfile = {
-            name: "Demo User",
-            image: getUserAvatarUrl([], null, null),
-        };
-        this.uuid = "34634634563546543";
         // this.designation = randomUser.designation;
         this.state = {
             sendersInfo: [],
@@ -521,7 +549,7 @@ var ChatContainer = /** @class */ (function () {
             networkErrorImg: null
         };
     };
-    ChatContainer.prototype.componentWillMount = function () {
+    Chat.prototype.componentWillMount = function () {
         var _this = this;
         // const networkError = new Image();
         // networkError.src = networkErrorImg;
@@ -529,8 +557,8 @@ var ChatContainer = /** @class */ (function () {
         this.pubnub.subscribe();
         this.pubnub.getPresence(channelName, function (presence) {
             if (presence.action === 'join') {
-                var users = _this.state.onlineUsers;
-                users.push({
+                var users_1 = _this.state.onlineUsers;
+                users_1.push({
                     state: presence.state,
                     uuid: presence.uuid
                 });
@@ -538,7 +566,7 @@ var ChatContainer = /** @class */ (function () {
                 //   onlineUsers: users,
                 //   onlineUsersCount: this.state.onlineUsersCount + 1
                 // });
-                _this.state.onlineUsers = users,
+                _this.state.onlineUsers = users_1,
                     _this.state.onlineUsersCount = _this.state.onlineUsersCount + 1;
             }
             if ((presence.action === 'leave') || (presence.action === 'timeout')) {
@@ -591,7 +619,7 @@ var ChatContainer = /** @class */ (function () {
                     reverse: false,
                     stringifiedTimeToken: true
                 }, function (_status, response) {
-                    var lastMessageWeekday = _this.getWeekday(response.endTimeToken);
+                    var lastMessageWeekday = getWeekday(response.endTimeToken);
                     // this.setState({
                     //   historyLoaded: true,
                     //   historyMessages: response.messages,
@@ -600,7 +628,7 @@ var ChatContainer = /** @class */ (function () {
                     _this.state.historyLoaded = true;
                     _this.state.historyMessages = response.messages;
                     _this.state.lastMessageWeekday = lastMessageWeekday;
-                    var messageSentDate = _this.state.historyMessages.map(function (message) { return _this.getWeekday(message.timetoken); });
+                    var messageSentDate = _this.state.historyMessages.map(function (message) { return getWeekday(message.timetoken); });
                     // this.setState({messageSentDate});
                     _this.state.messageSentDate = messageSentDate;
                     _this.scrollToBottom();
@@ -626,7 +654,7 @@ var ChatContainer = /** @class */ (function () {
             });
             // this.setState(this.state);
             _this.state = _this.state;
-            var lastMessageWeekday = _this.getWeekday(m.timetoken);
+            var lastMessageWeekday = getWeekday(m.timetoken);
             // this.setState({
             //   sendersInfo,
             //   lastMessageWeekday
@@ -637,17 +665,17 @@ var ChatContainer = /** @class */ (function () {
         });
         window.addEventListener('beforeunload', this.leaveChat);
     };
-    ChatContainer.prototype.componentWillUnmount = function () {
+    Chat.prototype.componentWillUnmount = function () {
         this.leaveChat();
     };
-    ChatContainer.prototype.subscribe = function () {
+    Chat.prototype.subscribe = function () {
         this.pubnub.subscribe({
             channels: channelName,
             withPresence: true
         });
     };
     ;
-    ChatContainer.prototype.hereNow = function () {
+    Chat.prototype.hereNow = function () {
         var _this = this;
         this.pubnub.hereNow({
             channels: channelName,
@@ -663,49 +691,21 @@ var ChatContainer = /** @class */ (function () {
         });
     };
     ;
-    ChatContainer.prototype.leaveChat = function () {
+    Chat.prototype.leaveChat = function () {
         this.pubnub.unsubscribeAll();
     };
     ;
-    ChatContainer.prototype.getTime = function (timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
-    };
-    ;
-    ChatContainer.prototype.getWeekday = function (timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
-    };
-    ;
-    ChatContainer.prototype.getDate = function (timetoken, messageType, index) {
-        if (index === void 0) { index = 0; }
-        var messageWeekday = this.getWeekday(timetoken);
-        var date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
-        switch (messageType) {
-            case 'historyMessage':
-                if (this.state.messageSentDate[index - 1] !== messageWeekday) {
-                    return date + ", " + messageWeekday;
-                }
-                break;
-            case 'senderMessage':
-                if (this.state.lastMessageWeekday !== messageWeekday) {
-                    return date + ", " + messageWeekday;
-                }
-                break;
-            default:
-                return;
-        }
-    };
-    ;
-    ChatContainer.prototype.scrollToBottom = function () {
+    Chat.prototype.scrollToBottom = function () {
         var elem = document.querySelector(".messageDialog");
         if (elem) {
             elem.scrollTop = elem.scrollHeight;
         }
     };
     ;
-    ChatContainer.prototype.render = function () {
+    Chat.prototype.render = function () {
         return (h("div", null, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
     };
-    return ChatContainer;
+    return Chat;
 }());
 // import animalForestChatLogo from '../../global/styles/avatars/45px/logo.png';
 // import onlineUsersLogo from '../../global/styles/avatars/45px/onlineUsersLogo.png';
@@ -714,7 +714,7 @@ var Header = /** @class */ (function () {
         registerInstance(this, hostRef);
     }
     Header.prototype.componentWillLoad = function () {
-        this.parsedUserProfile = this.userProfile;
+        this.parsedUserProfile = JSON.parse(this.userProfile);
     };
     Header.prototype.render = function () {
         return (h("div", { class: 'header' }, h("div", { class: 'onlineUsersInfo' }, h("img", { class: 'onlineUsersLogo', width: '45', height: '45', alt: 'Online users logo', src: "https://picsum.photos/id/641/45/45" }), h("div", { class: 'onlineUsersCount' }, this.onlineUsersCount, " members"), h("span", null, "Online"), h("span", { class: 'onlineIndicator' })), h("img", { class: 'animalForestChatLogo', width: '45', height: '45', alt: 'Animal Forest Chat logo', src: "https://picsum.photos/id/641/45/45" }), h("h1", null, "Clio Chat"), h("h2", null, "In-App Firm Chat"), h("div", { class: 'loggedInUser' }, h("div", { class: 'userWelcome' }, h("span", { class: 'hello' }, "Hello, "), h("span", { class: 'user' }, this.parsedUserProfile.name)), h("img", { width: '45', height: '45', alt: "Avatar for " + this.parsedUserProfile.name, src: this.parsedUserProfile.image }))));
@@ -725,6 +725,55 @@ var Header = /** @class */ (function () {
         configurable: true
     });
     return Header;
+}());
+// import avatars from './avatars';
+var users = [
+    {
+        uuid: 'forest-animal-1',
+        firstName: 'Funky',
+        lastName: 'Monkey',
+        designation: 'Technical Specialist',
+    },
+    {
+        uuid: 'forest-animal-2',
+        firstName: 'Parrot',
+        lastName: 'Arra',
+        designation: 'Personal Assistant',
+    },
+    {
+        uuid: 'forest-animal-3',
+        firstName: 'Happy',
+        lastName: 'Turtle',
+        designation: 'Account Manager',
+    },
+    {
+        uuid: 'forest-animal-4',
+        firstName: 'Sleeping',
+        lastName: 'Cheetah',
+        designation: 'Product Manager'
+    }
+];
+var HistoryMessageList = /** @class */ (function () {
+    function HistoryMessageList(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    HistoryMessageList.prototype.componentWillLoad = function () {
+        console.log(this.historyMessages);
+        this.parsedHistoryMessages = JSON.parse(this.historyMessages);
+        console.log(this.parsedHistoryMessages);
+        // console.log(this.parsedOnlineUsers);
+    };
+    HistoryMessageList.prototype.render = function () {
+        var _this = this;
+        return (h("div", null, (this.historyLoaded &&
+            h("div", { class: 'historyMessageDialog' }, this.parsedHistoryMessages.map(function (m, index) { return h("li", { class: _this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, h("div", { class: 'messageSentDay' }, _this.getDate(m.timetoken, 'historyMessage', index)), h("div", { class: 'message' }, h("div", { class: 'name' }, _this.getUserName(users, m.entry.senderId)), h("div", { class: 'time' }, _this.getTime(m.timetoken)), h("div", { class: 'text' }, m.entry.text))); })))));
+    };
+    Object.defineProperty(HistoryMessageList, "style", {
+        get: function () { return ""; },
+        enumerable: true,
+        configurable: true
+    });
+    return HistoryMessageList;
 }());
 var MessageBody = /** @class */ (function () {
     function MessageBody(hostRef) {
@@ -761,26 +810,16 @@ var MessageBody = /** @class */ (function () {
 }());
 var MessageList = /** @class */ (function () {
     function MessageList(hostRef) {
+        var _this = this;
         registerInstance(this, hostRef);
+        this.styleForMessageSender = function (senderId) { return _this.uuid === senderId ? 'senderMessage' : senderId; };
     }
-    // private styleForMessageSender: Function;
     MessageList.prototype.componentWillLoad = function () {
         // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
     };
     MessageList.prototype.render = function () {
-        return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, this.messageSentDate.length > 0 &&
-            h("h2", null, "HistoryMessageList goes here")
-        // <HistoryMessageList
-        //   historyMessages={historyMessages}
-        //   historyLoaded={historyLoaded}
-        //   networkErrorImg={networkErrorImg}
-        //   networkErrorStatus={networkErrorStatus}
-        //   getDate={getDate}
-        //   getUserName={getUserName}
-        //   getTime={getTime}
-        //   getUserAvatarUrl={getUserAvatarUrl}
-        //   styleForMessageSender={styleForMessageSender}/>
-        , h("h2", null, "SenderMessageList goes here"))));
+        return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, h("h2", null, "HistoryMessageList goes here"), this.messageSentDate.length > 0 &&
+            h("iac-history-message-list", { historyMessages: '[{ "entry": {"senderId": "forest-animal-1"}, "timetoken": "15628726763037678" }]', historyLoaded: true, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("h2", null, "SenderMessageList goes here"), h("iac-sender-message-list", { "senders-info": '[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]', styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
     };
     Object.defineProperty(MessageList, "style", {
         get: function () { return ".messageList{width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}.messageList .networkErrorImg{width:80%;height:100%;position:relative;left:100px}\@media (max-width:1024px){.messageList .networkErrorImg{width:100%;height:70%;left:20px;bottom:-100px}}\@media (max-width:440px){.messageList .networkErrorImg{width:120%;left:-20px}}.messageList .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}.messageList .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}\@media (max-width:240px){.messageList .messageDialog .text{max-width:80px}}.messageList .messageDialog .name,.messageList .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}.messageList .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}\@media (max-width:440px){.messageList .messageDialog li{width:150px}}.messageList .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:1.2em}\@media (max-width:770px){.messageList .messageDialog li .messageSentDay{width:90vw}}\@media (max-width:440px){.messageList .messageDialog li .messageSentDay{width:75vw;font-size:1.1em}}\@media (max-width:240px){.messageList .messageDialog li .messageSentDay{width:100vw;left:-45px}}.messageList .messageDialog li .messageSentDay:empty{display:none}.messageList .messageDialog li img{position:absolute;bottom:0;left:-30px}.messageList .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}.messageList .messageDialog li .name,.messageList .messageDialog li .time{left:5px}.messageList .messageDialog li .name{top:-18px}.messageList .messageDialog li .time{bottom:-18px}.messageList .messageDialog li .text{background-color:hsla(0,0%,50.2%,.164)}.messageList .messageDialog .historyMessageDialog,.messageList .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.messageList .messageDialog .historyMessageDialog .senderMessage,.messageList .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}\@media (max-width:240px){.messageList .messageDialog .historyMessageDialog .senderMessage,.messageList .messageDialog .senderMessageDialog .senderMessage{margin-right:95px}}.messageList .messageDialog .historyMessageDialog .senderMessage img,.messageList .messageDialog .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){.messageList .messageDialog .historyMessageDialog .senderMessage img,.messageList .messageDialog .senderMessageDialog .senderMessage img{left:155px}}.messageList .messageDialog .historyMessageDialog .senderMessage .text,.messageList .messageDialog .senderMessageDialog .senderMessage .text{background-color:#d32f2f;text-align:left}.messageList .messageDialog .historyMessageDialog .senderMessage .name,.messageList .messageDialog .historyMessageDialog .senderMessage .time,.messageList .messageDialog .senderMessageDialog .senderMessage .name,.messageList .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; },
@@ -818,6 +857,26 @@ var Header$1 = /** @class */ (function () {
     });
     return Header$1;
 }());
+var SenderMessageList = /** @class */ (function () {
+    function SenderMessageList(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    SenderMessageList.prototype.componentWillLoad = function () {
+        console.log(this.sendersInfo);
+        this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+        // console.log(this.parsedOnlineUsers);
+    };
+    SenderMessageList.prototype.render = function () {
+        var _this = this;
+        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map(function (m, index) { return h("li", { class: _this.styleForMessageSender(m.senderId), key: index }, h("div", { class: 'messageSentDay' }, _this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, _this.getUserName(users, m.senderId)), h("div", { class: 'time' }, _this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))); })));
+    };
+    Object.defineProperty(SenderMessageList, "style", {
+        get: function () { return ".historyMessageDialog,.senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.historyMessageDialog .senderMessage,.senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}\@media (max-width:240px){.historyMessageDialog .senderMessage,.senderMessageDialog .senderMessage{margin-right:95px}}.historyMessageDialog .senderMessage img,.senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){.historyMessageDialog .senderMessage img,.senderMessageDialog .senderMessage img{left:155px}}.historyMessageDialog .senderMessage .text,.senderMessageDialog .senderMessage .text{background-color:#d32f2f;text-align:left}.historyMessageDialog .senderMessage .name,.historyMessageDialog .senderMessage .time,.senderMessageDialog .senderMessage .name,.senderMessageDialog .senderMessage .time{left:unset;right:5px}"; },
+        enumerable: true,
+        configurable: true
+    });
+    return SenderMessageList;
+}());
 var User = /** @class */ (function () {
     function User(hostRef) {
         registerInstance(this, hostRef);
@@ -836,4 +895,4 @@ var User = /** @class */ (function () {
     });
     return User;
 }());
-export { ChatContainer as iac_chat_container, Header as iac_header, MessageBody as iac_message_body, MessageList as iac_message_list, Header$1 as iac_online_users, User as iac_user };
+export { Chat as iac_chat, Header as iac_header, HistoryMessageList as iac_history_message_list, MessageBody as iac_message_body, MessageList as iac_message_list, Header$1 as iac_online_users, SenderMessageList as iac_sender_message_list, User as iac_user };

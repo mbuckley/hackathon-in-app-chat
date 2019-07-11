@@ -1,0 +1,31 @@
+.senderMessageDialog, .historyMessageDialog {
+  display: flex;
+  flex-direction: column;
+}
+.senderMessageDialog .senderMessage, .historyMessageDialog .senderMessage {
+  align-self: flex-end;
+  margin-right: 50px;
+  color: #fff;
+  text-align: right;
+}
+@media (max-width: 240px) {
+  .senderMessageDialog .senderMessage, .historyMessageDialog .senderMessage {
+    margin-right: 95px;
+  }
+}
+.senderMessageDialog .senderMessage img, .historyMessageDialog .senderMessage img {
+  left: 305px;
+}
+@media (max-width: 440px) {
+  .senderMessageDialog .senderMessage img, .historyMessageDialog .senderMessage img {
+    left: 155px;
+  }
+}
+.senderMessageDialog .senderMessage .text, .historyMessageDialog .senderMessage .text {
+  background-color: #d32f2f;
+  text-align: left;
+}
+.senderMessageDialog .senderMessage .name, .senderMessageDialog .senderMessage .time, .historyMessageDialog .senderMessage .name, .historyMessageDialog .senderMessage .time {
+  left: unset;
+  right: 5px;
+}

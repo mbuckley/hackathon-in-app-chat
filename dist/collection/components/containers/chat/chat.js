@@ -3,7 +3,7 @@
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { h } from '@stencil/core';
 import PubNub from 'pubnub';
-import { getUserAvatarUrl, } from "../../../utils/utils";
+import { getWeekday } from "../../../utils/utils";
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
@@ -13,20 +13,15 @@ import { getUserAvatarUrl, } from "../../../utils/utils";
 // import {forestChatChannel} from '../config/chat';
 // import networkErrorImg from '../styles/networkError.png';
 const channelName = "test-channel";
-export class ChatContainer {
+export class Chat {
     componentWillLoad() {
         this.pubnub = new PubNub({
             publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
             subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
-            uuid: "dfsgsdfgdsfgdsfgdsf",
+            uuid: this.uuid,
             autoNetworkDetection: true,
             restore: true,
         });
-        this.userProfile = {
-            name: "Demo User",
-            image: getUserAvatarUrl([], null, null),
-        };
-        this.uuid = "34634634563546543";
         // this.designation = randomUser.designation;
         this.state = {
             sendersInfo: [],
@@ -109,7 +104,7 @@ export class ChatContainer {
                     reverse: false,
                     stringifiedTimeToken: true
                 }, (_status, response) => {
-                    const lastMessageWeekday = this.getWeekday(response.endTimeToken);
+                    const lastMessageWeekday = getWeekday(response.endTimeToken);
                     // this.setState({
                     //   historyLoaded: true,
                     //   historyMessages: response.messages,
@@ -118,7 +113,7 @@ export class ChatContainer {
                     this.state.historyLoaded = true;
                     this.state.historyMessages = response.messages;
                     this.state.lastMessageWeekday = lastMessageWeekday;
-                    let messageSentDate = this.state.historyMessages.map(message => this.getWeekday(message.timetoken));
+                    let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
                     // this.setState({messageSentDate});
                     this.state.messageSentDate = messageSentDate;
                     this.scrollToBottom();
@@ -144,7 +139,7 @@ export class ChatContainer {
             });
             // this.setState(this.state);
             this.state = this.state;
-            const lastMessageWeekday = this.getWeekday(m.timetoken);
+            const lastMessageWeekday = getWeekday(m.timetoken);
             // this.setState({
             //   sendersInfo,
             //   lastMessageWeekday
@@ -184,33 +179,6 @@ export class ChatContainer {
         this.pubnub.unsubscribeAll();
     }
     ;
-    getTime(timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
-    }
-    ;
-    getWeekday(timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
-    }
-    ;
-    getDate(timetoken, messageType, index = 0) {
-        const messageWeekday = this.getWeekday(timetoken);
-        const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
-        switch (messageType) {
-            case 'historyMessage':
-                if (this.state.messageSentDate[index - 1] !== messageWeekday) {
-                    return `${date}, ${messageWeekday}`;
-                }
-                break;
-            case 'senderMessage':
-                if (this.state.lastMessageWeekday !== messageWeekday) {
-                    return `${date}, ${messageWeekday}`;
-                }
-                break;
-            default:
-                return;
-        }
-    }
-    ;
     scrollToBottom() {
         const elem = document.querySelector(".messageDialog");
         if (elem) {
@@ -223,7 +191,7 @@ export class ChatContainer {
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
     }
-    static get is() { return "iac-chat-container"; }
+    static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }
     static get properties() { return {
         "pubnub": {

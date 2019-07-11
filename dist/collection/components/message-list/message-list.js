@@ -1,26 +1,20 @@
 import { h } from '@stencil/core';
+import { getDate, getTime, getUserAvatarUrl, getUserName } from '../../utils/utils';
 export class MessageList {
-    // private styleForMessageSender: Function;
+    constructor() {
+        this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
+    }
     componentWillLoad() {
         // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
     }
     render() {
         return (h("div", { class: "messageList" },
             h("ul", { class: "messageDialog" },
+                h("h2", null, "HistoryMessageList goes here"),
                 this.messageSentDate.length > 0 &&
-                    h("h2", null, "HistoryMessageList goes here")
-            // <HistoryMessageList
-            //   historyMessages={historyMessages}
-            //   historyLoaded={historyLoaded}
-            //   networkErrorImg={networkErrorImg}
-            //   networkErrorStatus={networkErrorStatus}
-            //   getDate={getDate}
-            //   getUserName={getUserName}
-            //   getTime={getTime}
-            //   getUserAvatarUrl={getUserAvatarUrl}
-            //   styleForMessageSender={styleForMessageSender}/>
-            ,
-                h("h2", null, "SenderMessageList goes here"))));
+                    h("iac-history-message-list", { historyMessages: '[{ "entry": {"senderId": "forest-animal-1"}, "timetoken": "15628726763037678" }]', historyLoaded: true, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }),
+                h("h2", null, "SenderMessageList goes here"),
+                h("iac-sender-message-list", { "senders-info": '[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]', styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
     }
     static get is() { return "iac-message-list"; }
     static get encapsulation() { return "shadow"; }
@@ -118,40 +112,6 @@ export class MessageList {
                 "tags": [],
                 "text": "user"
             }
-        },
-        "networkErrorStatus": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": "Network error status"
-            },
-            "attribute": "network-error-status",
-            "reflect": false
-        },
-        "networkErrorImage": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": "Network error image"
-            },
-            "attribute": "network-error-image",
-            "reflect": false
         },
         "messageSentDate": {
             "type": "any",

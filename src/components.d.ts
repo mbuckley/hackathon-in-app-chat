@@ -11,7 +11,7 @@ import {
 } from './global/types';
 
 export namespace Components {
-  interface IacChatContainer {
+  interface IacChat {
     'pubnub': any;
     'state': any;
     'userProfile': any;
@@ -100,10 +100,10 @@ export namespace Components {
 declare global {
 
 
-  interface HTMLIacChatContainerElement extends Components.IacChatContainer, HTMLStencilElement {}
-  var HTMLIacChatContainerElement: {
-    prototype: HTMLIacChatContainerElement;
-    new (): HTMLIacChatContainerElement;
+  interface HTMLIacChatElement extends Components.IacChat, HTMLStencilElement {}
+  var HTMLIacChatElement: {
+    prototype: HTMLIacChatElement;
+    new (): HTMLIacChatElement;
   };
 
   interface HTMLIacHeaderElement extends Components.IacHeader, HTMLStencilElement {}
@@ -148,7 +148,7 @@ declare global {
     new (): HTMLIacUserElement;
   };
   interface HTMLElementTagNameMap {
-    'iac-chat-container': HTMLIacChatContainerElement;
+    'iac-chat': HTMLIacChatElement;
     'iac-header': HTMLIacHeaderElement;
     'iac-history-message-list': HTMLIacHistoryMessageListElement;
     'iac-message-body': HTMLIacMessageBodyElement;
@@ -160,7 +160,7 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface IacChatContainer extends JSXBase.HTMLAttributes<HTMLIacChatContainerElement> {
+  interface IacChat extends JSXBase.HTMLAttributes<HTMLIacChatElement> {
     'pubnub'?: any;
     'state'?: any;
     'userProfile'?: any;
@@ -246,7 +246,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'iac-chat-container': IacChatContainer;
+    'iac-chat': IacChat;
     'iac-header': IacHeader;
     'iac-history-message-list': IacHistoryMessageList;
     'iac-message-body': IacMessageBody;

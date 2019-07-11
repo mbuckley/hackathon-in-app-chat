@@ -1,8 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const __chunk_1 = require('./chunk-ffcb9256.js');
+import { r as registerInstance, h } from './chunk-ac868a75.js';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -29,8 +25,40 @@ function getUserAvatarUrl(users, uuid, size) {
         return user.profileImage[size];
     }
 }
+function getUserName(users, uuid) {
+    const user = getUser(users, uuid);
+    if (user) {
+        return user.firstName + ' ' + user.lastName;
+    }
+}
 function getUser(users, uuid) {
     return users.find(element => element.uuid === uuid);
+}
+function getTime(timetoken) {
+    return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
+}
+function getWeekday(timetoken) {
+    return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
+}
+function getDate(timetoken, messageType, index = 0) {
+    const messageWeekday = getWeekday(timetoken);
+    const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
+    switch (messageType) {
+        case 'historyMessage':
+            console.log(index);
+            // TODO commented until we have a state
+            // if (this.state.messageSentDate[index - 1] !== messageWeekday) {
+            return `${date}, ${messageWeekday}`;
+        // }
+        // break;
+        case 'senderMessage':
+            // if (this.state.lastMessageWeekday !== messageWeekday) {
+            return `${date}, ${messageWeekday}`;
+        // }
+        // break;
+        default:
+            return;
+    }
 }
 
 // import OnlineUsers from '../components/OnlineUsers';
@@ -42,23 +70,18 @@ function getUser(users, uuid) {
 // import {forestChatChannel} from '../config/chat';
 // import networkErrorImg from '../styles/networkError.png';
 const channelName = "test-channel";
-class ChatContainer {
+class Chat {
     constructor(hostRef) {
-        __chunk_1.registerInstance(this, hostRef);
+        registerInstance(this, hostRef);
     }
     componentWillLoad() {
         this.pubnub = new PubNub({
             publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
             subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
-            uuid: "dfsgsdfgdsfgdsfgdsf",
+            uuid: this.uuid,
             autoNetworkDetection: true,
             restore: true,
         });
-        this.userProfile = {
-            name: "Demo User",
-            image: getUserAvatarUrl([], null, null),
-        };
-        this.uuid = "34634634563546543";
         // this.designation = randomUser.designation;
         this.state = {
             sendersInfo: [],
@@ -141,7 +164,7 @@ class ChatContainer {
                     reverse: false,
                     stringifiedTimeToken: true
                 }, (_status, response) => {
-                    const lastMessageWeekday = this.getWeekday(response.endTimeToken);
+                    const lastMessageWeekday = getWeekday(response.endTimeToken);
                     // this.setState({
                     //   historyLoaded: true,
                     //   historyMessages: response.messages,
@@ -150,7 +173,7 @@ class ChatContainer {
                     this.state.historyLoaded = true;
                     this.state.historyMessages = response.messages;
                     this.state.lastMessageWeekday = lastMessageWeekday;
-                    let messageSentDate = this.state.historyMessages.map(message => this.getWeekday(message.timetoken));
+                    let messageSentDate = this.state.historyMessages.map(message => getWeekday(message.timetoken));
                     // this.setState({messageSentDate});
                     this.state.messageSentDate = messageSentDate;
                     this.scrollToBottom();
@@ -176,7 +199,7 @@ class ChatContainer {
             });
             // this.setState(this.state);
             this.state = this.state;
-            const lastMessageWeekday = this.getWeekday(m.timetoken);
+            const lastMessageWeekday = getWeekday(m.timetoken);
             // this.setState({
             //   sendersInfo,
             //   lastMessageWeekday
@@ -216,33 +239,6 @@ class ChatContainer {
         this.pubnub.unsubscribeAll();
     }
     ;
-    getTime(timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
-    }
-    ;
-    getWeekday(timetoken) {
-        return new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { weekday: 'long' });
-    }
-    ;
-    getDate(timetoken, messageType, index = 0) {
-        const messageWeekday = this.getWeekday(timetoken);
-        const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
-        switch (messageType) {
-            case 'historyMessage':
-                if (this.state.messageSentDate[index - 1] !== messageWeekday) {
-                    return `${date}, ${messageWeekday}`;
-                }
-                break;
-            case 'senderMessage':
-                if (this.state.lastMessageWeekday !== messageWeekday) {
-                    return `${date}, ${messageWeekday}`;
-                }
-                break;
-            default:
-                return;
-        }
-    }
-    ;
     scrollToBottom() {
         const elem = document.querySelector(".messageDialog");
         if (elem) {
@@ -251,7 +247,7 @@ class ChatContainer {
     }
     ;
     render() {
-        return (__chunk_1.h("div", null, __chunk_1.h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), __chunk_1.h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
+        return (h("div", null, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
     }
 }
 
@@ -259,20 +255,65 @@ class ChatContainer {
 // import onlineUsersLogo from '../../global/styles/avatars/45px/onlineUsersLogo.png';
 class Header {
     constructor(hostRef) {
-        __chunk_1.registerInstance(this, hostRef);
+        registerInstance(this, hostRef);
     }
     componentWillLoad() {
-        this.parsedUserProfile = this.userProfile;
+        this.parsedUserProfile = JSON.parse(this.userProfile);
     }
     render() {
-        return (__chunk_1.h("div", { class: 'header' }, __chunk_1.h("div", { class: 'onlineUsersInfo' }, __chunk_1.h("img", { class: 'onlineUsersLogo', width: '45', height: '45', alt: 'Online users logo', src: "https://picsum.photos/id/641/45/45" }), __chunk_1.h("div", { class: 'onlineUsersCount' }, this.onlineUsersCount, " members"), __chunk_1.h("span", null, "Online"), __chunk_1.h("span", { class: 'onlineIndicator' })), __chunk_1.h("img", { class: 'animalForestChatLogo', width: '45', height: '45', alt: 'Animal Forest Chat logo', src: "https://picsum.photos/id/641/45/45" }), __chunk_1.h("h1", null, "Clio Chat"), __chunk_1.h("h2", null, "In-App Firm Chat"), __chunk_1.h("div", { class: 'loggedInUser' }, __chunk_1.h("div", { class: 'userWelcome' }, __chunk_1.h("span", { class: 'hello' }, "Hello, "), __chunk_1.h("span", { class: 'user' }, this.parsedUserProfile.name)), __chunk_1.h("img", { width: '45', height: '45', alt: `Avatar for ${this.parsedUserProfile.name}`, src: this.parsedUserProfile.image }))));
+        return (h("div", { class: 'header' }, h("div", { class: 'onlineUsersInfo' }, h("img", { class: 'onlineUsersLogo', width: '45', height: '45', alt: 'Online users logo', src: "https://picsum.photos/id/641/45/45" }), h("div", { class: 'onlineUsersCount' }, this.onlineUsersCount, " members"), h("span", null, "Online"), h("span", { class: 'onlineIndicator' })), h("img", { class: 'animalForestChatLogo', width: '45', height: '45', alt: 'Animal Forest Chat logo', src: "https://picsum.photos/id/641/45/45" }), h("h1", null, "Clio Chat"), h("h2", null, "In-App Firm Chat"), h("div", { class: 'loggedInUser' }, h("div", { class: 'userWelcome' }, h("span", { class: 'hello' }, "Hello, "), h("span", { class: 'user' }, this.parsedUserProfile.name)), h("img", { width: '45', height: '45', alt: `Avatar for ${this.parsedUserProfile.name}`, src: this.parsedUserProfile.image }))));
     }
     static get style() { return ".header{width:100%;position:relative;border:1px solid hsla(0,0%,50.2%,.164)}.header .onlineUsersInfo{width:278px;height:70px;position:relative;font-size:17px;font-weight:700;border-right:1px solid hsla(0,0%,50.2%,.164)}\@media (max-width:770px){.header .onlineUsersInfo{display:none}}.header .onlineUsersInfo .onlineUsersLogo{position:absolute;top:10px;left:15px}\@media (max-width:850px){.header .onlineUsersInfo .onlineUsersLogo{top:20px}}.header .onlineUsersInfo .onlineUsersCount{position:relative;top:14px;left:70px}\@media (max-width:850px){.header .onlineUsersInfo .onlineUsersCount{top:20px}}.header .onlineUsersInfo span{position:absolute;top:30px;left:86px;color:grey;font-weight:400;display:block}\@media (max-width:850px){.header .onlineUsersInfo span{top:40px}}.header .onlineUsersInfo .onlineIndicator{width:8px;height:8px;position:absolute;top:38px;left:72px;border-radius:50%;background-color:#0ccc0c}\@media (max-width:850px){.header .onlineUsersInfo .onlineIndicator{top:50px}}.header .animalForestChatLogo{position:absolute;top:12px;left:290px}\@media (max-width:850px){.header .animalForestChatLogo{top:20px}}\@media (max-width:770px){.header .animalForestChatLogo{left:10px}}\@media (max-width:440px){.header .animalForestChatLogo{top:18px;left:2px}}.header h1{position:absolute;font-weight:700;font-size:17px;top:2px;left:345px}\@media (max-width:850px){.header h1{top:10px}}\@media (max-width:770px){.header h1{left:70px}}\@media (max-width:440px){.header h1{font-size:1em;top:5px;left:50px}}\@media (max-width:350px){.header h1{top:15px;width:50px;font-size:13px}}.header h2{font-weight:400;font-size:15px;position:absolute;top:20px;left:345px}\@media (max-width:850px){.header h2{top:30px;line-height:.9em;width:150px}}\@media (max-width:770px){.header h2{width:550px;left:70px}}\@media (max-width:586px){.header h2{width:150px}}\@media (max-width:440px){.header h2{width:130px;font-size:13px;top:23px;left:50px}}\@media (max-width:350px){.header h2{display:none}}.header .loggedInUser{position:absolute;top:12px;right:20px;color:grey}\@media (max-width:850px){.header .loggedInUser{top:20px}}\@media (max-width:440px){.header .loggedInUser{top:25px;right:7px;font-size:13px}}\@media (max-width:350px){.header .loggedInUser{top:25px;height:50px;letter-spacing:-1px}}\@media (max-width:240px){.header .loggedInUser{right:50px}}.header .loggedInUser .userWelcome .user{display:block;color:#000;font-weight:700}\@media (max-width:240px){.header .loggedInUser .userWelcome{width:55px}}.header .loggedInUser img{position:absolute;top:0;left:-50px}\@media (max-width:440px){.header .loggedInUser img{top:-5px}}"; }
 }
 
+// import avatars from './avatars';
+
+const users = [
+  {
+    uuid: 'forest-animal-1',
+    firstName: 'Funky',
+    lastName: 'Monkey',
+    designation: 'Technical Specialist',
+  },
+  {
+    uuid: 'forest-animal-2',
+    firstName: 'Parrot',
+    lastName: 'Arra',
+    designation: 'Personal Assistant',
+  },
+  {
+    uuid: 'forest-animal-3',
+    firstName: 'Happy',
+    lastName: 'Turtle',
+    designation: 'Account Manager',
+  },
+  {
+    uuid: 'forest-animal-4',
+    firstName: 'Sleeping',
+    lastName: 'Cheetah',
+    designation: 'Product Manager'
+  }];
+
+class HistoryMessageList {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    componentWillLoad() {
+        console.log(this.historyMessages);
+        this.parsedHistoryMessages = JSON.parse(this.historyMessages);
+        console.log(this.parsedHistoryMessages);
+        // console.log(this.parsedOnlineUsers);
+    }
+    render() {
+        return (h("div", null, (this.historyLoaded &&
+            h("div", { class: 'historyMessageDialog' }, this.parsedHistoryMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'historyMessage', index)), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.entry.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.entry.text))))))));
+    }
+    static get style() { return ""; }
+}
+
 class MessageBody {
     constructor(hostRef) {
-        __chunk_1.registerInstance(this, hostRef);
+        registerInstance(this, hostRef);
         this.onChange = (e) => {
             this.state.messageContent = e.target.value;
         };
@@ -298,39 +339,28 @@ class MessageBody {
     }
     ;
     render() {
-        return (__chunk_1.h("div", { class: 'messageBody' }, __chunk_1.h("form", { class: 'messageForm' }, __chunk_1.h("input", { class: 'messageInput', value: this.state.messageContent, onChange: this.onChange, placeholder: 'Type your message here . . .' }), __chunk_1.h("button", { class: 'submitBtn', onClick: this.onSubmit, type: 'submit' }, "Send"))));
+        return (h("div", { class: 'messageBody' }, h("form", { class: 'messageForm' }, h("input", { class: 'messageInput', value: this.state.messageContent, onChange: this.onChange, placeholder: 'Type your message here . . .' }), h("button", { class: 'submitBtn', onClick: this.onSubmit, type: 'submit' }, "Send"))));
     }
 }
 
 class MessageList {
     constructor(hostRef) {
-        __chunk_1.registerInstance(this, hostRef);
+        registerInstance(this, hostRef);
+        this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
     }
-    // private styleForMessageSender: Function;
     componentWillLoad() {
         // this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
     }
     render() {
-        return (__chunk_1.h("div", { class: "messageList" }, __chunk_1.h("ul", { class: "messageDialog" }, this.messageSentDate.length > 0 &&
-            __chunk_1.h("h2", null, "HistoryMessageList goes here")
-        // <HistoryMessageList
-        //   historyMessages={historyMessages}
-        //   historyLoaded={historyLoaded}
-        //   networkErrorImg={networkErrorImg}
-        //   networkErrorStatus={networkErrorStatus}
-        //   getDate={getDate}
-        //   getUserName={getUserName}
-        //   getTime={getTime}
-        //   getUserAvatarUrl={getUserAvatarUrl}
-        //   styleForMessageSender={styleForMessageSender}/>
-        , __chunk_1.h("h2", null, "SenderMessageList goes here"))));
+        return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, h("h2", null, "HistoryMessageList goes here"), this.messageSentDate.length > 0 &&
+            h("iac-history-message-list", { historyMessages: '[{ "entry": {"senderId": "forest-animal-1"}, "timetoken": "15628726763037678" }]', historyLoaded: true, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("h2", null, "SenderMessageList goes here"), h("iac-sender-message-list", { "senders-info": '[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]', styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
     }
     static get style() { return ".messageList{width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}.messageList .networkErrorImg{width:80%;height:100%;position:relative;left:100px}\@media (max-width:1024px){.messageList .networkErrorImg{width:100%;height:70%;left:20px;bottom:-100px}}\@media (max-width:440px){.messageList .networkErrorImg{width:120%;left:-20px}}.messageList .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}.messageList .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}\@media (max-width:240px){.messageList .messageDialog .text{max-width:80px}}.messageList .messageDialog .name,.messageList .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}.messageList .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}\@media (max-width:440px){.messageList .messageDialog li{width:150px}}.messageList .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:1.2em}\@media (max-width:770px){.messageList .messageDialog li .messageSentDay{width:90vw}}\@media (max-width:440px){.messageList .messageDialog li .messageSentDay{width:75vw;font-size:1.1em}}\@media (max-width:240px){.messageList .messageDialog li .messageSentDay{width:100vw;left:-45px}}.messageList .messageDialog li .messageSentDay:empty{display:none}.messageList .messageDialog li img{position:absolute;bottom:0;left:-30px}.messageList .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}.messageList .messageDialog li .name,.messageList .messageDialog li .time{left:5px}.messageList .messageDialog li .name{top:-18px}.messageList .messageDialog li .time{bottom:-18px}.messageList .messageDialog li .text{background-color:hsla(0,0%,50.2%,.164)}.messageList .messageDialog .historyMessageDialog,.messageList .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.messageList .messageDialog .historyMessageDialog .senderMessage,.messageList .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}\@media (max-width:240px){.messageList .messageDialog .historyMessageDialog .senderMessage,.messageList .messageDialog .senderMessageDialog .senderMessage{margin-right:95px}}.messageList .messageDialog .historyMessageDialog .senderMessage img,.messageList .messageDialog .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){.messageList .messageDialog .historyMessageDialog .senderMessage img,.messageList .messageDialog .senderMessageDialog .senderMessage img{left:155px}}.messageList .messageDialog .historyMessageDialog .senderMessage .text,.messageList .messageDialog .senderMessageDialog .senderMessage .text{background-color:#d32f2f;text-align:left}.messageList .messageDialog .historyMessageDialog .senderMessage .name,.messageList .messageDialog .historyMessageDialog .senderMessage .time,.messageList .messageDialog .senderMessageDialog .senderMessage .name,.messageList .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; }
 }
 
 class Header$1 {
     constructor(hostRef) {
-        __chunk_1.registerInstance(this, hostRef);
+        registerInstance(this, hostRef);
     }
     putLoggedInUserFirst(arr) {
         if (arr.length) {
@@ -346,28 +376,38 @@ class Header$1 {
         console.log(this.parsedOnlineUsers);
     }
     render() {
-        return (__chunk_1.h("div", { class: 'onlineUsers' }, this.putLoggedInUserFirst(this.parsedOnlineUsers), __chunk_1.h("ul", { class: 'onlineUserList' }, this.parsedOnlineUsers.map((user, _index) => __chunk_1.h("iac-user", { user: JSON.stringify(user), loggedInUser: this.loggedInUser })))));
+        return (h("div", { class: 'onlineUsers' }, this.putLoggedInUserFirst(this.parsedOnlineUsers), h("ul", { class: 'onlineUserList' }, this.parsedOnlineUsers.map((user, _index) => h("iac-user", { user: JSON.stringify(user), loggedInUser: this.loggedInUser })))));
     }
     static get style() { return ".onlineUsers{position:relative;overflow-y:auto;overflow-x:hidden;height:100%;border:1px solid hsla(0,0%,50.2%,.164);border-top:unset}\@media (max-width:770px){.onlineUsers{display:none}}.onlineUsers .onlineUserList{list-style:none;position:relative;left:-30px}.onlineUsers .onlineUserList li{margin-bottom:40px;position:relative}.onlineUsers .onlineUserList li img{position:absolute;left:0}.onlineUsers .onlineUserList li .userName{position:relative;display:inline;top:0;left:60px;font-size:.9em;font-weight:700}.onlineUsers .onlineUserList li .userName .youSign{position:absolute;top:0;right:-40px;font-weight:700}.onlineUsers .onlineUserList li .designation{position:absolute;top:20px;left:60px;font-size:.9em;color:grey}"; }
 }
 
+class SenderMessageList {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    componentWillLoad() {
+        console.log(this.sendersInfo);
+        this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+        // console.log(this.parsedOnlineUsers);
+    }
+    render() {
+        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: this.styleForMessageSender(m.senderId), key: index }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))))));
+    }
+    static get style() { return ".historyMessageDialog,.senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.historyMessageDialog .senderMessage,.senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}\@media (max-width:240px){.historyMessageDialog .senderMessage,.senderMessageDialog .senderMessage{margin-right:95px}}.historyMessageDialog .senderMessage img,.senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){.historyMessageDialog .senderMessage img,.senderMessageDialog .senderMessage img{left:155px}}.historyMessageDialog .senderMessage .text,.senderMessageDialog .senderMessage .text{background-color:#d32f2f;text-align:left}.historyMessageDialog .senderMessage .name,.historyMessageDialog .senderMessage .time,.senderMessageDialog .senderMessage .name,.senderMessageDialog .senderMessage .time{left:unset;right:5px}"; }
+}
+
 class User {
     constructor(hostRef) {
-        __chunk_1.registerInstance(this, hostRef);
+        registerInstance(this, hostRef);
     }
     componentWillLoad() {
         this.parsedUser = JSON.parse(this.user);
         console.log(this.parsedUser);
     }
     render() {
-        return (__chunk_1.h("li", null, __chunk_1.h("div", { class: 'userName' }, this.parsedUser.name, " ", this.parsedUser.uuid === this.loggedInUser && __chunk_1.h("div", { class: 'youSign' }, "(You)")), __chunk_1.h("img", { width: '45', height: '45', alt: 'Online users', src: this.parsedUser.image })));
+        return (h("li", null, h("div", { class: 'userName' }, this.parsedUser.name, " ", this.parsedUser.uuid === this.loggedInUser && h("div", { class: 'youSign' }, "(You)")), h("img", { width: '45', height: '45', alt: 'Online users', src: this.parsedUser.image })));
     }
     static get style() { return ".userName{position:relative;display:inline;top:0;left:100px;font-size:.9em;font-weight:700}.userName .youSign{position:absolute;top:0;right:-40px;font-weight:700}.designation{position:absolute;top:20px;left:60px;font-size:.9em;color:grey}"; }
 }
 
-exports.iac_chat_container = ChatContainer;
-exports.iac_header = Header;
-exports.iac_message_body = MessageBody;
-exports.iac_message_list = MessageList;
-exports.iac_online_users = Header$1;
-exports.iac_user = User;
+export { Chat as iac_chat, Header as iac_header, HistoryMessageList as iac_history_message_list, MessageBody as iac_message_body, MessageList as iac_message_list, Header$1 as iac_online_users, SenderMessageList as iac_sender_message_list, User as iac_user };

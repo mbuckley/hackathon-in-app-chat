@@ -25,9 +25,9 @@
 ### Graph
 ```mermaid
 graph TD;
-  iac-chat-container --> iac-header
-  iac-chat-container --> iac-message-body
-  style iac-chat-container fill:#f9f,stroke:#333,stroke-width:4px
+  iac-chat --> iac-header
+  iac-chat --> iac-message-body
+  style iac-chat fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
