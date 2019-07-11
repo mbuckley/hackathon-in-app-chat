@@ -2,6 +2,11 @@ export * from './components';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as App from './containers/Chat';
+import App from './containers/Chat';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App/>, document.getElementById('root'));
+
+ReactDOM.render(
+  React.createElement(App),
+  document.getElementById('AppContainer')
+);
