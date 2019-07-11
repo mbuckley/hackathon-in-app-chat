@@ -21,7 +21,11 @@
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
   "devDependencies": {
-    "@stencil/core": "^1.0.7"
+    "@stencil/core": "^1.0.7",
+    "react": "^16.8.6"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pubnub-react": "^1.3.1"
+  }
 }
