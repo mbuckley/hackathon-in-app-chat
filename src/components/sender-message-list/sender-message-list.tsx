@@ -24,9 +24,7 @@ export class SenderMessageList {
   @Prop() styleForMessageSender: any;
 
   componentWillLoad() {
-    console.log(this.sendersInfo);
     this.parsedSendersInfo = JSON.parse(this.sendersInfo);
-    // console.log(this.parsedOnlineUsers);
   }
 
   render() {
