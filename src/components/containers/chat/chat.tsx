@@ -308,6 +308,13 @@ export class ChatContainer {
           userProfile={this.userProfile}
           onlineUsersCount={50}
         ></iac-header>
+
+        <iac-message-body
+          pubnub={this.pubnub}
+          uuid={this.uuid}
+          channelName={channelName}
+          >
+        </iac-message-body>
       </div>
     );
   }

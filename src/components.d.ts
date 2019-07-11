@@ -25,6 +25,12 @@ export namespace Components {
     */
     'userProfile': any;
   }
+  interface IacMessageBody {
+    'channelName': any;
+    'pubnub': any;
+    'state': any;
+    'uuid': any;
+  }
   interface IacOnlineUsers {
     /**
     * The logged in user uuid
@@ -59,6 +65,12 @@ declare global {
     new (): HTMLIacHeaderElement;
   };
 
+  interface HTMLIacMessageBodyElement extends Components.IacMessageBody, HTMLStencilElement {}
+  var HTMLIacMessageBodyElement: {
+    prototype: HTMLIacMessageBodyElement;
+    new (): HTMLIacMessageBodyElement;
+  };
+
   interface HTMLIacOnlineUsersElement extends Components.IacOnlineUsers, HTMLStencilElement {}
   var HTMLIacOnlineUsersElement: {
     prototype: HTMLIacOnlineUsersElement;
@@ -73,6 +85,7 @@ declare global {
   interface HTMLElementTagNameMap {
     'iac-chat-container': HTMLIacChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
+    'iac-message-body': HTMLIacMessageBodyElement;
     'iac-online-users': HTMLIacOnlineUsersElement;
     'iac-user': HTMLIacUserElement;
   }
@@ -95,6 +108,12 @@ declare namespace LocalJSX {
     */
     'userProfile'?: any;
   }
+  interface IacMessageBody extends JSXBase.HTMLAttributes<HTMLIacMessageBodyElement> {
+    'channelName'?: any;
+    'pubnub'?: any;
+    'state'?: any;
+    'uuid'?: any;
+  }
   interface IacOnlineUsers extends JSXBase.HTMLAttributes<HTMLIacOnlineUsersElement> {
     /**
     * The logged in user uuid
@@ -116,6 +135,7 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'iac-chat-container': IacChatContainer;
     'iac-header': IacHeader;
+    'iac-message-body': IacMessageBody;
     'iac-online-users': IacOnlineUsers;
     'iac-user': IacUser;
   }
