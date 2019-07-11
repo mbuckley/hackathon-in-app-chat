@@ -14,11 +14,17 @@
   <h2>Chat Demo</h2>
   <chat-container></chat-container>
 
-  <h2>Header Demo</h2>
+  <h2>Header</h2>
   <iac-header
     user-profile='{ "name": "Mike", "image": "https://picsum.photos/id/641/45/45" }'
     online-users-count=50
   ></iac-header>
+
+  <h2>Online Users</h2>
+  <iac-online-users
+    logged-in-user="x9skdkdkslsddkjfsk"
+    online-users='[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]'
+  ></iac-online-users>
 
 </body>
 </html>
