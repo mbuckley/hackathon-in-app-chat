@@ -255,6 +255,9 @@ export class ChatContainer {
           channelName={channelName}
           >
         </iac-message-body>
+        <iac-message-list
+          message-sent-date="July 12, 2019"
+        ></iac-message-list>
       </div>
     );
   }
