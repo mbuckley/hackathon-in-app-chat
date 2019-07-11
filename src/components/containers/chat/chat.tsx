@@ -242,6 +242,18 @@ export class Chat {
           userProfile={this.userProfile}
           onlineUsersCount={50}
         ></iac-header>
+        <h3>User</h3>
+        <iac-user
+          user='{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }'
+          loggedInUser= "123">
+        </iac-user>
+
+        <h3>Online Users</h3>
+        <iac-online-users
+          loggedInUser= {"x9skdkdkslsddkjfsk"}
+          onlineUsers='[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]'
+        ></iac-online-users>
+
         <iac-message-body
           pubnub={this.pubnub}
           uuid={this.uuid}
