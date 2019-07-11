@@ -365,9 +365,7 @@ class SenderMessageList {
         __chunk_1.registerInstance(this, hostRef);
     }
     componentWillLoad() {
-        console.log(this.sendersInfo);
         this.parsedSendersInfo = JSON.parse(this.sendersInfo);
-        // console.log(this.parsedOnlineUsers);
     }
     render() {
         return (__chunk_1.h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => __chunk_1.h("li", { class: "senderMessage", key: index }, __chunk_1.h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')), __chunk_1.h("div", { class: 'message' }, __chunk_1.h("div", { class: 'name' }, this.getUserName(users, m.senderId)), __chunk_1.h("div", { class: 'time' }, this.getTime(m.timetoken)), __chunk_1.h("div", { class: 'text' }, m.text))))));

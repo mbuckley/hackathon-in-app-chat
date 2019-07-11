@@ -361,9 +361,7 @@ class SenderMessageList {
         registerInstance(this, hostRef);
     }
     componentWillLoad() {
-        console.log(this.sendersInfo);
         this.parsedSendersInfo = JSON.parse(this.sendersInfo);
-        // console.log(this.parsedOnlineUsers);
     }
     render() {
         return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))))));

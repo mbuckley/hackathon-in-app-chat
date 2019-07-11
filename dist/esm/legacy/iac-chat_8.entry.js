@@ -849,9 +849,7 @@ var SenderMessageList = /** @class */ (function () {
         registerInstance(this, hostRef);
     }
     SenderMessageList.prototype.componentWillLoad = function () {
-        console.log(this.sendersInfo);
         this.parsedSendersInfo = JSON.parse(this.sendersInfo);
-        // console.log(this.parsedOnlineUsers);
     };
     SenderMessageList.prototype.render = function () {
         var _this = this;

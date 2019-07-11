@@ -2,9 +2,7 @@ import { h } from '@stencil/core';
 import users from "../../config/users.js";
 export class SenderMessageList {
     componentWillLoad() {
-        console.log(this.sendersInfo);
         this.parsedSendersInfo = JSON.parse(this.sendersInfo);
-        // console.log(this.parsedOnlineUsers);
     }
     render() {
         return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index },
