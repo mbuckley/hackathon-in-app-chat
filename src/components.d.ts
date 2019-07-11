@@ -9,53 +9,45 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface MyComponent {
+  interface IacHeader {
     /**
-    * The first name
+    * Total users online
     */
-    'first': string;
+    'onlineUsersCount': number;
     /**
-    * The last name
+    * The user profile object
     */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
+    'userProfile': any;
   }
 }
 
 declare global {
 
 
-  interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
+  interface HTMLIacHeaderElement extends Components.IacHeader, HTMLStencilElement {}
+  var HTMLIacHeaderElement: {
+    prototype: HTMLIacHeaderElement;
+    new (): HTMLIacHeaderElement;
   };
   interface HTMLElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'iac-header': HTMLIacHeaderElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface MyComponent extends JSXBase.HTMLAttributes<HTMLMyComponentElement> {
+  interface IacHeader extends JSXBase.HTMLAttributes<HTMLIacHeaderElement> {
     /**
-    * The first name
+    * Total users online
     */
-    'first'?: string;
+    'onlineUsersCount'?: number;
     /**
-    * The last name
+    * The user profile object
     */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
+    'userProfile'?: any;
   }
 
   interface IntrinsicElements {
-    'my-component': MyComponent;
+    'iac-header': IacHeader;
   }
 }
 
