@@ -1,31 +1,55 @@
-.senderMessageDialog, .historyMessageDialog {
+:host .senderMessageDialog {
   display: flex;
   flex-direction: column;
 }
-.senderMessageDialog .senderMessage, .historyMessageDialog .senderMessage {
+:host .senderMessageDialog li {
+  width: 300px;
+  position: relative;
+  margin-top: 40px;
+  margin-left: 8px;
+}
+:host .senderMessageDialog .senderMessage {
   align-self: flex-end;
   margin-right: 50px;
-  color: #fff;
+  color: gray;
   text-align: right;
 }
 @media (max-width: 240px) {
-  .senderMessageDialog .senderMessage, .historyMessageDialog .senderMessage {
+  :host .senderMessageDialog .senderMessage {
     margin-right: 95px;
   }
 }
-.senderMessageDialog .senderMessage img, .historyMessageDialog .senderMessage img {
+:host .senderMessageDialog .senderMessage img {
   left: 305px;
 }
 @media (max-width: 440px) {
-  .senderMessageDialog .senderMessage img, .historyMessageDialog .senderMessage img {
+  :host .senderMessageDialog .senderMessage img {
     left: 155px;
   }
 }
-.senderMessageDialog .senderMessage .text, .historyMessageDialog .senderMessage .text {
-  background-color: #d32f2f;
-  text-align: left;
+:host .senderMessageDialog .senderMessage .message {
+  position: relative;
+  word-break: break-word;
+  word-wrap: break-word;
 }
-.senderMessageDialog .senderMessage .name, .senderMessageDialog .senderMessage .time, .historyMessageDialog .senderMessage .name, .historyMessageDialog .senderMessage .time {
+:host .senderMessageDialog .name, :host .senderMessageDialog .time {
   left: unset;
   right: 5px;
+  font-size: 15px;
+  color: #808080;
+  font-weight: bold;
+  position: absolute;
+}
+:host .senderMessageDialog .text {
+  max-width: 270px;
+  padding: 15px;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #d32f2f;
+  color: #fff;
+}
+@media (max-width: 240px) {
+  :host .senderMessageDialog .text {
+    max-width: 80px;
+  }
 }

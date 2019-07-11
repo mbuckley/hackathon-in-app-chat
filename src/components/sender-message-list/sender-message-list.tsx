@@ -33,7 +33,7 @@ export class SenderMessageList {
     return (
       <div class='senderMessageDialog'>
         {this.parsedSendersInfo.map( (m, index) =>
-          <li class={this.styleForMessageSender(m.senderId)} key={index}>
+          <li class="senderMessage" key={index}>
             <div class='messageSentDay'>{this.getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>
               <div class='name'>{this.getUserName(users, m.senderId)}</div>

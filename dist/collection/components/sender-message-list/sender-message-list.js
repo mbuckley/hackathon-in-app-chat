@@ -7,7 +7,7 @@ export class SenderMessageList {
         // console.log(this.parsedOnlineUsers);
     }
     render() {
-        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: this.styleForMessageSender(m.senderId), key: index },
+        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index },
             h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')),
             h("div", { class: 'message' },
                 h("div", { class: 'name' }, this.getUserName(users, m.senderId)),
