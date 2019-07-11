@@ -9,7 +9,7 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface ChatContainer {
+  interface IacChatContainer {
     'pubnub': any;
     'state': any;
     'userProfile': any;
@@ -30,10 +30,10 @@ export namespace Components {
 declare global {
 
 
-  interface HTMLChatContainerElement extends Components.ChatContainer, HTMLStencilElement {}
-  var HTMLChatContainerElement: {
-    prototype: HTMLChatContainerElement;
-    new (): HTMLChatContainerElement;
+  interface HTMLIacChatContainerElement extends Components.IacChatContainer, HTMLStencilElement {}
+  var HTMLIacChatContainerElement: {
+    prototype: HTMLIacChatContainerElement;
+    new (): HTMLIacChatContainerElement;
   };
 
   interface HTMLIacHeaderElement extends Components.IacHeader, HTMLStencilElement {}
@@ -42,13 +42,13 @@ declare global {
     new (): HTMLIacHeaderElement;
   };
   interface HTMLElementTagNameMap {
-    'chat-container': HTMLChatContainerElement;
+    'iac-chat-container': HTMLIacChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface ChatContainer extends JSXBase.HTMLAttributes<HTMLChatContainerElement> {
+  interface IacChatContainer extends JSXBase.HTMLAttributes<HTMLIacChatContainerElement> {
     'pubnub'?: any;
     'state'?: any;
     'userProfile'?: any;
@@ -66,7 +66,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'chat-container': ChatContainer;
+    'iac-chat-container': IacChatContainer;
     'iac-header': IacHeader;
   }
 }

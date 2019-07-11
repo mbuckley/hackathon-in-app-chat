@@ -17,7 +17,7 @@ import PubNub from 'pubnub';
 const channelName = "test-channel";
 
 @Component({
-  tag: 'chat-container',
+  tag: 'iac-chat-container',
   shadow: true
 })
 export class ChatContainer {
