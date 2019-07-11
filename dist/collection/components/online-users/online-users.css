@@ -1,0 +1,47 @@
+.onlineUsers {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  border: 1px solid rgba(128, 128, 128, 0.164);
+  border-top: unset;
+}
+@media (max-width: 770px) {
+  .onlineUsers {
+    display: none;
+  }
+}
+.onlineUsers .onlineUserList {
+  list-style: none;
+  position: relative;
+  left: -30px;
+}
+.onlineUsers .onlineUserList li {
+  margin-bottom: 40px;
+  position: relative;
+}
+.onlineUsers .onlineUserList li img {
+  position: absolute;
+  left: 0;
+}
+.onlineUsers .onlineUserList li .userName {
+  position: relative;
+  display: inline;
+  top: 0;
+  left: 60px;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.onlineUsers .onlineUserList li .userName .youSign {
+  position: absolute;
+  top: 0;
+  right: -40px;
+  font-weight: bold;
+}
+.onlineUsers .onlineUserList li .designation {
+  position: absolute;
+  top: 20px;
+  left: 60px;
+  font-size: 0.9em;
+  color: grey;
+}
