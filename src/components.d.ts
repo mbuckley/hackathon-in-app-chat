@@ -9,7 +9,9 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface ChatContainer {}
+  interface ChatContainer {
+    'pubnub': any;
+  }
   interface IacHeader {
     /**
     * Total users online
@@ -43,7 +45,9 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface ChatContainer extends JSXBase.HTMLAttributes<HTMLChatContainerElement> {}
+  interface ChatContainer extends JSXBase.HTMLAttributes<HTMLChatContainerElement> {
+    'pubnub'?: any;
+  }
   interface IacHeader extends JSXBase.HTMLAttributes<HTMLIacHeaderElement> {
     /**
     * Total users online

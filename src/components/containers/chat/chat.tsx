@@ -1,9 +1,9 @@
 // tag::CHT-1.1[]
 // import React from 'react';
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-import { Component, h } from '@stencil/core';
+import { Component, Prop, h } from '@stencil/core';
 
-import PubNubReact from 'pubnub-react';
+import PubNub from 'pubnub';
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
@@ -27,6 +27,18 @@ import PubNubReact from 'pubnub-react';
   shadow: true
 })
 export class ChatContainer {
+  // private pubnub: any;
+  @Prop() pubnub: any;
+
+  componentWillLoad() {
+    this.pubnub = new PubNub({
+      publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
+      subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
+      // uuid: this.uuid,
+      autoNetworkDetection: true,
+      restore: true,
+    });
+  }
 
 // class App extends React.Component {
 //   constructor(props) {
