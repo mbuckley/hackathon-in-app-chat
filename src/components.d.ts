@@ -10,19 +10,15 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface ChatContainer {}
-  interface MyComponent {
+  interface IacHeader {
     /**
-    * The first name
+    * Total users online
     */
-    'first': string;
+    'onlineUsersCount': number;
     /**
-    * The last name
+    * The user profile object
     */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
+    'userProfile': any;
   }
 }
 
@@ -35,37 +31,33 @@ declare global {
     new (): HTMLChatContainerElement;
   };
 
-  interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
+  interface HTMLIacHeaderElement extends Components.IacHeader, HTMLStencilElement {}
+  var HTMLIacHeaderElement: {
+    prototype: HTMLIacHeaderElement;
+    new (): HTMLIacHeaderElement;
   };
   interface HTMLElementTagNameMap {
     'chat-container': HTMLChatContainerElement;
-    'my-component': HTMLMyComponentElement;
+    'iac-header': HTMLIacHeaderElement;
   }
 }
 
 declare namespace LocalJSX {
   interface ChatContainer extends JSXBase.HTMLAttributes<HTMLChatContainerElement> {}
-  interface MyComponent extends JSXBase.HTMLAttributes<HTMLMyComponentElement> {
+  interface IacHeader extends JSXBase.HTMLAttributes<HTMLIacHeaderElement> {
     /**
-    * The first name
+    * Total users online
     */
-    'first'?: string;
+    'onlineUsersCount'?: number;
     /**
-    * The last name
+    * The user profile object
     */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
+    'userProfile'?: any;
   }
 
   interface IntrinsicElements {
     'chat-container': ChatContainer;
-    'my-component': MyComponent;
+    'iac-header': IacHeader;
   }
 }
 

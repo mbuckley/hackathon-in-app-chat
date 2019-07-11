@@ -5,15 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Stencil Component Starter</title>
 
-  <script type="module" src="/build/hackathon-in-app-chat.esm.js"></script>
-  <script nomodule src="/build/hackathon-in-app-chat.js"></script>
+  <script type="module" src="/build/iac.esm.js"></script>
+  <script nomodule src="/build/iac.js"></script>
 
 </head>
 <body>
 
+  <h2>Chat Demo</h2>
   <chat-container></chat-container>
 
-  <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+  <h2>Header Demo</h2>
+  <iac-header
+    user-profile='{ "name": "Mike", "image": "https://picsum.photos/id/641/45/45" }'
+    online-users-count=50
+  ></iac-header>
 
 </body>
 </html>
