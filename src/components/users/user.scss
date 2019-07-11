@@ -1,8 +1,11 @@
+@import '../../global/styles/scss/0_settings/functions&variables.scss';
+@import '../../global/styles/scss/0_settings/mixins.scss';
+
 .userName {
   position: relative;
   display: inline;
   top: 0;
-  left: 60px;
+  left: 100px;
   font-size: .9em;
   font-weight: bold;
 
