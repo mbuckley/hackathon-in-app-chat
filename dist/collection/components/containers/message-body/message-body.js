@@ -33,6 +33,12 @@ export class MessageBody {
     }
     static get is() { return "iac-message-body"; }
     static get encapsulation() { return "shadow"; }
+    static get originalStyleUrls() { return {
+        "$": ["message-body.scss"]
+    }; }
+    static get styleUrls() { return {
+        "$": ["message-body.css"]
+    }; }
     static get properties() { return {
         "state": {
             "type": "any",

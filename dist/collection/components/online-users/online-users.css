@@ -1,4 +1,6 @@
-.onlineUsers {
+:host {
+  grid-row: 2/4;
+  grid-column: 1;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
@@ -7,24 +9,24 @@
   border-top: unset;
 }
 @media (max-width: 770px) {
-  .onlineUsers {
+  :host {
     display: none;
   }
 }
-.onlineUsers .onlineUserList {
+:host .onlineUserList {
   list-style: none;
   position: relative;
   left: -30px;
 }
-.onlineUsers .onlineUserList li {
+:host .onlineUserList li {
   margin-bottom: 40px;
   position: relative;
 }
-.onlineUsers .onlineUserList li img {
+:host .onlineUserList li img {
   position: absolute;
   left: 0;
 }
-.onlineUsers .onlineUserList li .userName {
+:host .onlineUserList li .userName {
   position: relative;
   display: inline;
   top: 0;
@@ -32,13 +34,13 @@
   font-size: 0.9em;
   font-weight: bold;
 }
-.onlineUsers .onlineUserList li .userName .youSign {
+:host .onlineUserList li .userName .youSign {
   position: absolute;
   top: 0;
   right: -40px;
   font-weight: bold;
 }
-.onlineUsers .onlineUserList li .designation {
+:host .onlineUserList li .designation {
   position: absolute;
   top: 20px;
   left: 60px;

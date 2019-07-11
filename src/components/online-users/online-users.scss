@@ -1,7 +1,9 @@
 @import '../../global/styles/scss/0_settings/functions&variables.scss';
 @import '../../global/styles/scss/0_settings/mixins.scss';
 
-.onlineUsers {
+:host {
+  grid-row: 2/4;
+  grid-column: 1;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
