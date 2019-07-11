@@ -277,19 +277,12 @@ export class ChatContainer {
           userProfile={this.userProfile}
           onlineUsersCount={50}
         ></iac-header>
-        {/* <iac-message-list
+        <iac-message-body
+          pubnub={this.pubnub}
           uuid={this.uuid}
-          sendersInfo={this.state.sendersInfo}
-          user={this.state.user}
-          // getUserName={this.getUserName}
-          // getUserAvatarUrl={this.getUserAvatarUrl}
-          getTime={this.getTime}
-          messageSentDate={this.state.messageSentDate}
-          getDate={this.getDate}
-          historyLoaded={this.state.historyLoaded}
-          historyMessages={this.state.historyMessages}
-          networkErrorStatus={this.state.networkErrorStatus}
-          networkErrorImg={this.state.networkErrorImg}/> */}
+          channelName={channelName}
+          >
+        </iac-message-body>
       </div>
     );
   }

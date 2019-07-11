@@ -27,6 +27,12 @@ export namespace Components {
     */
     'userProfile': any;
   }
+  interface IacMessageBody {
+    'channelName': any;
+    'pubnub': any;
+    'state': any;
+    'uuid': any;
+  }
   interface IacMessageList {
     /**
     * Is History Loaded?
@@ -95,6 +101,12 @@ declare global {
     new (): HTMLIacHeaderElement;
   };
 
+  interface HTMLIacMessageBodyElement extends Components.IacMessageBody, HTMLStencilElement {}
+  var HTMLIacMessageBodyElement: {
+    prototype: HTMLIacMessageBodyElement;
+    new (): HTMLIacMessageBodyElement;
+  };
+
   interface HTMLIacMessageListElement extends Components.IacMessageList, HTMLStencilElement {}
   var HTMLIacMessageListElement: {
     prototype: HTMLIacMessageListElement;
@@ -115,6 +127,7 @@ declare global {
   interface HTMLElementTagNameMap {
     'iac-chat-container': HTMLIacChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
+    'iac-message-body': HTMLIacMessageBodyElement;
     'iac-message-list': HTMLIacMessageListElement;
     'iac-online-users': HTMLIacOnlineUsersElement;
     'iac-user': HTMLIacUserElement;
@@ -137,6 +150,12 @@ declare namespace LocalJSX {
     * The user profile object
     */
     'userProfile'?: any;
+  }
+  interface IacMessageBody extends JSXBase.HTMLAttributes<HTMLIacMessageBodyElement> {
+    'channelName'?: any;
+    'pubnub'?: any;
+    'state'?: any;
+    'uuid'?: any;
   }
   interface IacMessageList extends JSXBase.HTMLAttributes<HTMLIacMessageListElement> {
     /**
@@ -193,6 +212,7 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'iac-chat-container': IacChatContainer;
     'iac-header': IacHeader;
+    'iac-message-body': IacMessageBody;
     'iac-message-list': IacMessageList;
     'iac-online-users': IacOnlineUsers;
     'iac-user': IacUser;
