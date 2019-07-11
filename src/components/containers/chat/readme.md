@@ -20,22 +20,20 @@
 ### Depends on
 
 - [iac-header](../../header)
-- [iac-user](../../user)
-- [iac-online-users](../../online-users)
-- [iac-message-body](../message-body)
 - [iac-message-list](../../message-list)
+- [iac-message-body](../message-body)
+- [iac-online-users](../../online-users)
 
 ### Graph
 ```mermaid
 graph TD;
   iac-chat --> iac-header
-  iac-chat --> iac-user
-  iac-chat --> iac-online-users
-  iac-chat --> iac-message-body
   iac-chat --> iac-message-list
-  iac-online-users --> iac-user
+  iac-chat --> iac-message-body
+  iac-chat --> iac-online-users
   iac-message-list --> iac-history-message-list
   iac-message-list --> iac-sender-message-list
+  iac-online-users --> iac-user
   style iac-chat fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

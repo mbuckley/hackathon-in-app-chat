@@ -45,7 +45,6 @@ export class MessageList {
     return (
       <div class="messageList">
         <ul class="messageDialog">
-        <h2>HistoryMessageList goes here</h2>
           {this.messageSentDate.length > 0 &&
             <iac-history-message-list
               historyMessages={this.historyMessages}
@@ -57,7 +56,6 @@ export class MessageList {
               styleForMessageSender={this.styleForMessageSender}>
             </iac-history-message-list>
           }
-          <h2>SenderMessageList goes here</h2>
           <iac-sender-message-list
             senders-info='[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]'
             styleForMessageSender={this.styleForMessageSender}
