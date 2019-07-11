@@ -202,8 +202,9 @@ class Chat {
     }
     ;
     render() {
-        return (h("div", null, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.state.historyLoaded, historyMessages: this.state.historyMessages })));
+        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-user", { user: '{ "uuid": "123", "name": "Demo User", "designation": "Admin", "avatarUrl": "https://picsum.photos/id/95/200/300" }', loggedInUser: "123" }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.state.historyLoaded, historyMessages: this.state.historyMessages })));
     }
+    static get style() { return ":host {\n  width: 100vw;\n  height: 85vh;\n  position: relative;\n  margin-bottom: 0;\n}\n\@media (max-width: 850px) {\n  :host {\n    height: 81vh;\n  }\n}\n:host .grid {\n  display: grid;\n  width: 100%;\n  height: 90%;\n  grid-template-rows: 70px 100% 60px;\n  grid-template-columns: 280px 1fr;\n}\n\@media (max-width: 850px) {\n  :host .grid {\n    grid-template-rows: 90px 100% 60px;\n  }\n}"; }
 }
 
 export { Chat as iac_chat };
