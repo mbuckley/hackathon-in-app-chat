@@ -9,7 +9,7 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface ChatContainer {
+  interface IacChatContainer {
     'pubnub': any;
     'state': any;
     'userProfile': any;
@@ -25,6 +25,16 @@ export namespace Components {
     */
     'userProfile': any;
   }
+  interface IacOnlineUsers {
+    /**
+    * The logged in user uuid
+    */
+    'loggedInUser': string;
+    /**
+    * Online Users array
+    */
+    'onlineUsers': any;
+  }
   interface IacUser {
     'loggedInUser': any;
     /**
@@ -37,10 +47,10 @@ export namespace Components {
 declare global {
 
 
-  interface HTMLChatContainerElement extends Components.ChatContainer, HTMLStencilElement {}
-  var HTMLChatContainerElement: {
-    prototype: HTMLChatContainerElement;
-    new (): HTMLChatContainerElement;
+  interface HTMLIacChatContainerElement extends Components.IacChatContainer, HTMLStencilElement {}
+  var HTMLIacChatContainerElement: {
+    prototype: HTMLIacChatContainerElement;
+    new (): HTMLIacChatContainerElement;
   };
 
   interface HTMLIacHeaderElement extends Components.IacHeader, HTMLStencilElement {}
@@ -49,20 +59,27 @@ declare global {
     new (): HTMLIacHeaderElement;
   };
 
+  interface HTMLIacOnlineUsersElement extends Components.IacOnlineUsers, HTMLStencilElement {}
+  var HTMLIacOnlineUsersElement: {
+    prototype: HTMLIacOnlineUsersElement;
+    new (): HTMLIacOnlineUsersElement;
+  };
+
   interface HTMLIacUserElement extends Components.IacUser, HTMLStencilElement {}
   var HTMLIacUserElement: {
     prototype: HTMLIacUserElement;
     new (): HTMLIacUserElement;
   };
   interface HTMLElementTagNameMap {
-    'chat-container': HTMLChatContainerElement;
+    'iac-chat-container': HTMLIacChatContainerElement;
     'iac-header': HTMLIacHeaderElement;
+    'iac-online-users': HTMLIacOnlineUsersElement;
     'iac-user': HTMLIacUserElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface ChatContainer extends JSXBase.HTMLAttributes<HTMLChatContainerElement> {
+  interface IacChatContainer extends JSXBase.HTMLAttributes<HTMLIacChatContainerElement> {
     'pubnub'?: any;
     'state'?: any;
     'userProfile'?: any;
@@ -78,6 +95,16 @@ declare namespace LocalJSX {
     */
     'userProfile'?: any;
   }
+  interface IacOnlineUsers extends JSXBase.HTMLAttributes<HTMLIacOnlineUsersElement> {
+    /**
+    * The logged in user uuid
+    */
+    'loggedInUser'?: string;
+    /**
+    * Online Users array
+    */
+    'onlineUsers'?: any;
+  }
   interface IacUser extends JSXBase.HTMLAttributes<HTMLIacUserElement> {
     'loggedInUser'?: any;
     /**
@@ -87,8 +114,9 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'chat-container': ChatContainer;
+    'iac-chat-container': IacChatContainer;
     'iac-header': IacHeader;
+    'iac-online-users': IacOnlineUsers;
     'iac-user': IacUser;
   }
 }
