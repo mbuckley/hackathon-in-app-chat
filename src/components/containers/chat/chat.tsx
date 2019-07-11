@@ -189,7 +189,7 @@ export class Chat {
       }
     });
 
-    // window.addEventListener('beforeunload', this.leaveChat);
+    window.addEventListener('beforeunload', this.leaveChat);
   }
 
   componentWillUnmount() {
@@ -204,14 +204,14 @@ export class Chat {
   };
 
   hereNow() {
-    // this.pubnub.hereNow({
-    //   channels: channelName,
-    //   includeUUIDs: true,
-    //   includeState: false
-    // }, (_status: any, response: any) => {
-    //   this.onlineUsers = response.channels[channelName].occupants;
-    //   this.onlineUsersCount = response.channels[channelName].occupancy;
-    // });
+    this.pubnub.hereNow({
+      channels: [channelName],
+      includeUUIDs: true,
+      includeState: false
+    }, (_status: any, response: any) => {
+      this.onlineUsers = response.channels[channelName].occupants;
+      this.onlineUsersCount = response.channels[channelName].occupancy;
+    });
   };
 
   leaveChat() {
