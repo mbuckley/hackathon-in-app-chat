@@ -703,7 +703,7 @@ var Chat = /** @class */ (function () {
     };
     ;
     Chat.prototype.render = function () {
-        return (h("div", null, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
+        return (h("div", null, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-message-list", { "message-sent-date": "July 12, 2019" })));
     };
     return Chat;
 }());
@@ -769,7 +769,7 @@ var HistoryMessageList = /** @class */ (function () {
             h("div", { class: 'historyMessageDialog' }, this.parsedHistoryMessages.map(function (m, index) { return h("li", { class: _this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, h("div", { class: 'messageSentDay' }, _this.getDate(m.timetoken, 'historyMessage', index)), h("div", { class: 'message' }, h("div", { class: 'name' }, _this.getUserName(users, m.entry.senderId)), h("div", { class: 'time' }, _this.getTime(m.timetoken)), h("div", { class: 'text' }, m.entry.text))); })))));
     };
     Object.defineProperty(HistoryMessageList, "style", {
-        get: function () { return ""; },
+        get: function () { return ".messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:color(secondary);font-size:1.2em}.messageSentDay:empty{display:none}.message{position:relative;word-break:break-word;word-wrap:break-word}.name,.time{left:5px}.name{top:-18px}.time{bottom:-18px}.text{background-color:hsla(0,0%,50.2%,.164)}"; },
         enumerable: true,
         configurable: true
     });

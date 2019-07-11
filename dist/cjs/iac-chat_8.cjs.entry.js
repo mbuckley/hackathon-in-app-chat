@@ -251,7 +251,7 @@ class Chat {
     }
     ;
     render() {
-        return (__chunk_1.h("div", null, __chunk_1.h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), __chunk_1.h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
+        return (__chunk_1.h("div", null, __chunk_1.h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }), __chunk_1.h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), __chunk_1.h("iac-message-list", { "message-sent-date": "July 12, 2019" })));
     }
 }
 
@@ -312,7 +312,7 @@ class HistoryMessageList {
         return (__chunk_1.h("div", null, (this.historyLoaded &&
             __chunk_1.h("div", { class: 'historyMessageDialog' }, this.parsedHistoryMessages.map((m, index) => __chunk_1.h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, __chunk_1.h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'historyMessage', index)), __chunk_1.h("div", { class: 'message' }, __chunk_1.h("div", { class: 'name' }, this.getUserName(users, m.entry.senderId)), __chunk_1.h("div", { class: 'time' }, this.getTime(m.timetoken)), __chunk_1.h("div", { class: 'text' }, m.entry.text))))))));
     }
-    static get style() { return ""; }
+    static get style() { return ".messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:color(secondary);font-size:1.2em}.messageSentDay:empty{display:none}.message{position:relative;word-break:break-word;word-wrap:break-word}.name,.time{left:5px}.name{top:-18px}.time{bottom:-18px}.text{background-color:hsla(0,0%,50.2%,.164)}"; }
 }
 
 class MessageBody {

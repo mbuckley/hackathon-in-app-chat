@@ -189,7 +189,8 @@ export class Chat {
     render() {
         return (h("div", null,
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }),
-            h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName })));
+            h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
+            h("iac-message-list", { "message-sent-date": "July 12, 2019" })));
     }
     static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }

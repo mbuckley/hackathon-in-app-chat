@@ -1,0 +1,36 @@
+.messageSentDay {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 60vw;
+  top: -20px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  color: color(secondary);
+  font-size: 1.2em;
+}
+.messageSentDay:empty {
+  display: none;
+}
+
+.message {
+  position: relative;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.name, .time {
+  left: 5px;
+}
+
+.name {
+  top: -18px;
+}
+
+.time {
+  bottom: -18px;
+}
+
+.text {
+  background-color: rgba(128, 128, 128, 0.164);
+}
