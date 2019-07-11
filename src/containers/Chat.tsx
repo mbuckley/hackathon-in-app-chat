@@ -1,5 +1,5 @@
 // tag::CHT-1.1[]
-import React, { Component } from 'react';
+import React, { Component, h } from 'react';
 import PubNubReact from 'pubnub-react';
 // import OnlineUsers from '../components/OnlineUsers';
 // import MessageBody from './MessageBody';
