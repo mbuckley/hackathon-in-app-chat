@@ -226,13 +226,16 @@ class Chat {
     }
     ;
     scrollToBottom() {
-        if (this.messageList) {
-            this.messageList.scrollTop = this.messageList.scrollHeight;
+        const elToScroll = this.messageList.shadowRoot.querySelector(".messageDialog");
+        if (elToScroll) {
+            setTimeout(() => {
+                elToScroll.scrollTop = elToScroll.scrollHeight;
+            }, 100);
         }
     }
     ;
     render() {
-        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }), h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: this.channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
+        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }), h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, users: this.parsedUsers, ref: (el) => this.messageList = el }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: this.channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
     }
     get el() { return getElement(this); }
     static get style() { return ":host{width:100vw;height:85vh;position:relative;margin-bottom:0}\@media (max-width:850px){:host{height:81vh}}:host .grid{display:grid;width:100%;grid-template-rows:70px 700px 60px;grid-template-columns:280px 1fr}"; }
@@ -253,43 +256,15 @@ class Header {
     static get style() { return ":host{grid-row:1;grid-column:1/3;width:100%;position:relative;border:1px solid hsla(0,0%,50.2%,.164)}:host .onlineUsersInfo{width:278px;height:70px;position:relative;font-size:17px;font-weight:700;border-right:1px solid hsla(0,0%,50.2%,.164)}:host .onlineUsersInfo .onlineUsersLogo{position:absolute;top:10px;left:10px;border-radius:50%}:host .onlineUsersInfo .onlineUsersCount{position:relative;top:14px;left:68px}:host .onlineUsersInfo span{position:absolute;top:33px;left:80px;color:grey;font-weight:400;display:block}:host .onlineUsersInfo .onlineIndicator{width:8px;height:8px;position:absolute;top:40px;left:68px;border-radius:50%;background-color:#0ccc0c}:host .animalForestChatLogo{display:none!important;position:absolute;top:12px;left:290px}:host h1{font-weight:700;font-size:17px;top:2px}:host h1,:host h2{position:absolute;left:295px}:host h2{font-weight:400;font-size:15px;top:20px}:host .loggedInUser{display:none!important;position:absolute;top:12px;right:20px;color:grey}:host .loggedInUser .userWelcome .user{display:block;color:#000;font-weight:700}:host .loggedInUser img{position:absolute;top:0;left:-50px}"; }
 }
 
-// import avatars from './avatars';
-
-const users = [
-  {
-    uuid: 'forest-animal-1',
-    firstName: 'Funky',
-    lastName: 'Monkey',
-    designation: 'Technical Specialist',
-  },
-  {
-    uuid: 'forest-animal-2',
-    firstName: 'Parrot',
-    lastName: 'Arra',
-    designation: 'Personal Assistant',
-  },
-  {
-    uuid: 'forest-animal-3',
-    firstName: 'Happy',
-    lastName: 'Turtle',
-    designation: 'Account Manager',
-  },
-  {
-    uuid: 'forest-animal-4',
-    firstName: 'Sleeping',
-    lastName: 'Cheetah',
-    designation: 'Product Manager'
-  }];
-
 class HistoryMessageList {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
     render() {
         return (h("div", null, (this.historyLoaded &&
-            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'historyMessage', index)), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.entry.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.entry.text))))))));
+            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, h("div", { class: 'message' }, h("div", { class: 'name' }, getUserName(this.users, m.entry.senderId)), h("div", { class: 'time' }, getTime(m.timetoken), h("div", { class: "date" }, "\u00A0on\u00A0", getDate(m.timetoken, 'historyMessage', index))), h("div", { class: 'text' }, m.entry.text))))))));
     }
-    static get style() { return ".historyMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.historyMessageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}.historyMessageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}.historyMessageDialog li .message .name,.historyMessageDialog li .message .time{right:5px;font-size:15px;color:grey;font-weight:700;position:absolute}.historyMessageDialog li .message .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#1f9efc;color:#fff}.messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:1.2em}.messageSentDay:empty{display:none}.name,.time{left:5px}.name{top:-18px}.time{bottom:-18px}.text{background-color:hsla(0,0%,50.2%,.164)}"; }
+    static get style() { return ".historyMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.historyMessageDialog li{position:relative;margin-top:40px;margin-left:8px;width:100%}.historyMessageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}.historyMessageDialog li .message .name,.historyMessageDialog li .message .time{right:5px;font-size:12px;color:grey;font-weight:700;position:absolute}.historyMessageDialog li .message .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#1f9efc;color:#fff}.messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:100%;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:13px}.messageSentDay:empty{display:none}.name,.time{left:5px}.name{top:-18px}.time{width:100%;bottom:-18px}.time .date{opacity:.5;display:inline}.text{background-color:hsla(0,0%,50.2%,.164)}"; }
 }
 
 class MessageBody {
@@ -327,7 +302,7 @@ class MessageBody {
     render() {
         return (h("div", { class: 'messageBody' }, h("form", { class: 'messageForm' }, h("input", { class: 'messageInput', value: this.messageContent, onChange: (event) => this.onChange(event), placeholder: 'Type your message here . . .' }), h("button", { class: 'submitBtn', onClick: (event) => this.onSubmit(event), type: 'submit' }, "Send"))));
     }
-    static get style() { return ":host{grid-row:3;grid-column:2;position:relative}\@media (max-width:770px){:host{grid-column:1/3}}:host .messageForm{width:calc(100% - 24px);position:absolute;z-index:100;border-top:1px solid #b0bec5;border-bottom:1px solid #b0bec5;left:0;bottom:0;right:0;padding:12px;background:#fff;display:-ms-flexbox;display:flex}\@media (max-width:440px){:host .messageForm{bottom:10px}}:host .messageForm .messageInput{height:35px;border:none;font-size:15px;-ms-flex:1;flex:1;margin-right:12px}:host .messageForm .messageInput:focus{outline:none}:host .messageForm .submitBtn{position:relative;display:inline-block;height:35px;padding:0 12px;-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;font-weight:600;font-size:14px;font-family:Proxima Nova,Helvetica Neue,Helvetica,Arial,sans-serif;line-height:30px;color:#263238;vertical-align:middle;cursor:pointer;border:1px solid transparent;border-radius:3px;text-decoration:none;white-space:nowrap;font-weight:700;color:#fff;background-color:#1f9efc;background-image:-webkit-gradient(linear,left top,left bottom,from(#4ab2fd),to(#1e9efc));background-image:linear-gradient(-180deg,#4ab2fd,#1e9efc);border-color:#0075bb}:host .messageForm .submitBtn:hover{background-image:-webkit-gradient(linear,left top,left bottom,color-stop(2%,#2d9def),to(#007dd9));background-image:linear-gradient(-180deg,#2d9def 2%,#007dd9)}:host .messageForm .submitBtn:active{background-image:none;background-color:#0769b0;border-color:#0769b0;-webkit-box-shadow:inset 0 1px 3px 0 #004670;box-shadow:inset 0 1px 3px 0 #004670}:host .messageForm .submitBtn:focus{outline:none}"; }
+    static get style() { return ":host{grid-row:3;grid-column:2;position:relative}\@media (max-width:770px){:host{grid-column:1/3}}:host .messageForm{width:calc(100% - 24px);position:absolute;z-index:100;border-top:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164);left:0;bottom:0;right:0;padding:12px;background:#fff;display:-ms-flexbox;display:flex}\@media (max-width:440px){:host .messageForm{bottom:10px}}:host .messageForm .messageInput{height:35px;border:none;font-size:15px;-ms-flex:1;flex:1;margin-right:12px}:host .messageForm .messageInput:focus{outline:none}:host .messageForm .submitBtn{position:relative;display:inline-block;height:35px;padding:0 12px;-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;font-weight:600;font-size:14px;font-family:Proxima Nova,Helvetica Neue,Helvetica,Arial,sans-serif;line-height:30px;color:#263238;vertical-align:middle;cursor:pointer;border:1px solid transparent;border-radius:3px;text-decoration:none;white-space:nowrap;font-weight:700;color:#fff;background-color:#1f9efc;background-image:-webkit-gradient(linear,left top,left bottom,from(#4ab2fd),to(#1e9efc));background-image:linear-gradient(-180deg,#4ab2fd,#1e9efc);border-color:#0075bb}:host .messageForm .submitBtn:hover{background-image:-webkit-gradient(linear,left top,left bottom,color-stop(2%,#2d9def),to(#007dd9));background-image:linear-gradient(-180deg,#2d9def 2%,#007dd9)}:host .messageForm .submitBtn:active{background-image:none;background-color:#0769b0;border-color:#0769b0;-webkit-box-shadow:inset 0 1px 3px 0 #004670;box-shadow:inset 0 1px 3px 0 #004670}:host .messageForm .submitBtn:focus{outline:none}"; }
 }
 
 class MessageList {
@@ -337,9 +312,9 @@ class MessageList {
     }
     render() {
         return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, this.messageSentDate.length > 0 &&
-            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
+            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getUserAvatarUrl: getUserAvatarUrl, users: this.users, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, users: this.users, getUserAvatarUrl: getUserAvatarUrl }))));
     }
-    static get style() { return ":host{grid-row:2;grid-column:2;width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}\@media (max-width:770px){:host{grid-column:1/3}}:host .messageList{height:calc(800px - 104px)}:host .networkErrorImg{width:80%;height:100%;position:relative;left:100px}:host .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}:host .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}:host .messageDialog .name,:host .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}:host .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}:host .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:1.2em}:host .messageDialog li .messageSentDay:empty{display:none}:host .messageDialog li img{position:absolute;bottom:0;left:-30px}:host .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}:host .messageDialog li .name,:host .messageDialog li .time{left:5px}:host .messageDialog li .name{top:-18px}:host .messageDialog li .time{bottom:-18px}:host .messageDialog .historyMessageDialog,:host .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:305px}:host .messageDialog .historyMessageDialog .senderMessage .text,:host .messageDialog .senderMessageDialog .senderMessage .text{background-color:#1f9efc;text-align:left}:host .messageDialog .historyMessageDialog .senderMessage .name,:host .messageDialog .historyMessageDialog .senderMessage .time,:host .messageDialog .senderMessageDialog .senderMessage .name,:host .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; }
+    static get style() { return ":host{grid-row:2;grid-column:2;width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}\@media (max-width:770px){:host{grid-column:1/3}}:host .messageList{height:calc(800px - 104px)}:host .networkErrorImg{width:80%;height:100%;position:relative;left:100px}:host .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}:host .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}:host .messageDialog .name,:host .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}:host .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}:host .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:100%;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:13px;text-align:center}:host .messageDialog li .messageSentDay:empty{display:none}:host .messageDialog li img{position:absolute;bottom:0;left:-30px}:host .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}:host .messageDialog li .name,:host .messageDialog li .time{left:5px}:host .messageDialog li .name{top:-18px}:host .messageDialog li .time{bottom:-18px}:host .messageDialog .historyMessageDialog,:host .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;width:100%}:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:305px}:host .messageDialog .historyMessageDialog .senderMessage .text,:host .messageDialog .senderMessageDialog .senderMessage .text{background-color:#1f9efc;text-align:left}:host .messageDialog .historyMessageDialog .senderMessage .name,:host .messageDialog .historyMessageDialog .senderMessage .time,:host .messageDialog .senderMessageDialog .senderMessage .name,:host .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; }
 }
 
 class Header$1 {
@@ -371,9 +346,9 @@ class SenderMessageList {
         console.log(this.sendersInfo);
     }
     render() {
-        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))))));
+        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, getUserName(this.users, m.senderId)), h("div", { class: 'time' }, getTime(m.timetoken), h("div", { class: "date" }, "\u00A0on\u00A0", getDate(m.timetoken, 'historyMessage', index))), h("div", { class: 'text' }, m.text))))));
     }
-    static get style() { return ":host .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .senderMessageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}:host .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:grey;text-align:right}\@media (max-width:240px){:host .senderMessageDialog .senderMessage{margin-right:95px}}:host .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){:host .senderMessageDialog .senderMessage img{left:155px}}:host .senderMessageDialog .senderMessage .message{position:relative;word-break:break-word;word-wrap:break-word}:host .senderMessageDialog .name,:host .senderMessageDialog .time{left:unset;right:5px;font-size:15px;color:grey;font-weight:700;position:absolute}:host .senderMessageDialog .name{top:-18px}:host .senderMessageDialog .time{bottom:-18px}:host .senderMessageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#999;color:#fff}\@media (max-width:240px){:host .senderMessageDialog .text{max-width:80px}}"; }
+    static get style() { return ":host .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .senderMessageDialog li{position:relative;margin-top:40px;margin-left:8px;width:100%}:host .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:grey;text-align:right}:host .senderMessageDialog .senderMessage .messageSentDay{display:none}:host .senderMessageDialog .senderMessage img{left:305px}:host .senderMessageDialog .senderMessage .message{position:relative;word-break:break-word;word-wrap:break-word}:host .senderMessageDialog .name,:host .senderMessageDialog .time{left:unset;right:5px;font-size:11px;color:grey;font-weight:700;position:absolute}:host .senderMessageDialog .name{top:-18px}:host .senderMessageDialog .time{bottom:-18px}:host .senderMessageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#999;color:#fff}.time .date{opacity:.5;display:inline}"; }
 }
 
 class User {

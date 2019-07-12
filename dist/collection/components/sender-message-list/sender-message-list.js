@@ -1,15 +1,19 @@
 import { h } from '@stencil/core';
-import users from "../../config/users.js";
+import { getUserName, getTime, getDate } from "../../utils/utils";
 export class SenderMessageList {
     componentWillLoad() {
         console.log(this.sendersInfo);
     }
     render() {
         return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index },
-            h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')),
+            h("div", { class: 'messageSentDay' }, getDate(m.timetoken, 'senderMessage')),
             h("div", { class: 'message' },
-                h("div", { class: 'name' }, this.getUserName(users, m.senderId)),
-                h("div", { class: 'time' }, this.getTime(m.timetoken)),
+                h("div", { class: 'name' }, getUserName(this.users, m.senderId)),
+                h("div", { class: 'time' },
+                    getTime(m.timetoken),
+                    h("div", { class: "date" },
+                        "\u00A0on\u00A0",
+                        getDate(m.timetoken, 'historyMessage', index))),
                 h("div", { class: 'text' }, m.text))))));
     }
     static get is() { return "iac-sender-message-list"; }
@@ -36,57 +40,6 @@ export class SenderMessageList {
                 "text": ""
             },
             "attribute": "senders-info",
-            "reflect": false
-        },
-        "getUserName": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "get-user-name",
-            "reflect": false
-        },
-        "getTime": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "get-time",
-            "reflect": false
-        },
-        "getDate": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "get-date",
             "reflect": false
         },
         "getUserAvatarUrl": {
@@ -121,6 +74,23 @@ export class SenderMessageList {
                 "text": ""
             },
             "attribute": "style-for-message-sender",
+            "reflect": false
+        },
+        "users": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "users",
             "reflect": false
         }
     }; }

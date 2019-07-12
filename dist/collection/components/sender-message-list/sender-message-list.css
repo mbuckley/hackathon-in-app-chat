@@ -3,10 +3,10 @@
   flex-direction: column;
 }
 :host .senderMessageDialog li {
-  width: 300px;
   position: relative;
   margin-top: 40px;
   margin-left: 8px;
+  width: 100%;
 }
 :host .senderMessageDialog .senderMessage {
   align-self: flex-end;
@@ -14,18 +14,11 @@
   color: gray;
   text-align: right;
 }
-@media (max-width: 240px) {
-  :host .senderMessageDialog .senderMessage {
-    margin-right: 95px;
-  }
+:host .senderMessageDialog .senderMessage .messageSentDay {
+  display: none;
 }
 :host .senderMessageDialog .senderMessage img {
   left: 305px;
-}
-@media (max-width: 440px) {
-  :host .senderMessageDialog .senderMessage img {
-    left: 155px;
-  }
 }
 :host .senderMessageDialog .senderMessage .message {
   position: relative;
@@ -35,7 +28,7 @@
 :host .senderMessageDialog .name, :host .senderMessageDialog .time {
   left: unset;
   right: 5px;
-  font-size: 15px;
+  font-size: 11px;
   color: #808080;
   font-weight: bold;
   position: absolute;
@@ -54,8 +47,8 @@
   background-color: #999;
   color: #fff;
 }
-@media (max-width: 240px) {
-  :host .senderMessageDialog .text {
-    max-width: 80px;
-  }
+
+.time .date {
+  opacity: 0.5;
+  display: inline;
 }

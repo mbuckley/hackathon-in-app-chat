@@ -1,13 +1,16 @@
 import { h } from '@stencil/core';
-import users from "../../../config/users.js";
+import { getUserName, getTime, getDate } from "../../../utils/utils";
 export class HistoryMessageList {
     render() {
         return (h("div", null, (this.historyLoaded &&
             h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken },
-                h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'historyMessage', index)),
                 h("div", { class: 'message' },
-                    h("div", { class: 'name' }, this.getUserName(users, m.entry.senderId)),
-                    h("div", { class: 'time' }, this.getTime(m.timetoken)),
+                    h("div", { class: 'name' }, getUserName(this.users, m.entry.senderId)),
+                    h("div", { class: 'time' },
+                        getTime(m.timetoken),
+                        h("div", { class: "date" },
+                            "\u00A0on\u00A0",
+                            getDate(m.timetoken, 'historyMessage', index))),
                     h("div", { class: 'text' }, m.entry.text))))))));
     }
     static get is() { return "iac-history-message-list"; }
@@ -87,57 +90,6 @@ export class HistoryMessageList {
             "attribute": "network-error-status",
             "reflect": false
         },
-        "getUserName": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "get-user-name",
-            "reflect": false
-        },
-        "getTime": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "get-time",
-            "reflect": false
-        },
-        "getDate": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "get-date",
-            "reflect": false
-        },
         "getUserAvatarUrl": {
             "type": "any",
             "mutable": false,
@@ -170,6 +122,23 @@ export class HistoryMessageList {
                 "text": ""
             },
             "attribute": "style-for-message-sender",
+            "reflect": false
+        },
+        "users": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "users",
             "reflect": false
         }
     }; }

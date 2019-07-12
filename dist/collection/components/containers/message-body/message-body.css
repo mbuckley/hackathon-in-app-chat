@@ -13,8 +13,8 @@
   position: absolute;
   bottom: 0;
   z-index: 100;
-  border-top: 1px solid #B0BEC5;
-  border-bottom: 1px solid #B0BEC5;
+  border-top: 1px solid rgba(128, 128, 128, 0.164);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.164);
   left: 0;
   bottom: 0;
   right: 0;

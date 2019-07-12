@@ -1,7 +1,7 @@
 import { Component, Prop, h } from '@stencil/core';
 
 import { User } from "../../global/types";
-import { getDate, getTime, getUserAvatarUrl, getUserName } from '../../utils/utils';
+import { getUserAvatarUrl } from '../../utils/utils';
 
 @Component({
   tag: 'iac-message-list',
@@ -34,6 +34,8 @@ export class MessageList {
    */
   @Prop() user: User;
 
+  @Prop() users: any;
+
   /**
    * Message Send Date
    */
@@ -49,19 +51,15 @@ export class MessageList {
             <iac-history-message-list
               historyMessages={this.historyMessages}
               historyLoaded={this.historyMessages}
-              getDate={getDate}
-              getUserName={getUserName}
-              getTime={getTime}
               getUserAvatarUrl={getUserAvatarUrl}
+              users={this.users}
               styleForMessageSender={this.styleForMessageSender}>
             </iac-history-message-list>
           }
           <iac-sender-message-list
             sendersInfo={this.sendersInfo}
             styleForMessageSender={this.styleForMessageSender}
-            getDate={getDate}
-            getUserName={getUserName}
-            getTime={getTime}
+            users={this.users}
             getUserAvatarUrl={getUserAvatarUrl}>
           </iac-sender-message-list>
         </ul>

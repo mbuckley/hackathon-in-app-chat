@@ -1,5 +1,5 @@
 import { h } from '@stencil/core';
-import { getDate, getTime, getUserAvatarUrl, getUserName } from '../../utils/utils';
+import { getUserAvatarUrl } from '../../utils/utils';
 export class MessageList {
     constructor() {
         this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
@@ -8,8 +8,8 @@ export class MessageList {
         return (h("div", { class: "messageList" },
             h("ul", { class: "messageDialog" },
                 this.messageSentDate.length > 0 &&
-                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }),
-                h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
+                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getUserAvatarUrl: getUserAvatarUrl, users: this.users, styleForMessageSender: this.styleForMessageSender }),
+                h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, users: this.users, getUserAvatarUrl: getUserAvatarUrl }))));
     }
     static get is() { return "iac-message-list"; }
     static get encapsulation() { return "shadow"; }
@@ -107,6 +107,23 @@ export class MessageList {
                 "tags": [],
                 "text": "user"
             }
+        },
+        "users": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "users",
+            "reflect": false
         },
         "messageSentDate": {
             "type": "any",

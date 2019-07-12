@@ -20,6 +20,7 @@ export declare class MessageList {
      * user
      */
     user: User;
+    users: any;
     /**
      * Message Send Date
      */

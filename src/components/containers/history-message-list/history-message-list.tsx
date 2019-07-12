@@ -1,5 +1,7 @@
 import { Component, Prop, h } from '@stencil/core';
-import users from "../../../config/users.js";
+
+import { getUserName, getTime, getDate } from "../../../utils/utils";
+
 
 @Component({
   tag: 'iac-history-message-list',
@@ -11,11 +13,9 @@ export class HistoryMessageList {
   @Prop() historyLoaded: any;
   @Prop() networkErrorImg: any;
   @Prop() networkErrorStatus: any;
-  @Prop() getUserName: any;
-  @Prop() getTime: any;
-  @Prop() getDate: any;
   @Prop() getUserAvatarUrl: any;
   @Prop() styleForMessageSender: any;
+  @Prop() users: any;
 
   render() {
     return (
@@ -24,10 +24,10 @@ export class HistoryMessageList {
           <div class='historyMessageDialog'>
             {this.historyMessages.map( (m, index) =>
               <li class={this.styleForMessageSender(m.entry.senderId)} key={m.timetoken}>
-                <div class='messageSentDay'>{this.getDate(m.timetoken, 'historyMessage', index)}</div>
+                {/* <div class='messageSentDay'>{this.getDate(m.timetoken, 'historyMessage', index)}</div> */}
                 <div class='message'>
-                  <div class='name'>{this.getUserName(users, m.entry.senderId)}</div>
-                  <div class='time'>{this.getTime(m.timetoken)}</div>
+                  <div class='name'>{getUserName(this.users, m.entry.senderId)}</div>
+                  <div class='time'>{getTime(m.timetoken)}<div class="date">&nbsp;on&nbsp;{getDate(m.timetoken, 'historyMessage', index)}</div></div>
                   <div class='text'>{m.entry.text}</div>
                   {/* {<img width='28' height='28' alt='Sender avatar' src={this.getUserAvatarUrl(m.entry.senderId, 'smImage')}/}> */}
                 </div>

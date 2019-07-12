@@ -9,7 +9,6 @@ import { getWeekday  } from "../../../utils/utils";
 // import MessageBody from './MessageBody';
 // import MessageList from '../components/MessageList';
 // import Header from '../components/Header';
-// import users from '../config/users';
 // import {publishKey, subscribeKey} from '../config/keys';
 // import {forestChatChannel} from '../config/chat';
 
@@ -234,8 +233,11 @@ export class Chat {
   };
 
   scrollToBottom() {
-    if(this.messageList) {
-        this.messageList.scrollTop = this.messageList.scrollHeight;
+    const elToScroll = this.messageList.shadowRoot.querySelector(".messageDialog")
+    if (elToScroll) {
+      setTimeout(() => {
+        elToScroll.scrollTop = elToScroll.scrollHeight;
+      }, 100);
     }
   };
 
@@ -252,6 +254,7 @@ export class Chat {
           messageSentDate="July 12, 2019"
           historyLoaded={this.historyLoaded}
           historyMessages={this.historyMessages}
+          users={this.parsedUsers}
           ref={(el) => this.messageList = el as HTMLElement}
         ></iac-message-list>
 

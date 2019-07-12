@@ -6,10 +6,11 @@
   flex-direction: column;
 
   li {
-    @include size (300px);
+    // @include size (300px);
     position: relative;
     margin-top: 40px;
     margin-left: 8px;
+    width: 100%;
   }
 
   .senderMessage {
@@ -18,16 +19,20 @@
       color: gray;
       text-align: right;
 
-      @include breakpoint ($Xsmall_screens) {
-          margin-right: 95px;
-      }
+    .messageSentDay {
+        display: none;
+    }
+
+    //   @include breakpoint ($Xsmall_screens) {
+    //       margin-right: 95px;
+    //   }
 
       img {
           left: 305px;
 
-          @include breakpoint ($mobile) {
-              left: 155px;
-          }
+        //   @include breakpoint ($mobile) {
+        //       left: 155px;
+        //   }
       }
 
       .message {
@@ -42,7 +47,7 @@
       .name, .time {
           left: unset;
           right: 5px;
-          font-size: 15px;
+          font-size: 11px;
           color: #808080;
           font-weight: bold;
           position: absolute;
@@ -64,8 +69,15 @@
         background-color: #999;
         color: #fff;
 
-        @include breakpoint ($Xsmall_screens) {
-            max-width: 80px;
-        }
+        // @include breakpoint ($Xsmall_screens) {
+        //     max-width: 80px;
+        // }
     }
+}
+
+.time {
+    .date {
+        opacity: 0.5;
+        display: inline;
+      }
 }

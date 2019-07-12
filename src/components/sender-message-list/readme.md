@@ -9,12 +9,10 @@
 
 | Property                | Attribute                  | Description | Type  | Default     |
 | ----------------------- | -------------------------- | ----------- | ----- | ----------- |
-| `getDate`               | `get-date`                 |             | `any` | `undefined` |
-| `getTime`               | `get-time`                 |             | `any` | `undefined` |
 | `getUserAvatarUrl`      | `get-user-avatar-url`      |             | `any` | `undefined` |
-| `getUserName`           | `get-user-name`            |             | `any` | `undefined` |
 | `sendersInfo`           | `senders-info`             |             | `any` | `undefined` |
 | `styleForMessageSender` | `style-for-message-sender` |             | `any` | `undefined` |
+| `users`                 | `users`                    |             | `any` | `undefined` |
 
 
 ## Dependencies

@@ -39,15 +39,13 @@ export namespace Components {
     'userProfile': any;
   }
   interface IacHistoryMessageList {
-    'getDate': any;
-    'getTime': any;
     'getUserAvatarUrl': any;
-    'getUserName': any;
     'historyLoaded': any;
     'historyMessages': any;
     'networkErrorImg': any;
     'networkErrorStatus': any;
     'styleForMessageSender': any;
+    'users': any;
   }
   interface IacMessageBody {
     'channelName': any;
@@ -76,6 +74,7 @@ export namespace Components {
     * user
     */
     'user': User;
+    'users': any;
     /**
     * User uuid
     */
@@ -92,12 +91,10 @@ export namespace Components {
     'onlineUsers': any;
   }
   interface IacSenderMessageList {
-    'getDate': any;
-    'getTime': any;
     'getUserAvatarUrl': any;
-    'getUserName': any;
     'sendersInfo': any;
     'styleForMessageSender': any;
+    'users': any;
   }
   interface IacUser {
     'loggedInUser': any;
@@ -199,15 +196,13 @@ declare namespace LocalJSX {
     'userProfile'?: any;
   }
   interface IacHistoryMessageList extends JSXBase.HTMLAttributes<HTMLIacHistoryMessageListElement> {
-    'getDate'?: any;
-    'getTime'?: any;
     'getUserAvatarUrl'?: any;
-    'getUserName'?: any;
     'historyLoaded'?: any;
     'historyMessages'?: any;
     'networkErrorImg'?: any;
     'networkErrorStatus'?: any;
     'styleForMessageSender'?: any;
+    'users'?: any;
   }
   interface IacMessageBody extends JSXBase.HTMLAttributes<HTMLIacMessageBodyElement> {
     'channelName'?: any;
@@ -236,6 +231,7 @@ declare namespace LocalJSX {
     * user
     */
     'user'?: User;
+    'users'?: any;
     /**
     * User uuid
     */
@@ -252,12 +248,10 @@ declare namespace LocalJSX {
     'onlineUsers'?: any;
   }
   interface IacSenderMessageList extends JSXBase.HTMLAttributes<HTMLIacSenderMessageListElement> {
-    'getDate'?: any;
-    'getTime'?: any;
     'getUserAvatarUrl'?: any;
-    'getUserName'?: any;
     'sendersInfo'?: any;
     'styleForMessageSender'?: any;
+    'users'?: any;
   }
   interface IacUser extends JSXBase.HTMLAttributes<HTMLIacUserElement> {
     'loggedInUser'?: any;
