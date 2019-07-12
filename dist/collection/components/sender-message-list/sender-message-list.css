@@ -40,6 +40,12 @@
   font-weight: bold;
   position: absolute;
 }
+:host .senderMessageDialog .name {
+  top: -18px;
+}
+:host .senderMessageDialog .time {
+  bottom: -18px;
+}
 :host .senderMessageDialog .text {
   max-width: 270px;
   padding: 15px;
