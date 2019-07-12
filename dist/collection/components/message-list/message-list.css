@@ -12,7 +12,7 @@
   }
 }
 :host .messageList {
-  height: calc(800px - 110px);
+  height: calc(800px - 104px);
 }
 :host .networkErrorImg {
   width: 80%;
