@@ -1,33 +1,38 @@
 import { h } from '@stencil/core';
 export class MessageBody {
-    constructor() {
-        this.onChange = (e) => {
-            this.messageContent = e.target.value;
-        };
-        this.onSubmit = (e) => {
-            e.preventDefault();
-            if (!this.messageContent.length) {
-                return;
-            }
-            this.pubnub.publish({
-                message: {
-                    senderId: this.uuid,
-                    text: this.messageContent,
-                },
-                channel: this.channelName
-            });
-            this.messageContent = '';
-        };
-    }
     componentWillLoad() {
         this.messageContent = "";
+    }
+    ;
+    handleKeyDown(ev) {
+        if (ev.key === 'Enter') {
+            console.log('enter pressed');
+        }
+    }
+    onChange(e) {
+        this.messageContent = e.target.value;
+    }
+    ;
+    onSubmit(e) {
+        e.preventDefault();
+        if (!this.messageContent.length) {
+            return;
+        }
+        this.pubnub.publish({
+            message: {
+                senderId: this.uuid,
+                text: this.messageContent,
+            },
+            channel: this.channelName
+        });
+        this.messageContent = '';
     }
     ;
     render() {
         return (h("div", { class: 'messageBody' },
             h("form", { class: 'messageForm' },
-                h("input", { class: 'messageInput', value: this.messageContent, onChange: this.onChange, placeholder: 'Type your message here . . .' }),
-                h("button", { class: 'submitBtn', onClick: this.onSubmit, type: 'submit' }, "Send"))));
+                h("input", { class: 'messageInput', value: this.messageContent, onChange: (event) => this.onChange(event), placeholder: 'Type your message here . . .' }),
+                h("button", { class: 'submitBtn', onClick: (event) => this.onSubmit(event), type: 'submit' }, "Send"))));
     }
     static get is() { return "iac-message-body"; }
     static get encapsulation() { return "shadow"; }
@@ -110,4 +115,11 @@ export class MessageBody {
     static get states() { return {
         "messageContent": {}
     }; }
+    static get listeners() { return [{
+            "name": "keydown",
+            "method": "handleKeyDown",
+            "target": undefined,
+            "capture": false,
+            "passive": false
+        }]; }
 }

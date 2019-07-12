@@ -5,7 +5,8 @@ export declare class MessageBody {
     channelName: any;
     messageContent: any;
     componentWillLoad(): void;
-    onChange: (e: any) => void;
-    onSubmit: (e: any) => void;
+    handleKeyDown(ev: KeyboardEvent): void;
+    onChange(e: any): void;
+    onSubmit(e: any): void;
     render(): any;
 }

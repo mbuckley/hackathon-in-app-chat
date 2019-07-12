@@ -1,4 +1,4 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Prop, State, h, Listen } from '@stencil/core';
 
 @Component({
   tag: 'iac-message-body',
@@ -17,11 +17,18 @@ export class MessageBody {
     this.messageContent = "";
   };
 
-  onChange = (e: any) => {
+  @Listen('keydown')
+  handleKeyDown(ev: KeyboardEvent){
+    if (ev.key === 'Enter'){
+      console.log('enter pressed')
+    }
+  }
+
+  onChange(e: any) {
     this.messageContent = e.target.value;
   };
 
-  onSubmit = (e: any) => {
+  onSubmit(e: any) {
     e.preventDefault();
 
     if (!this.messageContent.length) {
@@ -46,9 +53,9 @@ export class MessageBody {
           <input
             class='messageInput'
             value={this.messageContent}
-            onChange={this.onChange}
+            onChange={(event: UIEvent) => this.onChange(event)}
             placeholder='Type your message here . . .'/>
-          <button class='submitBtn' onClick={this.onSubmit} type='submit'>Send</button>
+          <button class='submitBtn' onClick={(event: UIEvent) => this.onSubmit(event)} type='submit'>Send</button>
         </form>
       </div>
     );
