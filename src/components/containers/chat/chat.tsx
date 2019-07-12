@@ -234,8 +234,11 @@ export class Chat {
   };
 
   scrollToBottom() {
-    if(this.messageList) {
-        this.messageList.scrollTop = this.messageList.scrollHeight;
+    const elToScroll = this.messageList.shadowRoot.querySelector(".messageDialog")
+    if (elToScroll) {
+      setTimeout(() => {
+        elToScroll.scrollTop = elToScroll.scrollHeight;
+      }, 100);
     }
   };
 
