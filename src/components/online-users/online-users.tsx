@@ -6,8 +6,6 @@ import { Component, Prop, h } from '@stencil/core';
   shadow: true
 })
 export class Header {
-  private parsedOnlineUsers: any;
-
   /**
    * The logged in user uuid
    */
@@ -29,15 +27,14 @@ export class Header {
   };
 
   componentWillLoad() {
-    this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
   }
 
   render() {
     return (
       <div class='onlineUsers'>
-        {this.putLoggedInUserFirst(this.parsedOnlineUsers)}
+        {this.putLoggedInUserFirst(this.onlineUsers)}
         <ul class='onlineUserList'>
-          {this.parsedOnlineUsers.map((user, _index) =>
+          {this.onlineUsers.map((user, _index) =>
             <iac-user
               user={JSON.stringify(user)}
               loggedInUser= {this.loggedInUser}>

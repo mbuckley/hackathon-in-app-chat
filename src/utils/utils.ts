@@ -1,8 +1,8 @@
-export function getUserAvatarUrl(users: any, uuid: any, size: any) {
+export function getUserAvatarUrl(users: any, uuid: any) {
   const user = getUser(users, uuid);
 
   if (user) {
-    return user.profileImage[size];
+    return user.image;
   }
 };
 
@@ -18,7 +18,7 @@ export function getUserName(users: any, uuid: any) {
   const user = getUser(users, uuid);
 
   if (user) {
-    return user.firstName + ' ' + user.lastName;
+    return user.name;
   }
 };
 
@@ -36,23 +36,23 @@ export function getWeekday(timetoken: any) {
 
 export function getDate(timetoken: any, messageType: any, index = 0) {
   const messageWeekday = getWeekday(timetoken);
-  const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', {day: 'numeric', month: 'long'});
+  const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
 
   switch (messageType) {
     case 'historyMessage':
-    console.log(index);
-    // TODO commented until we have a state
+      console.log(index);
+      // TODO commented until we have a state
       // if (this.state.messageSentDate[index - 1] !== messageWeekday) {
-        return `${date}, ${messageWeekday}`;
-      // }
+      return `${date}, ${messageWeekday}`;
+    // }
 
-      // break;
+    // break;
     case 'senderMessage':
       // if (this.state.lastMessageWeekday !== messageWeekday) {
-        return `${date}, ${messageWeekday}`;
-      // }
+      return `${date}, ${messageWeekday}`;
+    // }
 
-      // break;
+    // break;
     default:
       return;
   }

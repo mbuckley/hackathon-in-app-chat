@@ -10,12 +10,11 @@ export class Header {
     }
     ;
     componentWillLoad() {
-        this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
     }
     render() {
         return (h("div", { class: 'onlineUsers' },
-            this.putLoggedInUserFirst(this.parsedOnlineUsers),
-            h("ul", { class: 'onlineUserList' }, this.parsedOnlineUsers.map((user, _index) => h("iac-user", { user: JSON.stringify(user), loggedInUser: this.loggedInUser })))));
+            this.putLoggedInUserFirst(this.onlineUsers),
+            h("ul", { class: 'onlineUserList' }, this.onlineUsers.map((user, _index) => h("iac-user", { user: JSON.stringify(user), loggedInUser: this.loggedInUser })))));
     }
     static get is() { return "iac-online-users"; }
     static get encapsulation() { return "shadow"; }

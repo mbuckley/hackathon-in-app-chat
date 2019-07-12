@@ -15,6 +15,8 @@ import { getWeekday  } from "../../../utils/utils";
 
 // import networkErrorImg from '../styles/networkError.png';
 
+import { getUserName, getUserAvatarUrl } from "../../../utils/utils";
+
 const channelName = "test-channel";
 
 @Component({
@@ -23,6 +25,7 @@ const channelName = "test-channel";
   shadow: true
 })
 export class Chat {
+  private parsedUsers: any = [];
   @Element() el: HTMLElement;
 
   private messageList?: HTMLElement;
@@ -44,6 +47,7 @@ export class Chat {
   @State() networkErrorImg: any;
 
   componentWillLoad() {
+    this.parsedUsers = JSON.parse(this.users);
     this.pubnub = new PubNub({
       publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
       subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",
@@ -199,13 +203,19 @@ export class Chat {
       includeState: false
     }, (_status: any, response: any) => {
       this.onlineUsers = response.channels[channelName].occupants;
+      this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
 
-      //FIXME: add temp names until we have full list of firm users passed in
-      // that we can look up real names from based on uuid.
-      this.onlineUsers.forEach((item: any, index: number) => {
-        item.name = `User #${index}`;
-        item.image = "https://picsum.photos/45/45"
+      this.onlineUsers = this.onlineUsers.map((onlineUser: any) => {
+        return {
+          uuid: onlineUser.uuid,
+          name: getUserName(this.parsedUsers, onlineUser.uuid),
+          image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
+        }
+      }).filter((onlineUser: any) => {
+        return onlineUser.name && onlineUser.name.length > 1;
       });
+
+      console.log(this.onlineUsers);
 
       this.onlineUsersCount = response.channels[channelName].occupancy;
     });
@@ -245,7 +255,7 @@ export class Chat {
 
         <iac-online-users
           loggedInUser= {"x9skdkdkslsddkjfsk"}
-          onlineUsers={JSON.stringify(this.onlineUsers)}
+          onlineUsers={this.onlineUsers}
         ></iac-online-users>
       </div>
     );
