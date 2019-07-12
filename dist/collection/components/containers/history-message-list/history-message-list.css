@@ -70,3 +70,26 @@
 .text {
   background-color: rgba(128, 128, 128, 0.164);
 }
+
+.historyMessageDialog li.senderMessage .message {
+  align-self: flex-end;
+  margin-right: 50px;
+  color: gray;
+  text-align: right;
+}
+.historyMessageDialog li.senderMessage .message .text {
+  max-width: 270px;
+  padding: 15px;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #999;
+  color: #fff;
+}
+.historyMessageDialog li.senderMessage .message .name, .historyMessageDialog li.senderMessage .message .time {
+  left: unset;
+  right: 5px;
+  font-size: 11px;
+  color: #808080;
+  font-weight: bold;
+  position: absolute;
+}

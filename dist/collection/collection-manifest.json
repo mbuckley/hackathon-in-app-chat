@@ -1,12 +1,12 @@
 {
   "entries": [
-    "components/header/header.js",
     "components/online-users/online-users.js",
-    "components/message-list/message-list.js",
-    "components/containers/message-body/message-body.js",
     "components/sender-message-list/sender-message-list.js",
-    "components/user/user.js",
+    "components/message-list/message-list.js",
+    "components/header/header.js",
     "components/containers/history-message-list/history-message-list.js",
+    "components/user/user.js",
+    "components/containers/message-body/message-body.js",
     "components/containers/chat/chat.js"
   ],
   "compiler": {
