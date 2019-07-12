@@ -53,7 +53,8 @@
         padding: 15px;
         display: inline-block;
         border-radius: 10px;
-        background-color: color(primary);
+        // background-color: color(primary);
+        background-color: #808080;
         color: #fff;
 
         @include breakpoint ($Xsmall_screens) {

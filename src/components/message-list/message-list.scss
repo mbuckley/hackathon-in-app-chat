@@ -13,26 +13,30 @@
     border-right: 1px solid rgba(128, 128, 128, 0.164);
     border-bottom: 1px solid rgba(128, 128, 128, 0.164);
 
+    .messageList {
+        height: calc(800px - 110px);
+    }
+
     .networkErrorImg {
         @include size (80%, 100%);
         position: relative;
         left: 100px;
 
-        @include breakpoint ($desktop) {
-            @include size (100%, 70%);
-            left: 20px;
-            bottom: -100px;
-        }
+        // @include breakpoint ($desktop) {
+        //     @include size (100%, 70%);
+        //     left: 20px;
+        //     bottom: -100px;
+        // }
 
-        @include breakpoint ($mobile) {
-            width: 120%;
-            left: -20px;
-        }
+        // @include breakpoint ($mobile) {
+        //     width: 120%;
+        //     left: -20px;
+        // }
     }
 
     .messageDialog {
         height: inherit;
-        max-height: 400px;
+        // max-height: 400px;
         position: relative;
         margin-top: 0;
         overflow-y: auto;
@@ -46,9 +50,9 @@
             display: inline-block;
             border-radius: 10px;
 
-            @include breakpoint ($Xsmall_screens) {
-                max-width: 80px;
-            }
+            // @include breakpoint ($Xsmall_screens) {
+            //     max-width: 80px;
+            // }
         }
 
         .name, .time {
@@ -64,9 +68,9 @@
             margin-top: 40px;
             margin-left: 8px;
 
-            @include breakpoint ($mobile) {
-                @include size (150px);
-            }
+            // @include breakpoint ($mobile) {
+            //     @include size (150px);
+            // }
 
             .messageSentDay {
                 display: flex;
@@ -79,19 +83,19 @@
                 color: color(secondary);
                 font-size: 1.2em;
 
-                @include breakpoint ($tablet) {
-                    width: 90vw;
-                }
+                // @include breakpoint ($tablet) {
+                //     width: 90vw;
+                // }
 
-                @include breakpoint ($mobile) {
-                    width: 75vw;
-                    font-size: 1.1em;
-                }
+                // @include breakpoint ($mobile) {
+                //     width: 75vw;
+                //     font-size: 1.1em;
+                // }
 
-                @include breakpoint ($Xsmall_screens) {
-                    width: 100vw;
-                    left: -45px;
-                }
+                // @include breakpoint ($Xsmall_screens) {
+                //     width: 100vw;
+                //     left: -45px;
+                // }
 
                 &:empty {
                     display: none;
@@ -123,7 +127,7 @@
             }
 
             .text {
-                background-color: rgba(128, 128, 128, 0.164);
+                // background-color: rgba(128, 128, 128, 0.164);
             }
         }
 
@@ -137,20 +141,21 @@
                 color: #fff;
                 text-align: right;
 
-                @include breakpoint ($Xsmall_screens) {
-                    margin-right: 95px;
-                }
+                // @include breakpoint ($Xsmall_screens) {
+                //     margin-right: 95px;
+                // }
 
                 img {
                     left: 305px;
 
-                    @include breakpoint ($mobile) {
-                        left: 155px;
-                    }
+                    // @include breakpoint ($mobile) {
+                    //     left: 155px;
+                    // }
                 }
 
                 .text {
-                    background-color: color(primary);
+                    background-color: #1F9EFC;
+                    // background-color: color(primary);
                     text-align: left;
                 }
 

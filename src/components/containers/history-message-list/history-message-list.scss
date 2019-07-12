@@ -29,12 +29,12 @@
       padding: 15px;
       display: inline-block;
       border-radius: 10px;
-      background-color: color(primary);
+      background-color: #1F9EFC;
       color: #fff;
 
-      @include breakpoint ($Xsmall_screens) {
-          max-width: 80px;
-      }
+      // @include breakpoint ($Xsmall_screens) {
+      //     max-width: 80px;
+      // }
   }
     }
   }
