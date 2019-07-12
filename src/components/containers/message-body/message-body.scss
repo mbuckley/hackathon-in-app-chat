@@ -12,10 +12,11 @@
 
   .messageForm {
       width: calc(100% - 24px);
-      position: fixed;
+      position: absolute;
       bottom: 0;
       z-index: 100;
       border-top: 1px solid #B0BEC5;
+      border-bottom: 1px solid #B0BEC5;
       left: 0;
       bottom: 0;
       right: 0;

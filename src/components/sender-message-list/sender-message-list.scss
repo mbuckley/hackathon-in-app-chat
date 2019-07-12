@@ -48,16 +48,24 @@
           position: absolute;
       }
 
+      .name {
+          top: -18px;
+      }
+      .time {
+          bottom: -18px;
+      }
+
       .text {
         max-width: 270px;
         padding: 15px;
         display: inline-block;
         border-radius: 10px;
-        background-color: color(primary);
+        // background-color: color(primary);
+        background-color: #999;
         color: #fff;
 
         @include breakpoint ($Xsmall_screens) {
             max-width: 80px;
         }
-  }
+    }
 }

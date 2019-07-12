@@ -1,13 +1,26 @@
 @import '../../global/styles/scss/0_settings/functions&variables.scss';
 @import '../../global/styles/scss/0_settings/mixins.scss';
 
+img {
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+}
+
+li {
+  display: flex;
+  margin-bottom: 12px;
+}
+
 .userName {
-  position: relative;
-  display: inline;
-  top: 0;
-  left: 100px;
+  // position: relative;
+  // display: inline;
+  // top: 0;
+  // left: 100px;
+  margin-left: 12px;
   font-size: .9em;
   font-weight: bold;
+  line-height: 45px;
 
   .youSign {
       position: absolute;
