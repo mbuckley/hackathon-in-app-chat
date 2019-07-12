@@ -1,5 +1,4 @@
 export declare class Header {
-    private parsedOnlineUsers;
     /**
      * The logged in user uuid
      */

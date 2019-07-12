@@ -6,8 +6,8 @@
     "components/online-users/online-users.js",
     "components/containers/history-message-list/history-message-list.js",
     "components/message-list/message-list.js",
-    "components/sender-message-list/sender-message-list.js",
-    "components/containers/chat/chat.js"
+    "components/containers/chat/chat.js",
+    "components/sender-message-list/sender-message-list.js"
   ],
   "compiler": {
     "name": "@stencil/core",

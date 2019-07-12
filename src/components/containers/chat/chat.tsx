@@ -245,7 +245,7 @@ export class Chat {
 
         <iac-online-users
           loggedInUser= {"x9skdkdkslsddkjfsk"}
-          onlineUsers={JSON.stringify(this.onlineUsers)}
+          onlineUsers={this.onlineUsers}
         ></iac-online-users>
       </div>
     );

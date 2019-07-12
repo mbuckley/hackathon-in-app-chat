@@ -171,7 +171,7 @@ export class Chat {
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }),
             h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
-            h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: JSON.stringify(this.onlineUsers) })));
+            h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
     }
     static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }
