@@ -178,7 +178,7 @@ export class Chat {
       }
     });
 
-    // window.addEventListener('beforeunload', this.leaveChat);
+    window.addEventListener('beforeunload', this.leaveChat);
   }
 
   componentWillUnmount() {

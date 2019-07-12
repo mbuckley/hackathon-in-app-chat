@@ -640,7 +640,7 @@ var Chat = /** @class */ (function () {
                 }
             }
         });
-        // window.addEventListener('beforeunload', this.leaveChat);
+        window.addEventListener('beforeunload', this.leaveChat);
     };
     Chat.prototype.componentWillUnmount = function () {
         this.leaveChat();
