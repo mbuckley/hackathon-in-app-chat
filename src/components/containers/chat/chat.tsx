@@ -1,18 +1,7 @@
-// tag::CHT-1.1[]
-// import React from 'react';
-// import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-import { Component, Element, Prop, h } from '@stencil/core';
+import { Component, Element, Prop, Event, EventEmitter, h } from '@stencil/core';
 
 import PubNub from 'pubnub';
 import { getWeekday  } from "../../../utils/utils";
-// import OnlineUsers from '../components/OnlineUsers';
-// import MessageBody from './MessageBody';
-// import MessageList from '../components/MessageList';
-// import Header from '../components/Header';
-// import {publishKey, subscribeKey} from '../config/keys';
-// import {forestChatChannel} from '../config/chat';
-
-// import networkErrorImg from '../styles/networkError.png';
 
 import { getUserName, getUserAvatarUrl } from "../../../utils/utils";
 
@@ -43,6 +32,8 @@ export class Chat {
   @Prop({ mutable: true }) onlineUsersCount: number = 0;
   @Prop({ mutable: true }) networkErrorStatus: any;
   @Prop({ mutable: true }) networkErrorImg: any;
+
+  @Event() messageReceived: EventEmitter;
 
   componentWillLoad() {
     this.parsedUsers = JSON.parse(this.users);
