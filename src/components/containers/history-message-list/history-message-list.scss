@@ -13,6 +13,12 @@
     width: 100%;
     margin-bottom: 18px;
 
+    img {
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 12px;
+    }
+
     .message {
       position: relative;
       word-break: break-word;

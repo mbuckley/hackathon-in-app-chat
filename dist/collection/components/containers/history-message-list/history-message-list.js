@@ -5,14 +5,14 @@ export class HistoryMessageList {
         return (h("div", null, (this.historyLoaded &&
             h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken },
                 h("div", { class: 'message' },
+                    h("img", { width: '28', height: '28', alt: 'Sender avatar', src: this.getUserAvatarUrl(this.users, m.entry.senderId) }),
                     h("div", { class: 'name' }, getUserName(this.users, m.entry.senderId)),
                     h("div", { class: 'time' },
                         getTime(m.timetoken),
                         h("div", { class: "date" },
                             "\u00A0on\u00A0",
                             getDate(m.timetoken, 'historyMessage', index))),
-                    h("div", { class: 'text' }, m.entry.text),
-                    h("img", { width: '28', height: '28', alt: 'Sender avatar', src: this.getUserAvatarUrl(this.users, m.entry.senderId) }))))))));
+                    h("div", { class: 'text' }, m.entry.text))))))));
     }
     static get is() { return "iac-history-message-list"; }
     static get encapsulation() { return "shadow"; }
