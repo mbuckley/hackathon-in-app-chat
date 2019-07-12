@@ -10,7 +10,6 @@ export class Header {
     }
     ;
     componentWillLoad() {
-        // this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
     }
     render() {
         return (h("div", { class: 'onlineUsers' },

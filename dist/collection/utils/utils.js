@@ -1,7 +1,7 @@
-export function getUserAvatarUrl(users, uuid, size) {
+export function getUserAvatarUrl(users, uuid) {
     const user = getUser(users, uuid);
     if (user) {
-        return user.profileImage[size];
+        return user.image;
     }
 }
 ;
@@ -15,7 +15,7 @@ export function getUserDesignation(users, uuid) {
 export function getUserName(users, uuid) {
     const user = getUser(users, uuid);
     if (user) {
-        return user.firstName + ' ' + user.lastName;
+        return user.name;
     }
 }
 ;
