@@ -1,5 +1,5 @@
 import { h } from '@stencil/core';
-export class Header {
+export class OnlineUsers {
     putLoggedInUserFirst(arr) {
         if (arr.length) {
             const loggedInUserIndex = arr.map(elem => elem.uuid).indexOf(this.loggedInUser);

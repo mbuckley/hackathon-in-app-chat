@@ -2,6 +2,7 @@ import { h } from '@stencil/core';
 import PubNub from 'pubnub';
 import { getWeekday } from "../../../utils/utils";
 import { getUserName, getUserAvatarUrl } from "../../../utils/utils";
+import uniqBy from "lodash.uniqby";
 export class Chat {
     constructor() {
         this.parsedUsers = [];
@@ -10,6 +11,7 @@ export class Chat {
     }
     componentWillLoad() {
         this.parsedUsers = JSON.parse(this.users);
+        this.parsedUsers = uniqBy(this.parsedUsers, "uuid");
         this.pubnub = new PubNub({
             publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
             subscribeKey: "sub-c-a6263802-9dd9-11e9-8df4-32dd89bcc96f",

@@ -5,7 +5,7 @@ import { Component, Prop, h } from '@stencil/core';
   styleUrl: 'online-users.scss',
   shadow: true
 })
-export class Header {
+export class OnlineUsers {
   /**
    * The logged in user uuid
    */
