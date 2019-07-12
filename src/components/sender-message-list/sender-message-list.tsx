@@ -24,14 +24,17 @@ export class SenderMessageList {
   @Prop() styleForMessageSender: any;
 
   componentWillLoad() {
-    this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+    console.log(this.sendersInfo);
+    if (this.sendersInfo) {
+      this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+    }
   }
 
   render() {
     return (
       <div class='senderMessageDialog'>
         {this.parsedSendersInfo.map( (m, index) =>
-          <li class="senderMessage" key={index}>
+          <li class={this.styleForMessageSender(m.senderId)} key={index}>
             <div class='messageSentDay'>{this.getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>
               <div class='name'>{this.getUserName(users, m.senderId)}</div>

@@ -53,3 +53,23 @@
     max-width: 80px;
   }
 }
+:host .senderMessageDialog .name {
+  top: -18px;
+}
+:host .senderMessageDialog .time {
+  bottom: -18px;
+}
+:host .senderMessageDialog .messageSentDay {
+  display: flex;
+  justify-content: left;
+  position: relative;
+  width: 60vw;
+  top: -20px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  color: grey;
+  font-size: 1.2em;
+}
+:host .senderMessageDialog .messageSentDay:empty {
+  display: none;
+}

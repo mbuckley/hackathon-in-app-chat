@@ -2,10 +2,13 @@ import { h } from '@stencil/core';
 import users from "../../config/users.js";
 export class SenderMessageList {
     componentWillLoad() {
-        this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+        console.log(this.sendersInfo);
+        if (this.sendersInfo) {
+            this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+        }
     }
     render() {
-        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index },
+        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: this.styleForMessageSender(m.senderId), key: index },
             h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')),
             h("div", { class: 'message' },
                 h("div", { class: 'name' }, this.getUserName(users, m.senderId)),

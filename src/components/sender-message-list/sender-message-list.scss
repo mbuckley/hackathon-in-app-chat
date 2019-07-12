@@ -60,4 +60,27 @@
             max-width: 80px;
         }
     }
+    .name {
+        top: -18px;
+      }
+
+      .time {
+        bottom: -18px;
+      }
+
+      .messageSentDay {
+        display: flex;
+        justify-content: left;
+        position: relative;
+        width: 60vw;
+        top: -20px;
+        margin-top: 0px;
+        margin-bottom: 30px;
+        color: color(secondary);
+        font-size: 1.2em;
+
+        &:empty {
+            display: none;
+        }
+      }
 }
