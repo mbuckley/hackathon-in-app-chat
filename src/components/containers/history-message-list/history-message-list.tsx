@@ -15,6 +15,7 @@ export class HistoryMessageList {
   @Prop() networkErrorStatus: any;
   @Prop() getUserAvatarUrl: any;
   @Prop() users: any;
+  @Prop() uuid: any;
 
   render() {
     return (
@@ -22,7 +23,7 @@ export class HistoryMessageList {
         {(this.historyLoaded &&
           <div class='historyMessageDialog'>
             {this.historyMessages.map( (m, index) =>
-              <li class={styleForMessageSender(m.entry.senderId, m.senderId)} key={m.timetoken}>
+              <li class={styleForMessageSender(m.entry.senderId, this.uuid)} key={m.timetoken}>
                 {/* <div class='messageSentDay'>{this.getDate(m.timetoken, 'historyMessage', index)}</div> */}
                 <div class='message'>
                   <img width='28' height='28' alt='Sender avatar' src={getUserAvatarUrl(this.users, m.entry.senderId)} />

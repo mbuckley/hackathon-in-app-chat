@@ -5,5 +5,6 @@ export declare class HistoryMessageList {
     networkErrorStatus: any;
     getUserAvatarUrl: any;
     users: any;
+    uuid: any;
     render(): any;
 }

@@ -249,6 +249,7 @@ export class Chat {
           historyLoaded={this.historyLoaded}
           historyMessages={this.historyMessages}
           users={this.parsedUsers}
+          uuid={this.uuid}
           ref={(el) => this.messageList = el as HTMLElement}
         ></iac-message-list>
 

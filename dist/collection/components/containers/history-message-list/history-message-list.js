@@ -3,7 +3,7 @@ import { getUserName, getTime, getDate, styleForMessageSender, getUserAvatarUrl 
 export class HistoryMessageList {
     render() {
         return (h("div", null, (this.historyLoaded &&
-            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: styleForMessageSender(m.entry.senderId, m.senderId), key: m.timetoken },
+            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: styleForMessageSender(m.entry.senderId, this.uuid), key: m.timetoken },
                 h("div", { class: 'message' },
                     h("img", { width: '28', height: '28', alt: 'Sender avatar', src: getUserAvatarUrl(this.users, m.entry.senderId) }),
                     h("div", { class: 'name' }, getUserName(this.users, m.entry.senderId)),
@@ -123,6 +123,23 @@ export class HistoryMessageList {
                 "text": ""
             },
             "attribute": "users",
+            "reflect": false
+        },
+        "uuid": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "uuid",
             "reflect": false
         }
     }; }

@@ -5,7 +5,7 @@ export class SenderMessageList {
         console.log(this.sendersInfo);
     }
     render() {
-        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: styleForMessageSender(m.senderId, m.senderId), key: index },
+        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: styleForMessageSender(m.senderId, this.uuid), key: index },
             h("div", { class: 'messageSentDay' }, getDate(m.timetoken, 'senderMessage')),
             h("div", { class: 'message' },
                 h("div", { class: 'name' }, getUserName(this.users, m.senderId)),
@@ -58,6 +58,23 @@ export class SenderMessageList {
                 "text": ""
             },
             "attribute": "users",
+            "reflect": false
+        },
+        "uuid": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "uuid",
             "reflect": false
         }
     }; }

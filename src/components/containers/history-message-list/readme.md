@@ -15,6 +15,7 @@
 | `networkErrorImg`    | `network-error-img`    |             | `any` | `undefined` |
 | `networkErrorStatus` | `network-error-status` |             | `any` | `undefined` |
 | `users`              | `users`                |             | `any` | `undefined` |
+| `uuid`               | `uuid`                 |             | `any` | `undefined` |
 
 
 ## Dependencies

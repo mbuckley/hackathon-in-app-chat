@@ -48,11 +48,13 @@ export class MessageList {
             <iac-history-message-list
               historyMessages={this.historyMessages}
               historyLoaded={this.historyMessages}
+              uuid={this.uuid}
               users={this.users}>
             </iac-history-message-list>
           }
           <iac-sender-message-list
             sendersInfo={this.sendersInfo}
+            uuid={this.uuid}
             users={this.users}>
           </iac-sender-message-list>
         </ul>

@@ -45,6 +45,7 @@ export namespace Components {
     'networkErrorImg': any;
     'networkErrorStatus': any;
     'users': any;
+    'uuid': any;
   }
   interface IacMessageBody {
     'channelName': any;
@@ -92,6 +93,7 @@ export namespace Components {
   interface IacSenderMessageList {
     'sendersInfo': any;
     'users': any;
+    'uuid': any;
   }
   interface IacUser {
     'loggedInUser': any;
@@ -200,6 +202,7 @@ declare namespace LocalJSX {
     'networkErrorImg'?: any;
     'networkErrorStatus'?: any;
     'users'?: any;
+    'uuid'?: any;
   }
   interface IacMessageBody extends JSXBase.HTMLAttributes<HTMLIacMessageBodyElement> {
     'channelName'?: any;
@@ -247,6 +250,7 @@ declare namespace LocalJSX {
   interface IacSenderMessageList extends JSXBase.HTMLAttributes<HTMLIacSenderMessageListElement> {
     'sendersInfo'?: any;
     'users'?: any;
+    'uuid'?: any;
   }
   interface IacUser extends JSXBase.HTMLAttributes<HTMLIacUserElement> {
     'loggedInUser'?: any;

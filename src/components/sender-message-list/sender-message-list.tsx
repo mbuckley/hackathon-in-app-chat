@@ -13,6 +13,8 @@ export class SenderMessageList {
 
   @Prop() users: any;
 
+  @Prop() uuid: any;
+
   componentWillLoad() {
     console.log(this.sendersInfo);
   }
@@ -21,7 +23,7 @@ export class SenderMessageList {
     return (
       <div class='senderMessageDialog'>
         {this.sendersInfo.map( (m, index) =>
-          <li class={styleForMessageSender(m.senderId, m.senderId)} key={index}>
+          <li class={styleForMessageSender(m.senderId, this.uuid)} key={index}>
             <div class='messageSentDay'>{getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>
               <div class='name'>{getUserName(this.users, m.senderId)}</div>

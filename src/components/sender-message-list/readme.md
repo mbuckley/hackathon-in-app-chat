@@ -11,6 +11,7 @@
 | ------------- | -------------- | ----------- | ----- | ----------- |
 | `sendersInfo` | `senders-info` |             | `any` | `undefined` |
 | `users`       | `users`        |             | `any` | `undefined` |
+| `uuid`        | `uuid`         |             | `any` | `undefined` |
 
 
 ## Dependencies

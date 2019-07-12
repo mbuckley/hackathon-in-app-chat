@@ -179,7 +179,7 @@ export class Chat {
     render() {
         return (h("div", { class: "grid" },
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }),
-            h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, users: this.parsedUsers, ref: (el) => this.messageList = el }),
+            h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, users: this.parsedUsers, uuid: this.uuid, ref: (el) => this.messageList = el }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: this.channelName }),
             h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
     }

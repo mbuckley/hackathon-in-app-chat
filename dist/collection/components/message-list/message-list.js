@@ -4,8 +4,8 @@ export class MessageList {
         return (h("div", { class: "messageList" },
             h("ul", { class: "messageDialog" },
                 this.messageSentDate.length > 0 &&
-                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, users: this.users }),
-                h("iac-sender-message-list", { sendersInfo: this.sendersInfo, users: this.users }))));
+                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, uuid: this.uuid, users: this.users }),
+                h("iac-sender-message-list", { sendersInfo: this.sendersInfo, uuid: this.uuid, users: this.users }))));
     }
     static get is() { return "iac-message-list"; }
     static get encapsulation() { return "shadow"; }
