@@ -1,15 +1,11 @@
 import { h } from '@stencil/core';
-import { getUserAvatarUrl } from '../../utils/utils';
 export class MessageList {
-    constructor() {
-        this.styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
-    }
     render() {
         return (h("div", { class: "messageList" },
             h("ul", { class: "messageDialog" },
                 this.messageSentDate.length > 0 &&
-                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getUserAvatarUrl: getUserAvatarUrl, users: this.users, styleForMessageSender: this.styleForMessageSender }),
-                h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, users: this.users, getUserAvatarUrl: getUserAvatarUrl }))));
+                    h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, users: this.users }),
+                h("iac-sender-message-list", { sendersInfo: this.sendersInfo, users: this.users }))));
     }
     static get is() { return "iac-message-list"; }
     static get encapsulation() { return "shadow"; }

@@ -1,22 +1,13 @@
 {
   "entries": [
+    "components/containers/chat/chat.js",
     "components/containers/history-message-list/history-message-list.js",
-<<<<<<< HEAD
+    "components/message-list/message-list.js",
+    "components/sender-message-list/sender-message-list.js",
+    "components/header/header.js",
     "components/online-users/online-users.js",
     "components/user/user.js",
-    "components/header/header.js",
-    "components/sender-message-list/sender-message-list.js",
-    "components/containers/message-body/message-body.js",
-    "components/message-list/message-list.js",
-    "components/containers/chat/chat.js"
-=======
-    "components/message-list/message-list.js",
-    "components/sender-message-list/sender-message-list.js",
-    "components/containers/chat/chat.js",
-    "components/header/header.js",
-    "components/online-users/online-users.js",
-    "components/user/user.js"
->>>>>>> a910d91cdc5ec3087d24e8c6ea1afd2e52393c3c
+    "components/containers/message-body/message-body.js"
   ],
   "compiler": {
     "name": "@stencil/core",

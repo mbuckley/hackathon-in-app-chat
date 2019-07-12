@@ -1,7 +1,6 @@
 import { Component, Prop, h } from '@stencil/core';
 
 import { User } from "../../global/types";
-import { getUserAvatarUrl } from '../../utils/utils';
 
 @Component({
   tag: 'iac-message-list',
@@ -41,8 +40,6 @@ export class MessageList {
    */
   @Prop() messageSentDate: any;
 
-  private styleForMessageSender = senderId => this.uuid === senderId ? 'senderMessage' : senderId;
-
   render() {
     return (
       <div class="messageList">
@@ -51,16 +48,12 @@ export class MessageList {
             <iac-history-message-list
               historyMessages={this.historyMessages}
               historyLoaded={this.historyMessages}
-              getUserAvatarUrl={getUserAvatarUrl}
-              users={this.users}
-              styleForMessageSender={this.styleForMessageSender}>
+              users={this.users}>
             </iac-history-message-list>
           }
           <iac-sender-message-list
             sendersInfo={this.sendersInfo}
-            styleForMessageSender={this.styleForMessageSender}
-            users={this.users}
-            getUserAvatarUrl={getUserAvatarUrl}>
+            users={this.users}>
           </iac-sender-message-list>
         </ul>
     </div>

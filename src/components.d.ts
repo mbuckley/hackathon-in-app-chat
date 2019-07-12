@@ -44,7 +44,6 @@ export namespace Components {
     'historyMessages': any;
     'networkErrorImg': any;
     'networkErrorStatus': any;
-    'styleForMessageSender': any;
     'users': any;
   }
   interface IacMessageBody {
@@ -91,9 +90,7 @@ export namespace Components {
     'onlineUsers': any;
   }
   interface IacSenderMessageList {
-    'getUserAvatarUrl': any;
     'sendersInfo': any;
-    'styleForMessageSender': any;
     'users': any;
   }
   interface IacUser {
@@ -176,6 +173,7 @@ declare namespace LocalJSX {
     'messageSentDate'?: any;
     'networkErrorImg'?: any;
     'networkErrorStatus'?: any;
+    'onMessageReceived'?: (event: CustomEvent<any>) => void;
     'onlineUsers'?: any;
     'onlineUsersCount'?: number;
     'pubnub'?: any;
@@ -201,7 +199,6 @@ declare namespace LocalJSX {
     'historyMessages'?: any;
     'networkErrorImg'?: any;
     'networkErrorStatus'?: any;
-    'styleForMessageSender'?: any;
     'users'?: any;
   }
   interface IacMessageBody extends JSXBase.HTMLAttributes<HTMLIacMessageBodyElement> {
@@ -248,9 +245,7 @@ declare namespace LocalJSX {
     'onlineUsers'?: any;
   }
   interface IacSenderMessageList extends JSXBase.HTMLAttributes<HTMLIacSenderMessageListElement> {
-    'getUserAvatarUrl'?: any;
     'sendersInfo'?: any;
-    'styleForMessageSender'?: any;
     'users'?: any;
   }
   interface IacUser extends JSXBase.HTMLAttributes<HTMLIacUserElement> {

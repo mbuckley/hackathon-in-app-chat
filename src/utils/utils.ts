@@ -22,6 +22,10 @@ export function getUserName(users: any, uuid: any) {
   }
 };
 
+export function styleForMessageSender(senderId: any, uuid: any) {
+  return uuid === senderId ? 'senderMessage' : senderId;
+}
+
 export function getUser(users: any, uuid: any) {
   return users.find(element => element.uuid === uuid);
 };

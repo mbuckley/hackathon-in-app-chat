@@ -7,12 +7,10 @@
 
 ## Properties
 
-| Property                | Attribute                  | Description | Type  | Default     |
-| ----------------------- | -------------------------- | ----------- | ----- | ----------- |
-| `getUserAvatarUrl`      | `get-user-avatar-url`      |             | `any` | `undefined` |
-| `sendersInfo`           | `senders-info`             |             | `any` | `undefined` |
-| `styleForMessageSender` | `style-for-message-sender` |             | `any` | `undefined` |
-| `users`                 | `users`                    |             | `any` | `undefined` |
+| Property      | Attribute      | Description | Type  | Default     |
+| ------------- | -------------- | ----------- | ----- | ----------- |
+| `sendersInfo` | `senders-info` |             | `any` | `undefined` |
+| `users`       | `users`        |             | `any` | `undefined` |
 
 
 ## Dependencies

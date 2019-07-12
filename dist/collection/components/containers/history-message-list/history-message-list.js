@@ -1,11 +1,11 @@
 import { h } from '@stencil/core';
-import { getUserName, getTime, getDate } from "../../../utils/utils";
+import { getUserName, getTime, getDate, styleForMessageSender, getUserAvatarUrl } from "../../../utils/utils";
 export class HistoryMessageList {
     render() {
         return (h("div", null, (this.historyLoaded &&
-            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken },
+            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: styleForMessageSender(m.entry.senderId, m.senderId), key: m.timetoken },
                 h("div", { class: 'message' },
-                    h("img", { width: '28', height: '28', alt: 'Sender avatar', src: this.getUserAvatarUrl(this.users, m.entry.senderId) }),
+                    h("img", { width: '28', height: '28', alt: 'Sender avatar', src: getUserAvatarUrl(this.users, m.entry.senderId) }),
                     h("div", { class: 'name' }, getUserName(this.users, m.entry.senderId)),
                     h("div", { class: 'time' },
                         getTime(m.timetoken),
@@ -106,23 +106,6 @@ export class HistoryMessageList {
                 "text": ""
             },
             "attribute": "get-user-avatar-url",
-            "reflect": false
-        },
-        "styleForMessageSender": {
-            "type": "any",
-            "mutable": false,
-            "complexType": {
-                "original": "any",
-                "resolved": "any",
-                "references": {}
-            },
-            "required": false,
-            "optional": false,
-            "docs": {
-                "tags": [],
-                "text": ""
-            },
-            "attribute": "style-for-message-sender",
             "reflect": false
         },
         "users": {

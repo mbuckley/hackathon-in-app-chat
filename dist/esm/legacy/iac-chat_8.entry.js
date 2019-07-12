@@ -1,4 +1,4 @@
-import { r as registerInstance, h, g as getElement } from './chunk-419d2468.js';
+import { r as registerInstance, c as createEvent, h, g as getElement } from './chunk-790342bc.js';
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 function unwrapExports(x) {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -485,6 +485,9 @@ function getUserName(users, uuid) {
         return user.name;
     }
 }
+function styleForMessageSender(senderId, uuid) {
+    return uuid === senderId ? 'senderMessage' : senderId;
+}
 function getUser(users, uuid) {
     return users.find(function (element) { return element.uuid === uuid; });
 }
@@ -521,6 +524,7 @@ var Chat = /** @class */ (function () {
         this.parsedUsers = [];
         this.channelName = "test-channel";
         this.onlineUsersCount = 0;
+        this.messageReceived = createEvent(this, "messageReceived", 7);
     }
     Chat.prototype.componentWillLoad = function () {
         this.parsedUsers = JSON.parse(this.users);
@@ -733,7 +737,7 @@ var HistoryMessageList = /** @class */ (function () {
     HistoryMessageList.prototype.render = function () {
         var _this = this;
         return (h("div", null, (this.historyLoaded &&
-            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map(function (m, index) { return h("li", { class: _this.styleForMessageSender(m.entry.senderId), key: m.timetoken }, h("div", { class: 'message' }, h("img", { width: '28', height: '28', alt: 'Sender avatar', src: _this.getUserAvatarUrl(_this.users, m.entry.senderId) }), h("div", { class: 'name' }, getUserName(_this.users, m.entry.senderId)), h("div", { class: 'time' }, getTime(m.timetoken), h("div", { class: "date" }, "\u00A0on\u00A0", getDate(m.timetoken, 'historyMessage', index))), h("div", { class: 'text' }, m.entry.text))); })))));
+            h("div", { class: 'historyMessageDialog' }, this.historyMessages.map(function (m, index) { return h("li", { class: styleForMessageSender(m.entry.senderId, m.senderId), key: m.timetoken }, h("div", { class: 'message' }, h("img", { width: '28', height: '28', alt: 'Sender avatar', src: getUserAvatarUrl(_this.users, m.entry.senderId) }), h("div", { class: 'name' }, getUserName(_this.users, m.entry.senderId)), h("div", { class: 'time' }, getTime(m.timetoken), h("div", { class: "date" }, "\u00A0on\u00A0", getDate(m.timetoken, 'historyMessage', index))), h("div", { class: 'text' }, m.entry.text))); })))));
     };
     Object.defineProperty(HistoryMessageList, "style", {
         get: function () { return ".historyMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.historyMessageDialog li{position:relative;margin-top:40px;margin-left:8px;width:100%;margin-bottom:18px}.historyMessageDialog li img{border-radius:50%;vertical-align:middle;margin-right:12px}.historyMessageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}.historyMessageDialog li .message .name,.historyMessageDialog li .message .time{right:5px;font-size:12px;color:grey;font-weight:700;position:absolute}.historyMessageDialog li .message .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#1f9efc;color:#fff}.messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:100%;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:13px}.messageSentDay:empty{display:none}.name,.time{left:5px}.name{top:-18px}.time{width:100%;bottom:-18px}.time .date{opacity:.5;display:inline}.text{background-color:hsla(0,0%,50.2%,.164)}"; },
@@ -793,13 +797,11 @@ var MessageBody = /** @class */ (function () {
 }());
 var MessageList = /** @class */ (function () {
     function MessageList(hostRef) {
-        var _this = this;
         registerInstance(this, hostRef);
-        this.styleForMessageSender = function (senderId) { return _this.uuid === senderId ? 'senderMessage' : senderId; };
     }
     MessageList.prototype.render = function () {
         return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, this.messageSentDate.length > 0 &&
-            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getUserAvatarUrl: getUserAvatarUrl, users: this.users, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, users: this.users, getUserAvatarUrl: getUserAvatarUrl }))));
+            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, users: this.users }), h("iac-sender-message-list", { sendersInfo: this.sendersInfo, users: this.users }))));
     };
     Object.defineProperty(MessageList, "style", {
         get: function () { return ":host{grid-row:2;grid-column:2;width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}\@media (max-width:770px){:host{grid-column:1/3}}:host .messageList{height:calc(800px - 104px)}:host .networkErrorImg{width:80%;height:100%;position:relative;left:100px}:host .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}:host .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}:host .messageDialog .name,:host .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}:host .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}:host .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:100%;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:13px;text-align:center}:host .messageDialog li .messageSentDay:empty{display:none}:host .messageDialog li img{position:absolute;bottom:0;left:-30px}:host .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}:host .messageDialog li .name,:host .messageDialog li .time{left:5px}:host .messageDialog li .name{top:-18px}:host .messageDialog li .time{bottom:-18px}:host .messageDialog .historyMessageDialog,:host .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;width:100%}:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:305px}:host .messageDialog .historyMessageDialog .senderMessage .text,:host .messageDialog .senderMessageDialog .senderMessage .text{background-color:#1f9efc;text-align:left}:host .messageDialog .historyMessageDialog .senderMessage .name,:host .messageDialog .historyMessageDialog .senderMessage .time,:host .messageDialog .senderMessageDialog .senderMessage .name,:host .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; },
@@ -844,7 +846,7 @@ var SenderMessageList = /** @class */ (function () {
     };
     SenderMessageList.prototype.render = function () {
         var _this = this;
-        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map(function (m, index) { return h("li", { class: _this.styleForMessageSender(m.entry.senderId), key: index }, h("div", { class: 'messageSentDay' }, getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, getUserName(_this.users, m.senderId)), h("div", { class: 'time' }, getTime(m.timetoken), h("div", { class: "date" }, "\u00A0on\u00A0", getDate(m.timetoken, 'historyMessage', index))), h("div", { class: 'text' }, m.text), h("img", { width: '28', height: '28', alt: 'Sender avatar', src: _this.getUserAvatarUrl(_this.users, m.senderId) }))); })));
+        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map(function (m, index) { return h("li", { class: styleForMessageSender(m.senderId, m.senderId), key: index }, h("div", { class: 'messageSentDay' }, getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, getUserName(_this.users, m.senderId)), h("div", { class: 'time' }, getTime(m.timetoken), h("div", { class: "date" }, "\u00A0on\u00A0", getDate(m.timetoken, 'historyMessage', index))), h("div", { class: 'text' }, m.text), h("img", { width: '28', height: '28', alt: 'Sender avatar', src: getUserAvatarUrl(_this.users, m.senderId) }))); })));
     };
     Object.defineProperty(SenderMessageList, "style", {
         get: function () { return ":host .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .senderMessageDialog li{position:relative;margin-top:40px;margin-left:8px;width:100%;margin-bottom:18px}:host .senderMessageDialog li img{border-radius:50%;vertical-align:middle;margin-left:12px}:host .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:grey;text-align:right}:host .senderMessageDialog .senderMessage .messageSentDay{display:none}:host .senderMessageDialog .senderMessage img{left:305px}:host .senderMessageDialog .senderMessage .message{position:relative;word-break:break-word;word-wrap:break-word}:host .senderMessageDialog .name,:host .senderMessageDialog .time{left:unset;right:5px;font-size:11px;color:grey;font-weight:700;position:absolute}:host .senderMessageDialog .name{top:-18px}:host .senderMessageDialog .time{bottom:-18px}:host .senderMessageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#999;color:#fff}.time .date{opacity:.5;display:inline}"; },

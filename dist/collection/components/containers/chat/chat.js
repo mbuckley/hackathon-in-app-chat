@@ -1,16 +1,6 @@
-// tag::CHT-1.1[]
-// import React from 'react';
-// import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { h } from '@stencil/core';
 import PubNub from 'pubnub';
 import { getWeekday } from "../../../utils/utils";
-// import OnlineUsers from '../components/OnlineUsers';
-// import MessageBody from './MessageBody';
-// import MessageList from '../components/MessageList';
-// import Header from '../components/Header';
-// import {publishKey, subscribeKey} from '../config/keys';
-// import {forestChatChannel} from '../config/chat';
-// import networkErrorImg from '../styles/networkError.png';
 import { getUserName, getUserAvatarUrl } from "../../../utils/utils";
 export class Chat {
     constructor() {
@@ -462,5 +452,21 @@ export class Chat {
             "reflect": false
         }
     }; }
+    static get events() { return [{
+            "method": "messageReceived",
+            "name": "messageReceived",
+            "bubbles": true,
+            "cancelable": true,
+            "composed": true,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            }
+        }]; }
     static get elementRef() { return "el"; }
 }

@@ -1,6 +1,6 @@
 import { Component, Prop, h } from '@stencil/core';
 
-import { getUserName, getTime, getDate } from "../../utils/utils";
+import { getUserName, getTime, getDate, styleForMessageSender, getUserAvatarUrl } from "../../utils/utils";
 
 @Component({
   tag: 'iac-sender-message-list',
@@ -10,8 +10,6 @@ import { getUserName, getTime, getDate } from "../../utils/utils";
 export class SenderMessageList {
 
   @Prop({ mutable: true }) sendersInfo: any;
-  @Prop() getUserAvatarUrl: any;
-  @Prop() styleForMessageSender: any;
 
   @Prop() users: any;
 
@@ -23,13 +21,13 @@ export class SenderMessageList {
     return (
       <div class='senderMessageDialog'>
         {this.sendersInfo.map( (m, index) =>
-          <li class={this.styleForMessageSender(m.entry.senderId)} key={index}>
+          <li class={styleForMessageSender(m.senderId, m.senderId)} key={index}>
             <div class='messageSentDay'>{getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>
               <div class='name'>{getUserName(this.users, m.senderId)}</div>
               <div class='time'>{getTime(m.timetoken)}<div class="date">&nbsp;on&nbsp;{getDate(m.timetoken, 'historyMessage', index)}</div></div>
               <div class='text'>{m.text}</div>
-              <img width='28' height='28' alt='Sender avatar' src={this.getUserAvatarUrl(this.users, m.senderId)} />
+              <img width='28' height='28' alt='Sender avatar' src={getUserAvatarUrl(this.users, m.senderId)} />
             </div>
           </li>
       )}

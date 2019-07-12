@@ -25,6 +25,5 @@ export declare class MessageList {
      * Message Send Date
      */
     messageSentDate: any;
-    private styleForMessageSender;
     render(): any;
 }

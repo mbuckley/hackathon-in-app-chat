@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../../stencil.core';
 export declare class Chat {
     private parsedUsers;
     el: HTMLElement;
@@ -17,6 +18,7 @@ export declare class Chat {
     onlineUsersCount: number;
     networkErrorStatus: any;
     networkErrorImg: any;
+    messageReceived: EventEmitter;
     componentWillLoad(): void;
     componentDidLoad(): void;
     componentWillUnmount(): void;

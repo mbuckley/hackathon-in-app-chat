@@ -7,15 +7,14 @@
 
 ## Properties
 
-| Property                | Attribute                  | Description | Type  | Default     |
-| ----------------------- | -------------------------- | ----------- | ----- | ----------- |
-| `getUserAvatarUrl`      | `get-user-avatar-url`      |             | `any` | `undefined` |
-| `historyLoaded`         | `history-loaded`           |             | `any` | `undefined` |
-| `historyMessages`       | `history-messages`         |             | `any` | `undefined` |
-| `networkErrorImg`       | `network-error-img`        |             | `any` | `undefined` |
-| `networkErrorStatus`    | `network-error-status`     |             | `any` | `undefined` |
-| `styleForMessageSender` | `style-for-message-sender` |             | `any` | `undefined` |
-| `users`                 | `users`                    |             | `any` | `undefined` |
+| Property             | Attribute              | Description | Type  | Default     |
+| -------------------- | ---------------------- | ----------- | ----- | ----------- |
+| `getUserAvatarUrl`   | `get-user-avatar-url`  |             | `any` | `undefined` |
+| `historyLoaded`      | `history-loaded`       |             | `any` | `undefined` |
+| `historyMessages`    | `history-messages`     |             | `any` | `undefined` |
+| `networkErrorImg`    | `network-error-img`    |             | `any` | `undefined` |
+| `networkErrorStatus` | `network-error-status` |             | `any` | `undefined` |
+| `users`              | `users`                |             | `any` | `undefined` |
 
 
 ## Dependencies

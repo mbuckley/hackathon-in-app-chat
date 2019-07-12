@@ -26,6 +26,13 @@
 | `uuid`               | `uuid`                 |             | `any`    | `undefined`      |
 
 
+## Events
+
+| Event             | Description | Type               |
+| ----------------- | ----------- | ------------------ |
+| `messageReceived` |             | `CustomEvent<any>` |
+
+
 ## Dependencies
 
 ### Depends on
