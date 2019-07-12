@@ -1,4 +1,4 @@
-export declare class Header {
+export declare class OnlineUsers {
     /**
      * The logged in user uuid
      */
