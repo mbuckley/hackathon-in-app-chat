@@ -1,3 +1,14 @@
+img {
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+}
+
+li {
+  display: flex;
+  margin-bottom: 12px;
+}
+
 .userName {
   position: relative;
   display: inline;
@@ -5,6 +16,7 @@
   left: 100px;
   font-size: 0.9em;
   font-weight: bold;
+  line-height: 45px;
 }
 .userName .youSign {
   position: absolute;
