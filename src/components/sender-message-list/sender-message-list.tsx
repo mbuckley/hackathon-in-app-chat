@@ -1,12 +1,6 @@
 import { Component, Prop, h } from '@stencil/core';
 import users from "../../config/users.js";
 
-type sender = {
-  senderId: number;
-  text: string;
-  timetoken: string;
-}
-
 @Component({
   tag: 'iac-sender-message-list',
   styleUrl: 'sender-message-list.scss',
@@ -14,9 +8,8 @@ type sender = {
 })
 export class SenderMessageList {
   // const {sendersInfo, getUserName, getTime, getDate, getUserAvatarUrl, styleForMessageSender} = props;
-  private parsedSendersInfo: sender[];
 
-  @Prop() sendersInfo: any;
+  @Prop({ mutable: true }) sendersInfo: any;
   @Prop() getUserName: any;
   @Prop() getTime: any;
   @Prop() getDate: any;
@@ -24,13 +17,13 @@ export class SenderMessageList {
   @Prop() styleForMessageSender: any;
 
   componentWillLoad() {
-    this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+    console.log(this.sendersInfo);
   }
 
   render() {
     return (
       <div class='senderMessageDialog'>
-        {this.parsedSendersInfo.map( (m, index) =>
+        {this.sendersInfo.map( (m, index) =>
           <li class="senderMessage" key={index}>
             <div class='messageSentDay'>{this.getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>

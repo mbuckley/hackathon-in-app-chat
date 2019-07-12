@@ -7,13 +7,23 @@
 
 ## Properties
 
-| Property      | Attribute      | Description | Type  | Default     |
-| ------------- | -------------- | ----------- | ----- | ----------- |
-| `pubnub`      | `pubnub`       |             | `any` | `undefined` |
-| `state`       | `state`        |             | `any` | `undefined` |
-| `userProfile` | `user-profile` |             | `any` | `undefined` |
-| `users`       | `users`        |             | `any` | `undefined` |
-| `uuid`        | `uuid`         |             | `any` | `undefined` |
+| Property             | Attribute              | Description | Type     | Default          |
+| -------------------- | ---------------------- | ----------- | -------- | ---------------- |
+| `channelName`        | `channel-name`         |             | `string` | `"test-channel"` |
+| `historyLoaded`      | `history-loaded`       |             | `any`    | `undefined`      |
+| `historyMessages`    | `history-messages`     |             | `any`    | `undefined`      |
+| `lastMessageWeekday` | `last-message-weekday` |             | `any`    | `undefined`      |
+| `messageSentDate`    | `message-sent-date`    |             | `any`    | `undefined`      |
+| `networkErrorImg`    | `network-error-img`    |             | `any`    | `undefined`      |
+| `networkErrorStatus` | `network-error-status` |             | `any`    | `undefined`      |
+| `onlineUsers`        | `online-users`         |             | `any`    | `undefined`      |
+| `onlineUsersCount`   | `online-users-count`   |             | `number` | `0`              |
+| `pubnub`             | `pubnub`               |             | `any`    | `undefined`      |
+| `sendersInfo`        | --                     |             | `any[]`  | `undefined`      |
+| `state`              | `state`                |             | `any`    | `undefined`      |
+| `userProfile`        | `user-profile`         |             | `any`    | `undefined`      |
+| `users`              | `users`                |             | `any`    | `undefined`      |
+| `uuid`               | `uuid`                 |             | `any`    | `undefined`      |
 
 
 ## Dependencies

@@ -1,5 +1,4 @@
 export declare class SenderMessageList {
-    private parsedSendersInfo;
     sendersInfo: any;
     getUserName: any;
     getTime: any;

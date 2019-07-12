@@ -1,7 +1,7 @@
 // tag::CHT-1.1[]
 // import React from 'react';
 // import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-import { Component, Element, Prop, State, h } from '@stencil/core';
+import { Component, Element, Prop, h } from '@stencil/core';
 
 import PubNub from 'pubnub';
 import { getWeekday  } from "../../../utils/utils";
@@ -17,8 +17,6 @@ import { getWeekday  } from "../../../utils/utils";
 
 import { getUserName, getUserAvatarUrl } from "../../../utils/utils";
 
-const channelName = "test-channel";
-
 @Component({
   tag: 'iac-chat',
   styleUrl: 'chat.scss',
@@ -30,21 +28,22 @@ export class Chat {
 
   private messageList?: HTMLElement;
 
+  @Prop() channelName: string = "test-channel";
   @Prop() pubnub: any;
   @Prop({ mutable: true }) state: any;
   @Prop() userProfile: any;
   @Prop() users: any;
   @Prop() uuid: any;
+  @Prop( { mutable: true}) sendersInfo: Array<any>;
 
-  @State() sendersInfo: Array<any>;
-  @State() lastMessageWeekday: any;
-  @State() messageSentDate: any;
-  @State() historyLoaded: any;
-  @State() historyMessages: any;
-  @State() onlineUsers: any;
-  @State() onlineUsersCount: number = 0;
-  @State() networkErrorStatus: any;
-  @State() networkErrorImg: any;
+  @Prop({ mutable: true }) lastMessageWeekday: any;
+  @Prop({ mutable: true }) messageSentDate: any;
+  @Prop({ mutable: true }) historyLoaded: any;
+  @Prop({ mutable: true }) historyMessages: any;
+  @Prop({ mutable: true }) onlineUsers: any;
+  @Prop({ mutable: true }) onlineUsersCount: number = 0;
+  @Prop({ mutable: true }) networkErrorStatus: any;
+  @Prop({ mutable: true }) networkErrorImg: any;
 
   componentWillLoad() {
     this.parsedUsers = JSON.parse(this.users);
@@ -74,7 +73,7 @@ export class Chat {
     // networkError.src = networkErrorImg;
     // this.setState({networkErrorImg: networkError});
 
-    this.pubnub.subscribe({channels: [channelName], withPresence: true });
+    this.pubnub.subscribe({channels: [this.channelName], withPresence: true });
 
     this.pubnub.addListener({
       status: (status) => {
@@ -82,7 +81,7 @@ export class Chat {
           this.hereNow();
 
           this.pubnub.history({
-            channel: "test-channel",
+            channel: this.channelName,
             count: 50,
             reverse: false,
             stringifiedTimeToken: true,
@@ -113,29 +112,31 @@ export class Chat {
         }
       },
       message: (m: any) => {
-        const sendersInfo = this.sendersInfo;
-
-        sendersInfo.push({
-          senderId: m.message.senderId,
-          text: m.message.text,
-          timetoken: m.timetoken,
-        });
+        this.sendersInfo = [
+          ...this.sendersInfo,
+          {
+            senderId: m.message.senderId,
+            text: m.message.text,
+            timetoken: m.timetoken,
+          }
+        ]
 
         const lastMessageWeekday = getWeekday(m.timetoken);
-        this.sendersInfo = sendersInfo;
         this.lastMessageWeekday = lastMessageWeekday;
         this.scrollToBottom();
       },
       presence: (presence: any) => {
         if (presence.action === 'join') {
-          let users = this.onlineUsers;
 
-          users.push({
-            state: presence.state,
-            uuid: presence.uuid
-          });
+          this.onlineUsers = [
+            ...this.onlineUsers,
+            {
+              state: presence.state,
+              uuid: presence.uuid
+            }
+          ]
 
-          this.onlineUsers = users,
+          // this.onlineUsers = users,
           this.onlineUsersCount = this.onlineUsersCount + 1
         }
 
@@ -191,35 +192,42 @@ export class Chat {
 
   subscribe() {
     this.pubnub.subscribe({
-      channels: channelName,
+      channels: this.channelName,
       withPresence: true
     });
   };
 
   hereNow() {
     this.pubnub.hereNow({
-      channels: [channelName],
+      channels: [this.channelName],
       includeUUIDs: true,
       includeState: false
     }, (_status: any, response: any) => {
-      this.onlineUsers = response.channels[channelName].occupants;
-      this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
+      this.onlineUsers = response.channels[this.channelName].occupants;
+      this.hydrateUsers();
 
-      this.onlineUsers = this.onlineUsers.map((onlineUser: any) => {
-        return {
-          uuid: onlineUser.uuid,
-          name: getUserName(this.parsedUsers, onlineUser.uuid),
-          image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
-        }
-      }).filter((onlineUser: any) => {
-        return onlineUser.name && onlineUser.name.length > 1;
-      });
-
-      console.log(this.onlineUsers);
-
-      this.onlineUsersCount = response.channels[channelName].occupancy;
+      this.onlineUsersCount = response.channels[this.channelName].occupancy;
     });
   };
+
+  // Adds extra info to users (name, image, etc)
+  hydrateUsers() {
+    console.log("hydrateUsers");
+    this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
+
+    this.onlineUsers = this.onlineUsers.map((onlineUser: any) => {
+      return {
+        uuid: onlineUser.uuid,
+        name: getUserName(this.parsedUsers, onlineUser.uuid),
+        image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
+      }
+    }).filter((onlineUser: any) => {
+      return onlineUser.name && onlineUser.name.length > 1;
+    });
+
+    console.log("done", this.onlineUsers);
+
+  }
 
   leaveChat() {
     this.pubnub.unsubscribeAll();
@@ -240,7 +248,8 @@ export class Chat {
         ></iac-header>
 
         <iac-message-list
-          message-sent-date="July 12, 2019"
+          sendersInfo={this.sendersInfo}
+          messageSentDate="July 12, 2019"
           historyLoaded={this.historyLoaded}
           historyMessages={this.historyMessages}
           ref={(el) => this.messageList = el as HTMLElement}
@@ -249,7 +258,7 @@ export class Chat {
         <iac-message-body
           pubnub={this.pubnub}
           uuid={this.uuid}
-          channelName={channelName}
+          channelName={this.channelName}
           >
         </iac-message-body>
 

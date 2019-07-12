@@ -2,6 +2,7 @@ export declare class Chat {
     private parsedUsers;
     el: HTMLElement;
     private messageList?;
+    channelName: string;
     pubnub: any;
     state: any;
     userProfile: any;
@@ -21,6 +22,7 @@ export declare class Chat {
     componentWillUnmount(): void;
     subscribe(): void;
     hereNow(): void;
+    hydrateUsers(): void;
     leaveChat(): void;
     scrollToBottom(): void;
     render(): any;

@@ -17,7 +17,7 @@ export class MessageList {
   /**
    * Senders Info
    */
-  @Prop() sendersInfo: any;
+  @Prop({ mutable: true }) sendersInfo: any;
 
   /**
    * Is History Loaded?
@@ -57,7 +57,7 @@ export class MessageList {
             </iac-history-message-list>
           }
           <iac-sender-message-list
-            senders-info='[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]'
+            sendersInfo={this.sendersInfo}
             styleForMessageSender={this.styleForMessageSender}
             getDate={getDate}
             getUserName={getUserName}

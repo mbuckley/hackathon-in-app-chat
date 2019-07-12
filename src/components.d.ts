@@ -12,7 +12,17 @@ import {
 
 export namespace Components {
   interface IacChat {
+    'channelName': string;
+    'historyLoaded': any;
+    'historyMessages': any;
+    'lastMessageWeekday': any;
+    'messageSentDate': any;
+    'networkErrorImg': any;
+    'networkErrorStatus': any;
+    'onlineUsers': any;
+    'onlineUsersCount': number;
     'pubnub': any;
+    'sendersInfo': Array<any>;
     'state': any;
     'userProfile': any;
     'users': any;
@@ -162,7 +172,17 @@ declare global {
 
 declare namespace LocalJSX {
   interface IacChat extends JSXBase.HTMLAttributes<HTMLIacChatElement> {
+    'channelName'?: string;
+    'historyLoaded'?: any;
+    'historyMessages'?: any;
+    'lastMessageWeekday'?: any;
+    'messageSentDate'?: any;
+    'networkErrorImg'?: any;
+    'networkErrorStatus'?: any;
+    'onlineUsers'?: any;
+    'onlineUsersCount'?: number;
     'pubnub'?: any;
+    'sendersInfo'?: Array<any>;
     'state'?: any;
     'userProfile'?: any;
     'users'?: any;
