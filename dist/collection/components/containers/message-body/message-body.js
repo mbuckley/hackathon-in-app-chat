@@ -6,7 +6,7 @@ export class MessageBody {
     ;
     handleKeyDown(ev) {
         if (ev.key === 'Enter') {
-            console.log('enter pressed');
+            this.sendMessage();
         }
     }
     onChange(e) {
@@ -15,6 +15,10 @@ export class MessageBody {
     ;
     onSubmit(e) {
         e.preventDefault();
+        this.sendMessage();
+    }
+    ;
+    sendMessage() {
         if (!this.messageContent.length) {
             return;
         }
@@ -25,9 +29,10 @@ export class MessageBody {
             },
             channel: this.channelName
         });
-        this.messageContent = '';
+        setTimeout(() => {
+            this.messageContent = '';
+        }, 0);
     }
-    ;
     render() {
         return (h("div", { class: 'messageBody' },
             h("form", { class: 'messageForm' },

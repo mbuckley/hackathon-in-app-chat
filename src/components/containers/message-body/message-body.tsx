@@ -19,8 +19,8 @@ export class MessageBody {
 
   @Listen('keydown')
   handleKeyDown(ev: KeyboardEvent){
-    if (ev.key === 'Enter'){
-      console.log('enter pressed')
+    if (ev.key === 'Enter') {
+      this.sendMessage();
     }
   }
 
@@ -30,7 +30,10 @@ export class MessageBody {
 
   onSubmit(e: any) {
     e.preventDefault();
+    this.sendMessage();
+  };
 
+  sendMessage() {
     if (!this.messageContent.length) {
       return;
     }
@@ -43,8 +46,10 @@ export class MessageBody {
       channel: this.channelName
     });
 
-    this.messageContent = '';
-  };
+    setTimeout(() => {
+      this.messageContent = '';
+    }, 0);
+  }
 
   render() {
     return (

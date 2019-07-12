@@ -8,5 +8,6 @@ export declare class MessageBody {
     handleKeyDown(ev: KeyboardEvent): void;
     onChange(e: any): void;
     onSubmit(e: any): void;
+    sendMessage(): void;
     render(): any;
 }
