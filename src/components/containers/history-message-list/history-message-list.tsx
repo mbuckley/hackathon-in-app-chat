@@ -29,7 +29,7 @@ export class HistoryMessageList {
                   <div class='name'>{getUserName(this.users, m.entry.senderId)}</div>
                   <div class='time'>{getTime(m.timetoken)}<div class="date">&nbsp;on&nbsp;{getDate(m.timetoken, 'historyMessage', index)}</div></div>
                   <div class='text'>{m.entry.text}</div>
-                  {/* {<img width='28' height='28' alt='Sender avatar' src={this.getUserAvatarUrl(m.entry.senderId, 'smImage')}/}> */}
+                  <img width='28' height='28' alt='Sender avatar' src={this.getUserAvatarUrl(this.users, m.entry.senderId)} />
                 </div>
               </li>
             )}

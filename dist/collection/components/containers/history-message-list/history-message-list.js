@@ -11,7 +11,8 @@ export class HistoryMessageList {
                         h("div", { class: "date" },
                             "\u00A0on\u00A0",
                             getDate(m.timetoken, 'historyMessage', index))),
-                    h("div", { class: 'text' }, m.entry.text))))))));
+                    h("div", { class: 'text' }, m.entry.text),
+                    h("img", { width: '28', height: '28', alt: 'Sender avatar', src: this.getUserAvatarUrl(this.users, m.entry.senderId) }))))))));
     }
     static get is() { return "iac-history-message-list"; }
     static get encapsulation() { return "shadow"; }

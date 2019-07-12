@@ -14,7 +14,8 @@ export class SenderMessageList {
                     h("div", { class: "date" },
                         "\u00A0on\u00A0",
                         getDate(m.timetoken, 'historyMessage', index))),
-                h("div", { class: 'text' }, m.text))))));
+                h("div", { class: 'text' }, m.text),
+                h("img", { width: '28', height: '28', alt: 'Sender avatar', src: this.getUserAvatarUrl(this.users, m.senderId) }))))));
     }
     static get is() { return "iac-sender-message-list"; }
     static get encapsulation() { return "shadow"; }

@@ -205,7 +205,7 @@ export class Chat {
       this.onlineUsers = response.channels[this.channelName].occupants;
       this.hydrateUsers();
 
-      this.onlineUsersCount = response.channels[this.channelName].occupancy;
+      // this.onlineUsersCount = response.channels[this.channelName].occupancy;
     });
   };
 
@@ -220,9 +220,12 @@ export class Chat {
         name: getUserName(this.parsedUsers, onlineUser.uuid),
         image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
       }
-    }).filter((onlineUser: any) => {
+    })
+    .filter((onlineUser: any) => {
       return onlineUser.name && onlineUser.name.length > 1;
     });
+
+    this.onlineUsersCount = this.onlineUsers.length;
 
     console.log("done", this.onlineUsers);
 
