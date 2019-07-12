@@ -4,6 +4,7 @@ export declare class Chat {
     pubnub: any;
     state: any;
     userProfile: any;
+    users: any;
     uuid: any;
     sendersInfo: Array<any>;
     lastMessageWeekday: any;
@@ -11,7 +12,7 @@ export declare class Chat {
     historyLoaded: any;
     historyMessages: any;
     onlineUsers: any;
-    onlineUsersCount: any;
+    onlineUsersCount: number;
     networkErrorStatus: any;
     networkErrorImg: any;
     componentWillLoad(): void;

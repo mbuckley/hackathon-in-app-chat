@@ -30,6 +30,7 @@ export class Chat {
   @Prop() pubnub: any;
   @Prop({ mutable: true }) state: any;
   @Prop() userProfile: any;
+  @Prop() users: any;
   @Prop() uuid: any;
 
   @State() sendersInfo: Array<any>;
@@ -38,7 +39,7 @@ export class Chat {
   @State() historyLoaded: any;
   @State() historyMessages: any;
   @State() onlineUsers: any;
-  @State() onlineUsersCount: any;
+  @State() onlineUsersCount: number = 0;
   @State() networkErrorStatus: any;
   @State() networkErrorImg: any;
 
@@ -59,7 +60,7 @@ export class Chat {
     this.historyLoaded = false;
     this.historyMessages = [];
     this.onlineUsers = [];
-    this.onlineUsersCount = '';
+    this.onlineUsersCount = 0;
     this.networkErrorStatus = false;
     this.networkErrorImg = null;
   }

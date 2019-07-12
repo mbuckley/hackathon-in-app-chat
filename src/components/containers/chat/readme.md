@@ -12,6 +12,7 @@
 | `pubnub`      | `pubnub`       |             | `any` | `undefined` |
 | `state`       | `state`        |             | `any` | `undefined` |
 | `userProfile` | `user-profile` |             | `any` | `undefined` |
+| `users`       | `users`        |             | `any` | `undefined` |
 | `uuid`        | `uuid`         |             | `any` | `undefined` |
 
 

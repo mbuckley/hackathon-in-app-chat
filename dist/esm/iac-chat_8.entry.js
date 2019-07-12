@@ -73,6 +73,7 @@ const channelName = "test-channel";
 class Chat {
     constructor(hostRef) {
         registerInstance(this, hostRef);
+        this.onlineUsersCount = 0;
     }
     componentWillLoad() {
         this.pubnub = new PubNub({
@@ -89,7 +90,7 @@ class Chat {
         this.historyLoaded = false;
         this.historyMessages = [];
         this.onlineUsers = [];
-        this.onlineUsersCount = '';
+        this.onlineUsersCount = 0;
         this.networkErrorStatus = false;
         this.networkErrorImg = null;
     }
@@ -342,7 +343,6 @@ class Header$1 {
     ;
     componentWillLoad() {
         this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
-        console.log(this.parsedOnlineUsers);
     }
     render() {
         return (h("div", { class: 'onlineUsers' }, this.putLoggedInUserFirst(this.parsedOnlineUsers), h("ul", { class: 'onlineUserList' }, this.parsedOnlineUsers.map((user, _index) => h("iac-user", { user: JSON.stringify(user), loggedInUser: this.loggedInUser })))));
@@ -369,7 +369,6 @@ class User {
     }
     componentWillLoad() {
         this.parsedUser = JSON.parse(this.user);
-        console.log(this.parsedUser);
     }
     render() {
         return (h("li", null, h("div", { class: 'userName' }, this.parsedUser.name, " ", this.parsedUser.uuid === this.loggedInUser && h("div", { class: 'youSign' }, "(You)")), h("img", { width: '45', height: '45', alt: 'Online users', src: this.parsedUser.image })));

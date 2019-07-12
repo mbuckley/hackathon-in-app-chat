@@ -14,6 +14,9 @@ import { getWeekday } from "../../../utils/utils";
 // import networkErrorImg from '../styles/networkError.png';
 const channelName = "test-channel";
 export class Chat {
+    constructor() {
+        this.onlineUsersCount = 0;
+    }
     componentWillLoad() {
         this.pubnub = new PubNub({
             publishKey: "pub-c-2c10eb4d-5066-4241-99f9-d82430455cf9",
@@ -29,7 +32,7 @@ export class Chat {
         this.historyLoaded = false;
         this.historyMessages = [];
         this.onlineUsers = [];
-        this.onlineUsersCount = '';
+        this.onlineUsersCount = 0;
         this.networkErrorStatus = false;
         this.networkErrorImg = null;
     }
@@ -228,6 +231,23 @@ export class Chat {
                 "text": ""
             },
             "attribute": "user-profile",
+            "reflect": false
+        },
+        "users": {
+            "type": "any",
+            "mutable": false,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "users",
             "reflect": false
         },
         "uuid": {

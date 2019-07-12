@@ -15,6 +15,7 @@ export namespace Components {
     'pubnub': any;
     'state': any;
     'userProfile': any;
+    'users': any;
     'uuid': any;
   }
   interface IacHeader {
@@ -164,6 +165,7 @@ declare namespace LocalJSX {
     'pubnub'?: any;
     'state'?: any;
     'userProfile'?: any;
+    'users'?: any;
     'uuid'?: any;
   }
   interface IacHeader extends JSXBase.HTMLAttributes<HTMLIacHeaderElement> {

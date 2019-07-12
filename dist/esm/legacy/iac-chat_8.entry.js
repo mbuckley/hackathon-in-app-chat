@@ -527,6 +527,7 @@ var channelName = "test-channel";
 var Chat = /** @class */ (function () {
     function Chat(hostRef) {
         registerInstance(this, hostRef);
+        this.onlineUsersCount = 0;
     }
     Chat.prototype.componentWillLoad = function () {
         this.pubnub = new PubNub({
@@ -543,7 +544,7 @@ var Chat = /** @class */ (function () {
         this.historyLoaded = false;
         this.historyMessages = [];
         this.onlineUsers = [];
-        this.onlineUsersCount = '';
+        this.onlineUsersCount = 0;
         this.networkErrorStatus = false;
         this.networkErrorImg = null;
     };
@@ -826,7 +827,6 @@ var Header$1 = /** @class */ (function () {
     ;
     Header$1.prototype.componentWillLoad = function () {
         this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
-        console.log(this.parsedOnlineUsers);
     };
     Header$1.prototype.render = function () {
         var _this = this;
@@ -863,7 +863,6 @@ var User = /** @class */ (function () {
     }
     User.prototype.componentWillLoad = function () {
         this.parsedUser = JSON.parse(this.user);
-        console.log(this.parsedUser);
     };
     User.prototype.render = function () {
         return (h("li", null, h("div", { class: 'userName' }, this.parsedUser.name, " ", this.parsedUser.uuid === this.loggedInUser && h("div", { class: 'youSign' }, "(You)")), h("img", { width: '45', height: '45', alt: 'Online users', src: this.parsedUser.image })));

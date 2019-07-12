@@ -2,7 +2,6 @@ import { h } from '@stencil/core';
 export class User {
     componentWillLoad() {
         this.parsedUser = JSON.parse(this.user);
-        console.log(this.parsedUser);
     }
     render() {
         return (h("li", null,
