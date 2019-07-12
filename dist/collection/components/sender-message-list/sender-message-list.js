@@ -8,14 +8,14 @@ export class SenderMessageList {
         return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: styleForMessageSender(m.senderId, this.uuid), key: index },
             h("div", { class: 'messageSentDay' }, getDate(m.timetoken, 'senderMessage')),
             h("div", { class: 'message' },
+                h("img", { width: '28', height: '28', alt: 'Sender avatar', src: getUserAvatarUrl(this.users, m.senderId) }),
                 h("div", { class: 'name' }, getUserName(this.users, m.senderId)),
                 h("div", { class: 'time' },
                     getTime(m.timetoken),
                     h("div", { class: "date" },
                         "\u00A0on\u00A0",
                         getDate(m.timetoken, 'historyMessage', index))),
-                h("div", { class: 'text' }, m.text),
-                h("img", { width: '28', height: '28', alt: 'Sender avatar', src: getUserAvatarUrl(this.users, m.senderId) }))))));
+                h("div", { class: 'text' }, m.text))))));
     }
     static get is() { return "iac-sender-message-list"; }
     static get encapsulation() { return "shadow"; }

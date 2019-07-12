@@ -8,11 +8,15 @@
   margin-left: 8px;
   width: 100%;
   margin-bottom: 18px;
+  align-self: flex-start;
+  margin-right: 50px;
+  color: gray;
+  text-align: left;
 }
 :host .senderMessageDialog li img {
   border-radius: 50%;
   vertical-align: middle;
-  margin-left: 12px;
+  margin-right: 12px;
 }
 :host .senderMessageDialog .senderMessage {
   align-self: flex-end;
@@ -31,21 +35,40 @@
   word-break: break-word;
   word-wrap: break-word;
 }
-:host .senderMessageDialog .name, :host .senderMessageDialog .time {
-  left: unset;
-  right: 5px;
-  font-size: 11px;
-  color: #808080;
-  font-weight: bold;
-  position: absolute;
-}
 :host .senderMessageDialog .name {
   top: -18px;
 }
 :host .senderMessageDialog .time {
   bottom: -18px;
 }
-:host .senderMessageDialog .text {
+
+.time .date {
+  opacity: 0.5;
+  display: inline;
+}
+
+.messageSentDay {
+  display: none;
+}
+
+.text {
+  max-width: 270px;
+  padding: 15px;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #1F9EFC;
+  color: #fff;
+}
+
+.name, .time {
+  font-size: 12px;
+  color: #808080;
+  font-weight: bold;
+  position: absolute;
+  text-align: left;
+}
+
+.senderMessage .text {
   max-width: 270px;
   padding: 15px;
   display: inline-block;
@@ -53,8 +76,11 @@
   background-color: #999;
   color: #fff;
 }
-
-.time .date {
-  opacity: 0.5;
-  display: inline;
+.senderMessage .name, .senderMessage .time {
+  left: unset;
+  right: 5px;
+  font-size: 11px;
+  color: #808080;
+  font-weight: bold;
+  position: absolute;
 }

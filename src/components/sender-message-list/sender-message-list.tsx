@@ -26,10 +26,10 @@ export class SenderMessageList {
           <li class={styleForMessageSender(m.senderId, this.uuid)} key={index}>
             <div class='messageSentDay'>{getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>
+              <img width='28' height='28' alt='Sender avatar' src={getUserAvatarUrl(this.users, m.senderId)} />
               <div class='name'>{getUserName(this.users, m.senderId)}</div>
               <div class='time'>{getTime(m.timetoken)}<div class="date">&nbsp;on&nbsp;{getDate(m.timetoken, 'historyMessage', index)}</div></div>
               <div class='text'>{m.text}</div>
-              <img width='28' height='28' alt='Sender avatar' src={getUserAvatarUrl(this.users, m.senderId)} />
             </div>
           </li>
       )}
