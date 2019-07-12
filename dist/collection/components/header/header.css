@@ -13,147 +13,53 @@
   font-weight: bold;
   border-right: 1px solid rgba(128, 128, 128, 0.164);
 }
-@media (max-width: 770px) {
-  :host .onlineUsersInfo {
-    display: none;
-  }
-}
 :host .onlineUsersInfo .onlineUsersLogo {
   position: absolute;
   top: 10px;
-  left: 15px;
-}
-@media (max-width: 850px) {
-  :host .onlineUsersInfo .onlineUsersLogo {
-    top: 20px;
-  }
+  left: 10px;
+  border-radius: 50%;
 }
 :host .onlineUsersInfo .onlineUsersCount {
   position: relative;
   top: 14px;
-  left: 70px;
-}
-@media (max-width: 850px) {
-  :host .onlineUsersInfo .onlineUsersCount {
-    top: 20px;
-  }
+  left: 68px;
 }
 :host .onlineUsersInfo span {
   position: absolute;
-  top: 30px;
-  left: 86px;
+  top: 33px;
+  left: 80px;
   color: grey;
   font-weight: normal;
   display: block;
-}
-@media (max-width: 850px) {
-  :host .onlineUsersInfo span {
-    top: 40px;
-  }
 }
 :host .onlineUsersInfo .onlineIndicator {
   width: 8px;
   height: 8px;
   position: absolute;
-  top: 38px;
-  left: 72px;
+  top: 40px;
+  left: 68px;
   border-radius: 50%;
   background-color: #0ccc0c;
 }
-@media (max-width: 850px) {
-  :host .onlineUsersInfo .onlineIndicator {
-    top: 50px;
-  }
-}
 :host .animalForestChatLogo {
+  display: none !important;
   position: absolute;
   top: 12px;
   left: 290px;
-}
-@media (max-width: 850px) {
-  :host .animalForestChatLogo {
-    top: 20px;
-  }
-}
-@media (max-width: 770px) {
-  :host .animalForestChatLogo {
-    left: 10px;
-  }
-}
-@media (max-width: 440px) {
-  :host .animalForestChatLogo {
-    top: 18px;
-    left: 2px;
-  }
 }
 :host h1 {
   position: absolute;
   font-weight: bold;
   font-size: 17px;
   top: 2px;
-  left: 345px;
-}
-@media (max-width: 850px) {
-  :host h1 {
-    top: 10px;
-  }
-}
-@media (max-width: 770px) {
-  :host h1 {
-    left: 70px;
-  }
-}
-@media (max-width: 440px) {
-  :host h1 {
-    font-size: 1em;
-    top: 5px;
-    left: 50px;
-  }
-}
-@media (max-width: 350px) {
-  :host h1 {
-    top: 15px;
-    width: 50px;
-    font-size: 13px;
-  }
+  left: 295px;
 }
 :host h2 {
   font-weight: normal;
   font-size: 15px;
   position: absolute;
   top: 20px;
-  left: 345px;
-}
-@media (max-width: 850px) {
-  :host h2 {
-    top: 30px;
-    line-height: 0.9em;
-    width: 150px;
-  }
-}
-@media (max-width: 770px) {
-  :host h2 {
-    width: 550px;
-    left: 70px;
-  }
-}
-@media (max-width: 586px) {
-  :host h2 {
-    width: 150px;
-  }
-}
-@media (max-width: 440px) {
-  :host h2 {
-    width: 130px;
-    font-size: 13px;
-    top: 23px;
-    left: 50px;
-  }
-}
-@media (max-width: 350px) {
-  :host h2 {
-    display: none;
-  }
+  left: 295px;
 }
 :host .loggedInUser {
   display: none !important;
@@ -162,47 +68,13 @@
   right: 20px;
   color: grey;
 }
-@media (max-width: 850px) {
-  :host .loggedInUser {
-    top: 20px;
-  }
-}
-@media (max-width: 440px) {
-  :host .loggedInUser {
-    top: 25px;
-    right: 7px;
-    font-size: 13px;
-  }
-}
-@media (max-width: 350px) {
-  :host .loggedInUser {
-    top: 25px;
-    height: 50px;
-    letter-spacing: -1px;
-  }
-}
-@media (max-width: 240px) {
-  :host .loggedInUser {
-    right: 50px;
-  }
-}
 :host .loggedInUser .userWelcome .user {
   display: block;
   color: #000;
   font-weight: bold;
 }
-@media (max-width: 240px) {
-  :host .loggedInUser .userWelcome {
-    width: 55px;
-  }
-}
 :host .loggedInUser img {
   position: absolute;
   top: 0;
   left: -50px;
-}
-@media (max-width: 440px) {
-  :host .loggedInUser img {
-    top: -5px;
-  }
 }
