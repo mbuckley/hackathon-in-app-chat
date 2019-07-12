@@ -3,10 +3,10 @@
   flex-direction: column;
 }
 .historyMessageDialog li {
-  width: 300px;
   position: relative;
   margin-top: 40px;
   margin-left: 8px;
+  width: 100%;
 }
 .historyMessageDialog li .message {
   position: relative;
@@ -15,7 +15,7 @@
 }
 .historyMessageDialog li .message .name, .historyMessageDialog li .message .time {
   right: 5px;
-  font-size: 15px;
+  font-size: 12px;
   color: #808080;
   font-weight: bold;
   position: absolute;
@@ -33,12 +33,12 @@
   display: flex;
   justify-content: center;
   position: relative;
-  width: 60vw;
+  width: 100%;
   top: -20px;
   margin-top: 0px;
   margin-bottom: 30px;
   color: grey;
-  font-size: 1.2em;
+  font-size: 13px;
 }
 .messageSentDay:empty {
   display: none;

@@ -76,12 +76,13 @@
                 display: flex;
                 justify-content: center;
                 position: relative;
-                width: 60vw;
+                width: 100%;
                 top: -20px;
                 margin-top: 0px;
                 margin-bottom: 30px;
                 color: color(secondary);
-                font-size: 1.2em;
+                font-size: 13px;
+                text-align: center;
 
                 // @include breakpoint ($tablet) {
                 //     width: 90vw;
@@ -134,6 +135,7 @@
         .senderMessageDialog, .historyMessageDialog {
             display: flex;
             flex-direction: column;
+            width: 100%;
 
             .senderMessage {
                 align-self: flex-end;
