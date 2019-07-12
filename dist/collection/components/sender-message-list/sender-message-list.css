@@ -9,6 +9,11 @@
   width: 100%;
   margin-bottom: 18px;
 }
+:host .senderMessageDialog li img {
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 12px;
+}
 :host .senderMessageDialog .senderMessage {
   align-self: flex-end;
   margin-right: 50px;
