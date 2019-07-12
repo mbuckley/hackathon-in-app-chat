@@ -2,8 +2,8 @@
   "entries": [
     "components/containers/message-body/message-body.js",
     "components/header/header.js",
-    "components/user/user.js",
     "components/online-users/online-users.js",
+    "components/user/user.js",
     "components/containers/history-message-list/history-message-list.js",
     "components/message-list/message-list.js",
     "components/sender-message-list/sender-message-list.js",

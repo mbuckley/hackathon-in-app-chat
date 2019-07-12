@@ -638,6 +638,7 @@ var Chat = /** @class */ (function () {
                         _this.onlineUsersCount = onlineUsersCount;
                     }
                 }
+                _this.onlineUsers = _this.onlineUsers.concat(_this.users);
             }
         });
         window.addEventListener('beforeunload', this.leaveChat);

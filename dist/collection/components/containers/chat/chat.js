@@ -125,6 +125,7 @@ export class Chat {
                         this.onlineUsersCount = onlineUsersCount;
                     }
                 }
+                this.onlineUsers = [...this.onlineUsers, ...this.users];
             }
         });
         window.addEventListener('beforeunload', this.leaveChat);
