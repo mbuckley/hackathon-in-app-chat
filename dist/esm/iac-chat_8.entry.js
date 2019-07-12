@@ -61,11 +61,11 @@ function getDate(timetoken, messageType, index = 0) {
     }
 }
 
-const channelName = "test-channel";
 class Chat {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.parsedUsers = [];
+        this.channelName = "test-channel";
         this.onlineUsersCount = 0;
     }
     componentWillLoad() {
@@ -92,13 +92,13 @@ class Chat {
         // const networkError = new Image();
         // networkError.src = networkErrorImg;
         // this.setState({networkErrorImg: networkError});
-        this.pubnub.subscribe({ channels: [channelName], withPresence: true });
+        this.pubnub.subscribe({ channels: [this.channelName], withPresence: true });
         this.pubnub.addListener({
             status: (status) => {
                 if (status.category === 'PNConnectedCategory') {
                     this.hereNow();
                     this.pubnub.history({
-                        channel: "test-channel",
+                        channel: this.channelName,
                         count: 50,
                         reverse: false,
                         stringifiedTimeToken: true,
@@ -126,26 +126,29 @@ class Chat {
                 }
             },
             message: (m) => {
-                const sendersInfo = this.sendersInfo;
-                sendersInfo.push({
-                    senderId: m.message.senderId,
-                    text: m.message.text,
-                    timetoken: m.timetoken,
-                });
+                this.sendersInfo = [
+                    ...this.sendersInfo,
+                    {
+                        senderId: m.message.senderId,
+                        text: m.message.text,
+                        timetoken: m.timetoken,
+                    }
+                ];
                 const lastMessageWeekday = getWeekday(m.timetoken);
-                this.sendersInfo = sendersInfo;
                 this.lastMessageWeekday = lastMessageWeekday;
                 this.scrollToBottom();
             },
             presence: (presence) => {
                 if (presence.action === 'join') {
-                    let users = this.onlineUsers;
-                    users.push({
-                        state: presence.state,
-                        uuid: presence.uuid
-                    });
-                    this.onlineUsers = users,
-                        this.onlineUsersCount = this.onlineUsersCount + 1;
+                    this.onlineUsers = [
+                        ...this.onlineUsers,
+                        {
+                            state: presence.state,
+                            uuid: presence.uuid
+                        }
+                    ];
+                    // this.onlineUsers = users,
+                    this.onlineUsersCount = this.onlineUsersCount + 1;
                 }
                 if ((presence.action === 'leave') || (presence.action === 'timeout')) {
                     let leftUsers = this.onlineUsers.filter(users => users.uuid !== presence.uuid);
@@ -186,33 +189,38 @@ class Chat {
     }
     subscribe() {
         this.pubnub.subscribe({
-            channels: channelName,
+            channels: this.channelName,
             withPresence: true
         });
     }
     ;
     hereNow() {
         this.pubnub.hereNow({
-            channels: [channelName],
+            channels: [this.channelName],
             includeUUIDs: true,
             includeState: false
         }, (_status, response) => {
-            this.onlineUsers = response.channels[channelName].occupants;
-            this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
-            this.onlineUsers = this.onlineUsers.map((onlineUser) => {
-                return {
-                    uuid: onlineUser.uuid,
-                    name: getUserName(this.parsedUsers, onlineUser.uuid),
-                    image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
-                };
-            }).filter((onlineUser) => {
-                return onlineUser.name && onlineUser.name.length > 1;
-            });
-            console.log(this.onlineUsers);
-            this.onlineUsersCount = response.channels[channelName].occupancy;
+            this.onlineUsers = response.channels[this.channelName].occupants;
+            this.hydrateUsers();
+            this.onlineUsersCount = response.channels[this.channelName].occupancy;
         });
     }
     ;
+    // Adds extra info to users (name, image, etc)
+    hydrateUsers() {
+        console.log("hydrateUsers");
+        this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
+        this.onlineUsers = this.onlineUsers.map((onlineUser) => {
+            return {
+                uuid: onlineUser.uuid,
+                name: getUserName(this.parsedUsers, onlineUser.uuid),
+                image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
+            };
+        }).filter((onlineUser) => {
+            return onlineUser.name && onlineUser.name.length > 1;
+        });
+        console.log("done", this.onlineUsers);
+    }
     leaveChat() {
         this.pubnub.unsubscribeAll();
     }
@@ -224,7 +232,7 @@ class Chat {
     }
     ;
     render() {
-        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
+        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }), h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: this.channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
     }
     get el() { return getElement(this); }
     static get style() { return ":host{width:100vw;height:85vh;position:relative;margin-bottom:0}\@media (max-width:850px){:host{height:81vh}}:host .grid{display:grid;width:100%;height:90%;grid-template-rows:70px 100% 60px;grid-template-columns:280px 1fr}\@media (max-width:850px){:host .grid{grid-template-rows:90px 100% 60px}}"; }
@@ -322,7 +330,7 @@ class MessageList {
     }
     render() {
         return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, this.messageSentDate.length > 0 &&
-            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { "senders-info": '[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]', styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
+            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
     }
     static get style() { return ":host{grid-row:2;grid-column:2;width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}\@media (max-width:770px){:host{grid-column:1/3}}:host .networkErrorImg{width:80%;height:100%;position:relative;left:100px}\@media (max-width:1024px){:host .networkErrorImg{width:100%;height:70%;left:20px;bottom:-100px}}\@media (max-width:440px){:host .networkErrorImg{width:120%;left:-20px}}:host .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}:host .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}\@media (max-width:240px){:host .messageDialog .text{max-width:80px}}:host .messageDialog .name,:host .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}:host .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}\@media (max-width:440px){:host .messageDialog li{width:150px}}:host .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:1.2em}\@media (max-width:770px){:host .messageDialog li .messageSentDay{width:90vw}}\@media (max-width:440px){:host .messageDialog li .messageSentDay{width:75vw;font-size:1.1em}}\@media (max-width:240px){:host .messageDialog li .messageSentDay{width:100vw;left:-45px}}:host .messageDialog li .messageSentDay:empty{display:none}:host .messageDialog li img{position:absolute;bottom:0;left:-30px}:host .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}:host .messageDialog li .name,:host .messageDialog li .time{left:5px}:host .messageDialog li .name{top:-18px}:host .messageDialog li .time{bottom:-18px}:host .messageDialog li .text{background-color:hsla(0,0%,50.2%,.164)}:host .messageDialog .historyMessageDialog,:host .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}\@media (max-width:240px){:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{margin-right:95px}}:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:155px}}:host .messageDialog .historyMessageDialog .senderMessage .text,:host .messageDialog .senderMessageDialog .senderMessage .text{background-color:#d32f2f;text-align:left}:host .messageDialog .historyMessageDialog .senderMessage .name,:host .messageDialog .historyMessageDialog .senderMessage .time,:host .messageDialog .senderMessageDialog .senderMessage .name,:host .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; }
 }
@@ -353,10 +361,10 @@ class SenderMessageList {
         registerInstance(this, hostRef);
     }
     componentWillLoad() {
-        this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+        console.log(this.sendersInfo);
     }
     render() {
-        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))))));
+        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map((m, index) => h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, this.getUserName(users, m.senderId)), h("div", { class: 'time' }, this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))))));
     }
     static get style() { return ":host .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .senderMessageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}:host .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:grey;text-align:right}\@media (max-width:240px){:host .senderMessageDialog .senderMessage{margin-right:95px}}:host .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){:host .senderMessageDialog .senderMessage img{left:155px}}:host .senderMessageDialog .senderMessage .message{position:relative;word-break:break-word;word-wrap:break-word}:host .senderMessageDialog .name,:host .senderMessageDialog .time{left:unset;right:5px;font-size:15px;color:grey;font-weight:700;position:absolute}:host .senderMessageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#d32f2f;color:#fff}\@media (max-width:240px){:host .senderMessageDialog .text{max-width:80px}}"; }
 }

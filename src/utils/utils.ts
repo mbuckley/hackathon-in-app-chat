@@ -39,6 +39,7 @@ export function getDate(timetoken: any, messageType: any, index = 0) {
   const date = new Date(parseInt(timetoken.substring(0, 13))).toLocaleDateString('en-US', { day: 'numeric', month: 'long' });
 
   switch (messageType) {
+
     case 'historyMessage':
       console.log(index);
       // TODO commented until we have a state

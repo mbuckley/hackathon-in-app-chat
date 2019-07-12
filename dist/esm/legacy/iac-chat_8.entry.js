@@ -515,11 +515,11 @@ function getDate(timetoken, messageType, index) {
             return;
     }
 }
-var channelName = "test-channel";
 var Chat = /** @class */ (function () {
     function Chat(hostRef) {
         registerInstance(this, hostRef);
         this.parsedUsers = [];
+        this.channelName = "test-channel";
         this.onlineUsersCount = 0;
     }
     Chat.prototype.componentWillLoad = function () {
@@ -547,13 +547,13 @@ var Chat = /** @class */ (function () {
         // const networkError = new Image();
         // networkError.src = networkErrorImg;
         // this.setState({networkErrorImg: networkError});
-        this.pubnub.subscribe({ channels: [channelName], withPresence: true });
+        this.pubnub.subscribe({ channels: [this.channelName], withPresence: true });
         this.pubnub.addListener({
             status: function (status) {
                 if (status.category === 'PNConnectedCategory') {
                     _this.hereNow();
                     _this.pubnub.history({
-                        channel: "test-channel",
+                        channel: _this.channelName,
                         count: 50,
                         reverse: false,
                         stringifiedTimeToken: true,
@@ -581,26 +581,27 @@ var Chat = /** @class */ (function () {
                 }
             },
             message: function (m) {
-                var sendersInfo = _this.sendersInfo;
-                sendersInfo.push({
-                    senderId: m.message.senderId,
-                    text: m.message.text,
-                    timetoken: m.timetoken,
-                });
+                _this.sendersInfo = _this.sendersInfo.concat([
+                    {
+                        senderId: m.message.senderId,
+                        text: m.message.text,
+                        timetoken: m.timetoken,
+                    }
+                ]);
                 var lastMessageWeekday = getWeekday(m.timetoken);
-                _this.sendersInfo = sendersInfo;
                 _this.lastMessageWeekday = lastMessageWeekday;
                 _this.scrollToBottom();
             },
             presence: function (presence) {
                 if (presence.action === 'join') {
-                    var users_1 = _this.onlineUsers;
-                    users_1.push({
-                        state: presence.state,
-                        uuid: presence.uuid
-                    });
-                    _this.onlineUsers = users_1,
-                        _this.onlineUsersCount = _this.onlineUsersCount + 1;
+                    _this.onlineUsers = _this.onlineUsers.concat([
+                        {
+                            state: presence.state,
+                            uuid: presence.uuid
+                        }
+                    ]);
+                    // this.onlineUsers = users,
+                    _this.onlineUsersCount = _this.onlineUsersCount + 1;
                 }
                 if ((presence.action === 'leave') || (presence.action === 'timeout')) {
                     var leftUsers = _this.onlineUsers.filter(function (users) { return users.uuid !== presence.uuid; });
@@ -641,7 +642,7 @@ var Chat = /** @class */ (function () {
     };
     Chat.prototype.subscribe = function () {
         this.pubnub.subscribe({
-            channels: channelName,
+            channels: this.channelName,
             withPresence: true
         });
     };
@@ -649,26 +650,32 @@ var Chat = /** @class */ (function () {
     Chat.prototype.hereNow = function () {
         var _this = this;
         this.pubnub.hereNow({
-            channels: [channelName],
+            channels: [this.channelName],
             includeUUIDs: true,
             includeState: false
         }, function (_status, response) {
-            _this.onlineUsers = response.channels[channelName].occupants;
-            _this.onlineUsers = _this.parsedUsers.concat(_this.onlineUsers);
-            _this.onlineUsers = _this.onlineUsers.map(function (onlineUser) {
-                return {
-                    uuid: onlineUser.uuid,
-                    name: getUserName(_this.parsedUsers, onlineUser.uuid),
-                    image: getUserAvatarUrl(_this.parsedUsers, onlineUser.uuid)
-                };
-            }).filter(function (onlineUser) {
-                return onlineUser.name && onlineUser.name.length > 1;
-            });
-            console.log(_this.onlineUsers);
-            _this.onlineUsersCount = response.channels[channelName].occupancy;
+            _this.onlineUsers = response.channels[_this.channelName].occupants;
+            _this.hydrateUsers();
+            _this.onlineUsersCount = response.channels[_this.channelName].occupancy;
         });
     };
     ;
+    // Adds extra info to users (name, image, etc)
+    Chat.prototype.hydrateUsers = function () {
+        var _this = this;
+        console.log("hydrateUsers");
+        this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
+        this.onlineUsers = this.onlineUsers.map(function (onlineUser) {
+            return {
+                uuid: onlineUser.uuid,
+                name: getUserName(_this.parsedUsers, onlineUser.uuid),
+                image: getUserAvatarUrl(_this.parsedUsers, onlineUser.uuid)
+            };
+        }).filter(function (onlineUser) {
+            return onlineUser.name && onlineUser.name.length > 1;
+        });
+        console.log("done", this.onlineUsers);
+    };
     Chat.prototype.leaveChat = function () {
         this.pubnub.unsubscribeAll();
     };
@@ -681,7 +688,7 @@ var Chat = /** @class */ (function () {
     ;
     Chat.prototype.render = function () {
         var _this = this;
-        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }), h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: function (el) { return _this.messageList = el; } }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
+        return (h("div", { class: "grid" }, h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }), h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: function (el) { return _this.messageList = el; } }), h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: this.channelName }), h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
     };
     Object.defineProperty(Chat.prototype, "el", {
         get: function () { return getElement(this); },
@@ -801,7 +808,7 @@ var MessageList = /** @class */ (function () {
     }
     MessageList.prototype.render = function () {
         return (h("div", { class: "messageList" }, h("ul", { class: "messageDialog" }, this.messageSentDate.length > 0 &&
-            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { "senders-info": '[{ "senderId": "forest-animal-1", "text": "hello", "timetoken": "15628726763037678" }]', styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
+            h("iac-history-message-list", { historyMessages: this.historyMessages, historyLoaded: this.historyMessages, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl, styleForMessageSender: this.styleForMessageSender }), h("iac-sender-message-list", { sendersInfo: this.sendersInfo, styleForMessageSender: this.styleForMessageSender, getDate: getDate, getUserName: getUserName, getTime: getTime, getUserAvatarUrl: getUserAvatarUrl }))));
     };
     Object.defineProperty(MessageList, "style", {
         get: function () { return ":host{grid-row:2;grid-column:2;width:100%;height:100%;border-right:1px solid hsla(0,0%,50.2%,.164);border-bottom:1px solid hsla(0,0%,50.2%,.164)}\@media (max-width:770px){:host{grid-column:1/3}}:host .networkErrorImg{width:80%;height:100%;position:relative;left:100px}\@media (max-width:1024px){:host .networkErrorImg{width:100%;height:70%;left:20px;bottom:-100px}}\@media (max-width:440px){:host .networkErrorImg{width:120%;left:-20px}}:host .messageDialog{height:inherit;margin-top:0;overflow-y:auto;overflow-x:hidden;position:relative;list-style:none}:host .messageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px}\@media (max-width:240px){:host .messageDialog .text{max-width:80px}}:host .messageDialog .name,:host .messageDialog .time{font-size:15px;color:grey;font-weight:700;position:absolute}:host .messageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}\@media (max-width:440px){:host .messageDialog li{width:150px}}:host .messageDialog li .messageSentDay{display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;position:relative;width:60vw;top:-20px;margin-top:0;margin-bottom:30px;color:grey;font-size:1.2em}\@media (max-width:770px){:host .messageDialog li .messageSentDay{width:90vw}}\@media (max-width:440px){:host .messageDialog li .messageSentDay{width:75vw;font-size:1.1em}}\@media (max-width:240px){:host .messageDialog li .messageSentDay{width:100vw;left:-45px}}:host .messageDialog li .messageSentDay:empty{display:none}:host .messageDialog li img{position:absolute;bottom:0;left:-30px}:host .messageDialog li .message{position:relative;word-break:break-word;word-wrap:break-word}:host .messageDialog li .name,:host .messageDialog li .time{left:5px}:host .messageDialog li .name{top:-18px}:host .messageDialog li .time{bottom:-18px}:host .messageDialog li .text{background-color:hsla(0,0%,50.2%,.164)}:host .messageDialog .historyMessageDialog,:host .messageDialog .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:#fff;text-align:right}\@media (max-width:240px){:host .messageDialog .historyMessageDialog .senderMessage,:host .messageDialog .senderMessageDialog .senderMessage{margin-right:95px}}:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){:host .messageDialog .historyMessageDialog .senderMessage img,:host .messageDialog .senderMessageDialog .senderMessage img{left:155px}}:host .messageDialog .historyMessageDialog .senderMessage .text,:host .messageDialog .senderMessageDialog .senderMessage .text{background-color:#d32f2f;text-align:left}:host .messageDialog .historyMessageDialog .senderMessage .name,:host .messageDialog .historyMessageDialog .senderMessage .time,:host .messageDialog .senderMessageDialog .senderMessage .name,:host .messageDialog .senderMessageDialog .senderMessage .time{left:unset;right:5px}"; },
@@ -842,11 +849,11 @@ var SenderMessageList = /** @class */ (function () {
         registerInstance(this, hostRef);
     }
     SenderMessageList.prototype.componentWillLoad = function () {
-        this.parsedSendersInfo = JSON.parse(this.sendersInfo);
+        console.log(this.sendersInfo);
     };
     SenderMessageList.prototype.render = function () {
         var _this = this;
-        return (h("div", { class: 'senderMessageDialog' }, this.parsedSendersInfo.map(function (m, index) { return h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, _this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, _this.getUserName(users, m.senderId)), h("div", { class: 'time' }, _this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))); })));
+        return (h("div", { class: 'senderMessageDialog' }, this.sendersInfo.map(function (m, index) { return h("li", { class: "senderMessage", key: index }, h("div", { class: 'messageSentDay' }, _this.getDate(m.timetoken, 'senderMessage')), h("div", { class: 'message' }, h("div", { class: 'name' }, _this.getUserName(users, m.senderId)), h("div", { class: 'time' }, _this.getTime(m.timetoken)), h("div", { class: 'text' }, m.text))); })));
     };
     Object.defineProperty(SenderMessageList, "style", {
         get: function () { return ":host .senderMessageDialog{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}:host .senderMessageDialog li{width:300px;position:relative;margin-top:40px;margin-left:8px}:host .senderMessageDialog .senderMessage{-ms-flex-item-align:end;align-self:flex-end;margin-right:50px;color:grey;text-align:right}\@media (max-width:240px){:host .senderMessageDialog .senderMessage{margin-right:95px}}:host .senderMessageDialog .senderMessage img{left:305px}\@media (max-width:440px){:host .senderMessageDialog .senderMessage img{left:155px}}:host .senderMessageDialog .senderMessage .message{position:relative;word-break:break-word;word-wrap:break-word}:host .senderMessageDialog .name,:host .senderMessageDialog .time{left:unset;right:5px;font-size:15px;color:grey;font-weight:700;position:absolute}:host .senderMessageDialog .text{max-width:270px;padding:15px;display:inline-block;border-radius:10px;background-color:#d32f2f;color:#fff}\@media (max-width:240px){:host .senderMessageDialog .text{max-width:80px}}"; },

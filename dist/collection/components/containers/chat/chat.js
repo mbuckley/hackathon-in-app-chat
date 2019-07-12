@@ -13,10 +13,10 @@ import { getWeekday } from "../../../utils/utils";
 // import {forestChatChannel} from '../config/chat';
 // import networkErrorImg from '../styles/networkError.png';
 import { getUserName, getUserAvatarUrl } from "../../../utils/utils";
-const channelName = "test-channel";
 export class Chat {
     constructor() {
         this.parsedUsers = [];
+        this.channelName = "test-channel";
         this.onlineUsersCount = 0;
     }
     componentWillLoad() {
@@ -43,13 +43,13 @@ export class Chat {
         // const networkError = new Image();
         // networkError.src = networkErrorImg;
         // this.setState({networkErrorImg: networkError});
-        this.pubnub.subscribe({ channels: [channelName], withPresence: true });
+        this.pubnub.subscribe({ channels: [this.channelName], withPresence: true });
         this.pubnub.addListener({
             status: (status) => {
                 if (status.category === 'PNConnectedCategory') {
                     this.hereNow();
                     this.pubnub.history({
-                        channel: "test-channel",
+                        channel: this.channelName,
                         count: 50,
                         reverse: false,
                         stringifiedTimeToken: true,
@@ -77,26 +77,29 @@ export class Chat {
                 }
             },
             message: (m) => {
-                const sendersInfo = this.sendersInfo;
-                sendersInfo.push({
-                    senderId: m.message.senderId,
-                    text: m.message.text,
-                    timetoken: m.timetoken,
-                });
+                this.sendersInfo = [
+                    ...this.sendersInfo,
+                    {
+                        senderId: m.message.senderId,
+                        text: m.message.text,
+                        timetoken: m.timetoken,
+                    }
+                ];
                 const lastMessageWeekday = getWeekday(m.timetoken);
-                this.sendersInfo = sendersInfo;
                 this.lastMessageWeekday = lastMessageWeekday;
                 this.scrollToBottom();
             },
             presence: (presence) => {
                 if (presence.action === 'join') {
-                    let users = this.onlineUsers;
-                    users.push({
-                        state: presence.state,
-                        uuid: presence.uuid
-                    });
-                    this.onlineUsers = users,
-                        this.onlineUsersCount = this.onlineUsersCount + 1;
+                    this.onlineUsers = [
+                        ...this.onlineUsers,
+                        {
+                            state: presence.state,
+                            uuid: presence.uuid
+                        }
+                    ];
+                    // this.onlineUsers = users,
+                    this.onlineUsersCount = this.onlineUsersCount + 1;
                 }
                 if ((presence.action === 'leave') || (presence.action === 'timeout')) {
                     let leftUsers = this.onlineUsers.filter(users => users.uuid !== presence.uuid);
@@ -137,33 +140,38 @@ export class Chat {
     }
     subscribe() {
         this.pubnub.subscribe({
-            channels: channelName,
+            channels: this.channelName,
             withPresence: true
         });
     }
     ;
     hereNow() {
         this.pubnub.hereNow({
-            channels: [channelName],
+            channels: [this.channelName],
             includeUUIDs: true,
             includeState: false
         }, (_status, response) => {
-            this.onlineUsers = response.channels[channelName].occupants;
-            this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
-            this.onlineUsers = this.onlineUsers.map((onlineUser) => {
-                return {
-                    uuid: onlineUser.uuid,
-                    name: getUserName(this.parsedUsers, onlineUser.uuid),
-                    image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
-                };
-            }).filter((onlineUser) => {
-                return onlineUser.name && onlineUser.name.length > 1;
-            });
-            console.log(this.onlineUsers);
-            this.onlineUsersCount = response.channels[channelName].occupancy;
+            this.onlineUsers = response.channels[this.channelName].occupants;
+            this.hydrateUsers();
+            this.onlineUsersCount = response.channels[this.channelName].occupancy;
         });
     }
     ;
+    // Adds extra info to users (name, image, etc)
+    hydrateUsers() {
+        console.log("hydrateUsers");
+        this.onlineUsers = this.parsedUsers.concat(this.onlineUsers);
+        this.onlineUsers = this.onlineUsers.map((onlineUser) => {
+            return {
+                uuid: onlineUser.uuid,
+                name: getUserName(this.parsedUsers, onlineUser.uuid),
+                image: getUserAvatarUrl(this.parsedUsers, onlineUser.uuid)
+            };
+        }).filter((onlineUser) => {
+            return onlineUser.name && onlineUser.name.length > 1;
+        });
+        console.log("done", this.onlineUsers);
+    }
     leaveChat() {
         this.pubnub.unsubscribeAll();
     }
@@ -177,8 +185,8 @@ export class Chat {
     render() {
         return (h("div", { class: "grid" },
             h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }),
-            h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }),
-            h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
+            h("iac-message-list", { sendersInfo: this.sendersInfo, messageSentDate: "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }),
+            h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: this.channelName }),
             h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: this.onlineUsers })));
     }
     static get is() { return "iac-chat"; }
@@ -190,6 +198,24 @@ export class Chat {
         "$": ["chat.css"]
     }; }
     static get properties() { return {
+        "channelName": {
+            "type": "string",
+            "mutable": false,
+            "complexType": {
+                "original": "string",
+                "resolved": "string",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "channel-name",
+            "reflect": false,
+            "defaultValue": "\"test-channel\""
+        },
         "pubnub": {
             "type": "any",
             "mutable": false,
@@ -274,18 +300,163 @@ export class Chat {
             },
             "attribute": "uuid",
             "reflect": false
+        },
+        "sendersInfo": {
+            "type": "unknown",
+            "mutable": true,
+            "complexType": {
+                "original": "Array<any>",
+                "resolved": "any[]",
+                "references": {
+                    "Array": {
+                        "location": "global"
+                    }
+                }
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            }
+        },
+        "lastMessageWeekday": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "last-message-weekday",
+            "reflect": false
+        },
+        "messageSentDate": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "message-sent-date",
+            "reflect": false
+        },
+        "historyLoaded": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "history-loaded",
+            "reflect": false
+        },
+        "historyMessages": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "history-messages",
+            "reflect": false
+        },
+        "onlineUsers": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "online-users",
+            "reflect": false
+        },
+        "onlineUsersCount": {
+            "type": "number",
+            "mutable": true,
+            "complexType": {
+                "original": "number",
+                "resolved": "number",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "online-users-count",
+            "reflect": false,
+            "defaultValue": "0"
+        },
+        "networkErrorStatus": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "network-error-status",
+            "reflect": false
+        },
+        "networkErrorImg": {
+            "type": "any",
+            "mutable": true,
+            "complexType": {
+                "original": "any",
+                "resolved": "any",
+                "references": {}
+            },
+            "required": false,
+            "optional": false,
+            "docs": {
+                "tags": [],
+                "text": ""
+            },
+            "attribute": "network-error-img",
+            "reflect": false
         }
-    }; }
-    static get states() { return {
-        "sendersInfo": {},
-        "lastMessageWeekday": {},
-        "messageSentDate": {},
-        "historyLoaded": {},
-        "historyMessages": {},
-        "onlineUsers": {},
-        "onlineUsersCount": {},
-        "networkErrorStatus": {},
-        "networkErrorImg": {}
     }; }
     static get elementRef() { return "el"; }
 }
