@@ -5,11 +5,11 @@ export class User {
     }
     render() {
         return (h("li", null,
+            h("img", { width: '45', height: '45', alt: 'Online users', src: this.parsedUser.image }),
             h("div", { class: 'userName' },
                 this.parsedUser.name,
                 " ",
-                this.parsedUser.uuid === this.loggedInUser && h("div", { class: 'youSign' }, "(You)")),
-            h("img", { width: '45', height: '45', alt: 'Online users', src: this.parsedUser.image })));
+                this.parsedUser.uuid === this.loggedInUser && h("div", { class: 'youSign' }, "(You)"))));
     }
     static get is() { return "iac-user"; }
     static get encapsulation() { return "shadow"; }

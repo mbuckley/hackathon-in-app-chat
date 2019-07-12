@@ -22,10 +22,9 @@ export class User {
   render() {
     return (
       <li>
+        <img width='45' height='45' alt='Online users' src={this.parsedUser.image}/>
         <div class='userName'>{this.parsedUser.name} {this.parsedUser.uuid === this.loggedInUser && <div class='youSign'>(You)</div>}
         </div>
-
-        <img width='45' height='45' alt='Online users' src={this.parsedUser.image}/>
       </li>
     );
   }
