@@ -1,6 +1,45 @@
 @import '../../../global/styles/scss/0_settings/functions&variables.scss';
 @import '../../../global/styles/scss/0_settings/mixins.scss';
 
+.historyMessageDialog {
+  display: flex;
+  flex-direction: column;
+
+  li {
+    @include size (300px);
+    position: relative;
+    margin-top: 40px;
+    margin-left: 8px;
+
+    .message {
+      position: relative;
+      word-break: break-word;
+      word-wrap: break-word;
+
+      .name, .time {
+        right: 5px;
+        font-size: 15px;
+        color: #808080;
+        font-weight: bold;
+        position: absolute;
+    }
+
+    .text {
+      max-width: 270px;
+      padding: 15px;
+      display: inline-block;
+      border-radius: 10px;
+      background-color: color(primary);
+      color: #fff;
+
+      @include breakpoint ($Xsmall_screens) {
+          max-width: 80px;
+      }
+  }
+    }
+  }
+
+}
 .messageSentDay {
   display: flex;
   justify-content: center;
@@ -17,11 +56,7 @@
   }
 }
 
-.message {
-  position: relative;
-  word-break: break-word;
-  word-wrap: break-word;
-}
+
 
 .name, .time {
   left: 5px;

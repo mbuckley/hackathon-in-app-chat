@@ -32,6 +32,7 @@
 
     .messageDialog {
         height: inherit;
+        max-height: 400px;
         position: relative;
         margin-top: 0;
         overflow-y: auto;
