@@ -16,7 +16,7 @@ export class Header {
   /**
    * Online Users array
    */
-  @Prop() onlineUsers: any;
+  @Prop({ mutable: true}) onlineUsers: any;
 
   putLoggedInUserFirst(arr) {
     if(arr.length) {
@@ -30,7 +30,6 @@ export class Header {
 
   componentWillLoad() {
     this.parsedOnlineUsers = JSON.parse(this.onlineUsers);
-    console.log(this.parsedOnlineUsers);
   }
 
   render() {

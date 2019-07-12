@@ -46,7 +46,7 @@ export class Header {
         },
         "onlineUsers": {
             "type": "any",
-            "mutable": false,
+            "mutable": true,
             "complexType": {
                 "original": "any",
                 "resolved": "any",

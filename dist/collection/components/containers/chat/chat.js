@@ -23,17 +23,6 @@ export class Chat {
             restore: true,
         });
         // this.designation = randomUser.designation;
-        // this.state = {
-        // sendersInfo: [],
-        // lastMessageWeekday: '',
-        // messageSentDate: [],
-        // historyLoaded: false,
-        // historyMessages: [],
-        // onlineUsers: [],
-        // onlineUsersCount: '',
-        // networkErrorStatus: false,
-        // networkErrorImg: null,
-        // };
         this.sendersInfo = [];
         this.lastMessageWeekday = '';
         this.messageSentDate = [];
@@ -154,6 +143,12 @@ export class Chat {
             includeState: false
         }, (_status, response) => {
             this.onlineUsers = response.channels[channelName].occupants;
+            //FIXME: add temp names until we have full list of firm users passed in
+            // that we can look up real names from based on uuid.
+            this.onlineUsers.forEach((item, index) => {
+                item.name = `User #${index}`;
+                item.image = "https://picsum.photos/45/45";
+            });
             this.onlineUsersCount = response.channels[channelName].occupancy;
         });
     }
@@ -163,7 +158,6 @@ export class Chat {
     }
     ;
     scrollToBottom() {
-        // const elem = document.querySelector("iac-message-list");
         if (this.messageList) {
             this.messageList.scrollTop = this.messageList.scrollHeight;
         }
@@ -171,10 +165,10 @@ export class Chat {
     ;
     render() {
         return (h("div", { class: "grid" },
-            h("iac-header", { userProfile: this.userProfile, onlineUsersCount: 50 }),
+            h("iac-header", { userProfile: this.userProfile, onlineUsersCount: this.onlineUsersCount }),
             h("iac-message-list", { "message-sent-date": "July 12, 2019", historyLoaded: this.historyLoaded, historyMessages: this.historyMessages, ref: (el) => this.messageList = el }),
             h("iac-message-body", { pubnub: this.pubnub, uuid: this.uuid, channelName: channelName }),
-            h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: '[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]' })));
+            h("iac-online-users", { loggedInUser: "x9skdkdkslsddkjfsk", onlineUsers: JSON.stringify(this.onlineUsers) })));
     }
     static get is() { return "iac-chat"; }
     static get encapsulation() { return "shadow"; }

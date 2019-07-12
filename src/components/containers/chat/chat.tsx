@@ -53,18 +53,6 @@ export class Chat {
 
     // this.designation = randomUser.designation;
 
-    // this.state = {
-      // sendersInfo: [],
-      // lastMessageWeekday: '',
-      // messageSentDate: [],
-      // historyLoaded: false,
-      // historyMessages: [],
-      // onlineUsers: [],
-      // onlineUsersCount: '',
-      // networkErrorStatus: false,
-      // networkErrorImg: null,
-    // };
-
     this.sendersInfo = [];
     this.lastMessageWeekday = '';
     this.messageSentDate = [];
@@ -210,6 +198,14 @@ export class Chat {
       includeState: false
     }, (_status: any, response: any) => {
       this.onlineUsers = response.channels[channelName].occupants;
+
+      //FIXME: add temp names until we have full list of firm users passed in
+      // that we can look up real names from based on uuid.
+      this.onlineUsers.forEach((item: any, index: number) => {
+        item.name = `User #${index}`;
+        item.image = "https://picsum.photos/45/45"
+      });
+
       this.onlineUsersCount = response.channels[channelName].occupancy;
     });
   };
@@ -219,8 +215,6 @@ export class Chat {
   };
 
   scrollToBottom() {
-    // const elem = document.querySelector("iac-message-list");
-
     if(this.messageList) {
         this.messageList.scrollTop = this.messageList.scrollHeight;
     }
@@ -231,7 +225,7 @@ export class Chat {
       <div class="grid">
         <iac-header
           userProfile={this.userProfile}
-          onlineUsersCount={50}
+          onlineUsersCount={this.onlineUsersCount}
         ></iac-header>
 
         <iac-message-list
@@ -250,7 +244,7 @@ export class Chat {
 
         <iac-online-users
           loggedInUser= {"x9skdkdkslsddkjfsk"}
-          onlineUsers='[{ "uuid": "abcdedad", "name": "Craig", "image": "https://picsum.photos/45/45" },{ "uuid": "x9skdkdkslsddkjfsk", "name": "Kiran", "image": "https://picsum.photos/45/45" },{ "uuid": "asdf", "name": "Mike", "image": "https://picsum.photos/45/45" }]'
+          onlineUsers={JSON.stringify(this.onlineUsers)}
         ></iac-online-users>
       </div>
     );
