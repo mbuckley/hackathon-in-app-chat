@@ -9,7 +9,11 @@ export class SenderMessageList {
             h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'senderMessage')),
             h("div", { class: 'message' },
                 h("div", { class: 'name' }, this.getUserName(users, m.senderId)),
-                h("div", { class: 'time' }, this.getTime(m.timetoken)),
+                h("div", { class: 'time' },
+                    this.getTime(m.timetoken),
+                    h("div", { class: "date" },
+                        "\u00A0on\u00A0",
+                        this.getDate(m.timetoken, 'historyMessage', index))),
                 h("div", { class: 'text' }, m.text))))));
     }
     static get is() { return "iac-sender-message-list"; }

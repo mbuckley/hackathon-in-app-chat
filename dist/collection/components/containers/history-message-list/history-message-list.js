@@ -4,10 +4,13 @@ export class HistoryMessageList {
     render() {
         return (h("div", null, (this.historyLoaded &&
             h("div", { class: 'historyMessageDialog' }, this.historyMessages.map((m, index) => h("li", { class: this.styleForMessageSender(m.entry.senderId), key: m.timetoken },
-                h("div", { class: 'messageSentDay' }, this.getDate(m.timetoken, 'historyMessage', index)),
                 h("div", { class: 'message' },
                     h("div", { class: 'name' }, this.getUserName(users, m.entry.senderId)),
-                    h("div", { class: 'time' }, this.getTime(m.timetoken)),
+                    h("div", { class: 'time' },
+                        this.getTime(m.timetoken),
+                        h("div", { class: "date" },
+                            "\u00A0on\u00A0",
+                            this.getDate(m.timetoken, 'historyMessage', index))),
                     h("div", { class: 'text' }, m.entry.text))))))));
     }
     static get is() { return "iac-history-message-list"; }

@@ -69,7 +69,12 @@
 }
 
 .time {
+  width: 100%;
   bottom: -18px;
+  .date {
+    opacity: 0.5;
+    display: inline;
+  }
 }
 
 .text {

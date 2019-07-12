@@ -47,3 +47,8 @@
   background-color: #999;
   color: #fff;
 }
+
+.time .date {
+  opacity: 0.5;
+  display: inline;
+}

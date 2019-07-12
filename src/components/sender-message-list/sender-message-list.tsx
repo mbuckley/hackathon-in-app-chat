@@ -28,7 +28,7 @@ export class SenderMessageList {
             <div class='messageSentDay'>{this.getDate(m.timetoken, 'senderMessage')}</div>
             <div class='message'>
               <div class='name'>{this.getUserName(users, m.senderId)}</div>
-              <div class='time'>{this.getTime(m.timetoken)}</div>
+              <div class='time'>{this.getTime(m.timetoken)}<div class="date">&nbsp;on&nbsp;{this.getDate(m.timetoken, 'historyMessage', index)}</div></div>
               <div class='text'>{m.text}</div>
               {/*<img width='28' height='28' alt='Sender avatar' src={this.getUserAvatarUrl(users, m.senderId, 'smImage')}*/}
             </div>
